@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'MTPocket' target in the 'MTPocket' project
+//
+
+#ifdef __OBJC__
+	#import <Foundation/Foundation.h>
+#endif
