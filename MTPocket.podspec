@@ -14,4 +14,5 @@ Pod::Spec.new do |s|
   s.source_files = 'MTPocket/*.{h,m}'
 
 	s.dependency 'XMLDictionary', '~> 2.0.0'
+	s.dependency 'Base64'
 end
