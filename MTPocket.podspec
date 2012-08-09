@@ -1,11 +1,3 @@
-#
-# Be sure to run `pod spec lint MTPocket.podspec' to ensure this is a
-# valid spec.
-#
-# Remove all comments before submitting the spec. Optional attributes are commented.
-#
-# For details see: https://github.com/CocoaPods/CocoaPods/wiki/The-podspec-format
-#
 Pod::Spec.new do |s|
   s.name         = "MTPocket"
   s.version      = "0.0.1"
@@ -15,40 +7,10 @@ Pod::Spec.new do |s|
 											make the request synchronously and leave it to you to put it on the
 											thread it needs to go on.
                    DESC
-  s.homepage     = "http://EXAMPLE/MTPocket"
-
-  # Specify the license type. CocoaPods detects automatically the license file if it is named
-  # `LICENSE*.*', however if the name is different, specify it.
-  s.license      = 'MIT (example)'
-  # s.license      = { :type => 'MIT (example)', :file => 'FILE_LICENSE' }
-  #
-  # Only if no dedicated file is available include the full text of the license.
-  #
-  # s.license      = {
-  #   :type => 'MIT (example)',
-  #   :text => <<-LICENSE
-  #             Copyright (C) <year> <copyright holders>
-
-  #             All rights reserved.
-
-  #             Redistribution and use in source and binary forms, with or without
-  #             ...
-  #   LICENSE
-  # }
-
-  # Specify the authors of the library, with email addresses. You can often find
-  # the email addresses of the authors by using the SCM log. E.g. $ git log
-  #
+  s.homepage     = "https://github.com/mysterioustrousers/MTPocket"
+  s.license      = 'BSD'
   s.author       = { "Adam Kirk" => "atomkirk@gmail.com" }
-  # s.authors      = { "Adam Kirk" => "atomkirk@gmail.com", "other author" => "and email address" }
-  #
-  # If absolutely no email addresses are available, then you can use this form instead.
-  #
-  # s.author       = 'Adam Kirk', 'other author'
-
-  # Specify the location from where the source should be retreived.
-  #
-  s.source       = { :git => "http://EXAMPLE/MTPocket.git", :tag => "0.0.1" }
+  s.source       = { :git => "https://github.com/mysterioustrousers/MTPocket.git", :tag => "0.0.1" }
   # s.source       = { :svn => 'http://EXAMPLE/MTPocket/tags/1.0.0' }
   # s.source       = { :hg  => 'http://EXAMPLE/MTPocket', :revision => '1.0.0' }
 
