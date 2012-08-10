@@ -1,7 +1,7 @@
 MTPocket
 ========
 
-A networking pod (Objective-C Library) that doesn't suck.
+A networking pod (Objective-C Library) that doesn't suck. (https://github.com/CocoaPods/CocoaPods/)
 
 ### Installation
 
