@@ -16,6 +16,9 @@
 
 @implementation MTPocket
 
+
+
+
 - (id)initWithURL:(NSURL *)url
 {
     self = [super init];
@@ -179,6 +182,96 @@
 
 	return nil;
 }
+
+
+
+
+#pragma mark - Convenience (Synchronous)
+
++ (void)objectAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format body:(id)body success:(void (^)(id obj, MTPocketResult result))successBlock error:(void (^)(MTPocketResult result, NSData *data, NSError *error))errorBlock {
+	MTPocket *request = [[MTPocket alloc] initWithURL:url];
+	request.method	= method;
+	request.format	= format;
+	request.body	= body;
+	MTPocketResult result;
+	NSError *error = nil;
+	id response = [request fetchObjectWithResult:&result error:&error];
+	if (result == MTPocketResultSuccess || result == MTPocketResultCreated) {
+		successBlock(response, result);
+	}
+	else {
+		errorBlock(result, [[error userInfo] objectForKey:@"Data"], error);
+	}
+}
+
++ (void)objectAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format username:(NSString *)username password:(NSString *)password body:(id)body success:(void (^)(id obj, MTPocketResult result))successBlock error:(void (^)(MTPocketResult result, NSData *data, NSError *error))errorBlock {
+	MTPocket *request = [[MTPocket alloc] initWithURL:url];
+	request.method		= method;
+	request.format		= format;
+	request.body		= body;
+	request.username	= username;
+	request.password	= password;
+	MTPocketResult result;
+	NSError *error = nil;
+	id response = [request fetchObjectWithResult:&result error:&error];
+	if (result == MTPocketResultSuccess || result == MTPocketResultCreated) {
+		successBlock(response, result);
+	}
+	else {
+		errorBlock(result, [[error userInfo] objectForKey:@"Data"], error);
+	}
+}
+
+
+
+
+#pragma mark - Convenience (Asynchronous)
+
++ (void)objectAsynchronouslyAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format body:(id)body success:(void (^)(id obj, MTPocketResult result))successBlock error:(void (^)(MTPocketResult result, NSData *data, NSError *error))errorBlock {
+	dispatch_queue_t queue = dispatch_get_current_queue();
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+		MTPocket *request = [[MTPocket alloc] initWithURL:url];
+		request.method	= method;
+		request.format	= format;
+		request.body	= body;
+		MTPocketResult result;
+		NSError *error = nil;
+		id response = [request fetchObjectWithResult:&result error:&error];
+		dispatch_async(queue, ^{
+			if (result == MTPocketResultSuccess || result == MTPocketResultCreated) {
+				successBlock(response, result);
+			}
+			else {
+				errorBlock(result, [[error userInfo] objectForKey:@"Data"], error);
+			}
+		});
+	});
+}
+
++ (void)objectAsynchronouslyAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format username:(NSString *)username password:(NSString *)password body:(id)body success:(void (^)(id obj, MTPocketResult result))successBlock error:(void (^)(MTPocketResult result, NSData *data, NSError *error))errorBlock {
+	dispatch_queue_t queue = dispatch_get_current_queue();
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+		MTPocket *request = [[MTPocket alloc] initWithURL:url];
+		request.method		= method;
+		request.format		= format;
+		request.body		= body;
+		request.username	= username;
+		request.password	= password;
+		MTPocketResult result;
+		NSError *error = nil;
+		id response = [request fetchObjectWithResult:&result error:&error];
+		dispatch_async(queue, ^{
+			if (result == MTPocketResultSuccess || result == MTPocketResultCreated) {
+				successBlock(response, result);
+			}
+			else {
+				errorBlock(result, [[error userInfo] objectForKey:@"Data"], error);
+			}
+		});
+	});
+}
+
+
 
 
 @end

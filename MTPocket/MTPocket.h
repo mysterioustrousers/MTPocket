@@ -91,7 +91,16 @@ typedef enum {
 @property (strong, nonatomic)	NSDictionary *headers;	// optional
 @property (nonatomic)			NSTimeInterval timeout;	// optional
 
+// Create and set properties. Use this if you need to set timeout, headers, etc.
 - (id)initWithURL:(NSURL *)url;
 - (id)fetchObjectWithResult:(MTPocketResult *)result error:(NSError **)error;
+
+// Convenience (synchronous) 
++ (void)objectAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format body:(id)body success:(void (^)(id obj, MTPocketResult result))successBlock error:(void (^)(MTPocketResult result, NSData *data, NSError *error))errorBlock;
++ (void)objectAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format username:(NSString *)username password:(NSString *)password body:(id)body success:(void (^)(id obj, MTPocketResult result))successBlock error:(void (^)(MTPocketResult result, NSData *data, NSError *error))errorBlock;
+
+// Convenience (asynchronous)
++ (void)objectAsynchronouslyAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format body:(id)body success:(void (^)(id obj, MTPocketResult result))successBlock error:(void (^)(MTPocketResult result, NSData *data, NSError *error))errorBlock;
++ (void)objectAsynchronouslyAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format username:(NSString *)username password:(NSString *)password body:(id)body success:(void (^)(id obj, MTPocketResult result))successBlock error:(void (^)(MTPocketResult result, NSData *data, NSError *error))errorBlock;
 
 @end

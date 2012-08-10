@@ -65,6 +65,16 @@
 	STAssertTrue(response.count > 0, nil);
 }
 
+- (void)testConvenienceGetJSON {
+	[MTPocket objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL] method:MTPocketMethodGET format:MTPocketFormatJSON body:nil success:^(id obj, MTPocketResult result) {
+		STAssertTrue(result == MTPocketResultSuccess, nil);
+		NSArray *response = (NSArray *)obj;
+		STAssertTrue(response.count > 0, nil);
+	} error:^(MTPocketResult result, NSData *data, NSError *error) {
+		STFail(@"Convenience failed");
+	}];
+}
+
 - (void)testGetJSONAuthenticated
 {
 	MTPocket *request	= [[MTPocket alloc] initWithURL:[NSURL URLWithString:@"needles" relativeToURL:_baseURL]];
@@ -78,6 +88,16 @@
 	STAssertTrue(result == MTPocketResultSuccess, nil);
 	STAssertNotNil(response, nil);
 	STAssertTrue(response.count > 0, nil);
+}
+
+- (void)testConvenienceGetJSONAuthenitcated {
+	[MTPocket objectAtURL:[NSURL URLWithString:@"needles" relativeToURL:_baseURL] method:MTPocketMethodGET format:MTPocketFormatJSON username:@"username" password:@"password" body:nil success:^(id obj, MTPocketResult result) {
+		STAssertTrue(result == MTPocketResultSuccess, nil);
+		NSArray *response = (NSArray *)obj;
+		STAssertTrue(response.count > 0, nil);
+	} error:^(MTPocketResult result, NSData *data, NSError *error) {
+		STFail(@"Convenience failed");
+	}];
 }
 
 - (void)testGetXML
@@ -125,6 +145,18 @@
 	STAssertTrue(result == MTPocketResultCreated, nil);
 	STAssertNotNil(response, nil);
 	STAssertTrue([[response valueForKey:@"length"] intValue] == 3, nil);
+}
+
+- (void)testConveniencePostJSONAuthenitcated {
+	NSDictionary *dict = @{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } };
+	[MTPocket objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL] method:MTPocketMethodPOST format:MTPocketFormatJSON body:dict success:^(id obj, MTPocketResult result) {
+		STAssertTrue(result == MTPocketResultCreated, nil);
+		NSDictionary *response = (NSDictionary *)obj;
+		STAssertNotNil(response, nil);
+		STAssertTrue([[response valueForKey:@"length"] intValue] == 3, nil);
+	} error:^(MTPocketResult result, NSData *data, NSError *error) {
+		STFail(@"Convenience failed");
+	}];
 }
 
 - (void)testPostJSONAuthenticated
