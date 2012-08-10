@@ -57,6 +57,15 @@ Here's the header file for your enjoyment:
 	- (id)initWithURL:(NSURL *)url;
 	- (id)fetchObjectWithResult:(MTPocketResult *)result error:(NSError **)error;
 
+And then there is this handy error object that contains all the info you'd ever want to know about what went wrong:
+
+	@interface MTPocketError : NSError
+	@property (strong, nonatomic) NSData *data;
+	@property (strong, nonatomic) NSURLRequest *request;
+	@property (strong, nonatomic) NSURLResponse *response;
+	+ (MTPocketError *)errorWithError:(NSError *)error;
+	@end
+
 ### Example Usage
 
 (testing off http://button.herokuapp.com)
@@ -66,7 +75,7 @@ The long way:
     MTPocket *request	= [[MTPocket alloc] initWithURL:_baseURL];
 	request.format		= MTPocketFormatHTML;
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSString *response = [request fetchObjectWithResult:&result error:&error];
 	if (result == MTPocketResultSuccess) {
 		// yeah!
@@ -82,21 +91,21 @@ The short way (returns a NSArray/NSDictionary object from JSON):
 
 	[MTPocket objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL] method:MTPocketMethodGET format:MTPocketFormatJSON body:nil success:^(id obj, MTPocketResult result) {
 		NSArray *response = (NSArray *)obj;
-	} error:^(MTPocketResult result, NSData *data, NSError *error) {
+	} error:^(MTPocketResult result, MTPocketError *error) {
 	}];
 
 The short way (returns a NSArray/NSDictionary object from XML):
 
 	[MTPocket objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL] method:MTPocketMethodGET format:MTPocketFormatXML body:nil success:^(id obj, MTPocketResult result) {
 		NSArray *response = (NSArray *)obj;
-	} error:^(MTPocketResult result, NSData *data, NSError *error) {
+	} error:^(MTPocketResult result, MTPocketError *error) {
 	}];
 
 Basic HTTP Auth:
 
 	[MTPocket objectAtURL:[NSURL URLWithString:@"needles" relativeToURL:_baseURL] method:MTPocketMethodGET format:MTPocketFormatJSON username:@"username" password:@"password" body:nil success:^(id obj, MTPocketResult result) {
 		NSArray *response = (NSArray *)obj;
-	} error:^(MTPocketResult result, NSData *data, NSError *error) {
+	} error:^(MTPocketResult result, MTPocketError *error) {
 	}];
 
 
@@ -105,5 +114,5 @@ Post:
 	NSDictionary *dict = @{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } };
 	[MTPocket objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL] method:MTPocketMethodPOST format:MTPocketFormatJSON body:dict success:^(id obj, MTPocketResult result) {
 		NSDictionary *response = (NSDictionary *)obj;
-	} error:^(MTPocketResult result, NSData *data, NSError *error) {
+	} error:^(MTPocketResult result, MTPocketError *error) {
 	}];

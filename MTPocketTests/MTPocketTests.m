@@ -29,7 +29,7 @@
 	MTPocket *request	= [[MTPocket alloc] initWithURL:_baseURL];
 	request.format		= MTPocketFormatHTML;
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSString *response = [request fetchObjectWithResult:&result error:&error];
 	STAssertNil(error, @"Error was not nil: %@", error);
 	STAssertTrue(result == MTPocketResultSuccess, nil);
@@ -44,7 +44,7 @@
 	request.username	= @"username";
 	request.password	= @"password";
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSString *response = [request fetchObjectWithResult:&result error:&error];
 	STAssertNil(error, @"Error was not nil: %@", error);
 	STAssertTrue(result == MTPocketResultSuccess, nil);
@@ -57,7 +57,7 @@
 	MTPocket *request	= [[MTPocket alloc] initWithURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL]];
 	request.format		= MTPocketFormatJSON;
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSArray *response = [request fetchObjectWithResult:&result error:&error];
 	STAssertNil(error, @"Error was not nil: %@", error);
 	STAssertTrue(result == MTPocketResultSuccess, nil);
@@ -70,7 +70,7 @@
 		STAssertTrue(result == MTPocketResultSuccess, nil);
 		NSArray *response = (NSArray *)obj;
 		STAssertTrue(response.count > 0, nil);
-	} error:^(MTPocketResult result, NSData *data, NSError *error) {
+	} error:^(MTPocketResult result, NSError *error) {
 		STFail(@"Convenience failed");
 	}];
 }
@@ -82,7 +82,7 @@
 	request.username	= @"username";
 	request.password	= @"password";
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSArray *response = [request fetchObjectWithResult:&result error:&error];
 	STAssertNil(error, @"Error was not nil: %@", error);
 	STAssertTrue(result == MTPocketResultSuccess, nil);
@@ -95,7 +95,7 @@
 		STAssertTrue(result == MTPocketResultSuccess, nil);
 		NSArray *response = (NSArray *)obj;
 		STAssertTrue(response.count > 0, nil);
-	} error:^(MTPocketResult result, NSData *data, NSError *error) {
+	} error:^(MTPocketResult result, NSError *error) {
 		STFail(@"Convenience failed");
 	}];
 }
@@ -105,7 +105,7 @@
 	MTPocket *request	= [[MTPocket alloc] initWithURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL]];
 	request.format		= MTPocketFormatXML;
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSDictionary *response = [request fetchObjectWithResult:&result error:&error];
 	STAssertNil(error, @"Error was not nil: %@", error);
 	STAssertTrue(result == MTPocketResultSuccess, nil);
@@ -120,7 +120,7 @@
 	request.username	= @"username";
 	request.password	= @"password";
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSDictionary *response = [request fetchObjectWithResult:&result error:&error];
 	STAssertNil(error, @"Error was not nil: %@", error);
 	STAssertTrue(result == MTPocketResultSuccess, nil);
@@ -139,7 +139,7 @@
 	request.format		= MTPocketFormatJSON;
 	request.body		= @{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } };
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSDictionary *response = [request fetchObjectWithResult:&result error:&error];
 	STAssertNil(error, @"Error was not nil: %@", error);
 	STAssertTrue(result == MTPocketResultCreated, nil);
@@ -154,7 +154,7 @@
 		NSDictionary *response = (NSDictionary *)obj;
 		STAssertNotNil(response, nil);
 		STAssertTrue([[response valueForKey:@"length"] intValue] == 3, nil);
-	} error:^(MTPocketResult result, NSData *data, NSError *error) {
+	} error:^(MTPocketResult result, MTPocketError *error) {
 		STFail(@"Convenience failed");
 	}];
 }
@@ -168,7 +168,7 @@
 	request.username	= @"username";
 	request.password	= @"password";
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSDictionary *response = [request fetchObjectWithResult:&result error:&error];
 	STAssertNil(error, @"Error was not nil: %@", error);
 	STAssertTrue(result == MTPocketResultCreated, nil);
@@ -183,7 +183,7 @@
 	request.format		= MTPocketFormatXML;
 	request.body		= @{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } };
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSDictionary *response = [request fetchObjectWithResult:&result error:&error];
 	STAssertNil(error, @"Error was not nil: %@", error);
 	STAssertTrue(result == MTPocketResultCreated, nil);
@@ -200,7 +200,7 @@
 	request.username	= @"username";
 	request.password	= @"password";
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSDictionary *response = [request fetchObjectWithResult:&result error:&error];
 	STAssertNil(error, @"Error was not nil: %@", error);
 	STAssertTrue(result == MTPocketResultCreated, nil);
@@ -217,7 +217,7 @@
 	idrequest.format	= MTPocketFormatJSON;
 	idrequest.body		= @{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } };
 	MTPocketResult idresult;
-	NSError *iderror = nil;
+	MTPocketError *iderror = nil;
 	NSDictionary *idresponse = [idrequest fetchObjectWithResult:&idresult error:&iderror];
 	NSInteger jsonId = [[idresponse objectForKey:@"id"] intValue];
 
@@ -227,7 +227,7 @@
 	request.format		= MTPocketFormatJSON;
 	request.body		= @{ @"stitch" : @{ @"thread_color" : @"red", @"length" : @2 } };
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSArray *response = [request fetchObjectWithResult:&result error:&error];
 	STAssertNil(error, @"Error was not nil: %@", error);
 	STAssertTrue(result == MTPocketResultSuccess, nil);
@@ -244,7 +244,7 @@
 	idrequest.username	= @"username";
 	idrequest.password	= @"password";
 	MTPocketResult idresult;
-	NSError *iderror = nil;
+	MTPocketError *iderror = nil;
 	NSDictionary *idresponse = [idrequest fetchObjectWithResult:&idresult error:&iderror];
 	NSInteger jsonId = [[idresponse objectForKey:@"id"] intValue];
 
@@ -256,7 +256,7 @@
 	request.username	= @"username";
 	request.password	= @"password";
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSDictionary *response = [request fetchObjectWithResult:&result error:&error];
 	STAssertNil(error, @"Error was not nil: %@", error);
 	STAssertTrue(result == MTPocketResultSuccess, nil);
@@ -271,7 +271,7 @@
 	idrequest.format	= MTPocketFormatXML;
 	idrequest.body		= @{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } };
 	MTPocketResult idresult;
-	NSError *iderror = nil;
+	MTPocketError *iderror = nil;
 	NSDictionary *idresponse = [idrequest fetchObjectWithResult:&idresult error:&iderror];
 	NSInteger xmlId = [[idresponse valueForKeyPath:@"id.@innerText"] intValue];
 
@@ -281,7 +281,7 @@
 	request.format = MTPocketFormatXML;
 	request.body	= @{ @"stitch" : @{ @"thread_color" : @"red", @"length" : @2 } };
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSDictionary *response = [request fetchObjectWithResult:&result error:&error];
 	STAssertNil(error, @"Error was not nil: %@", error);
 	STAssertTrue(result == MTPocketResultSuccess, nil);
@@ -298,7 +298,7 @@
 	idrequest.username	= @"username";
 	idrequest.password	= @"password";
 	MTPocketResult idresult;
-	NSError *iderror = nil;
+	MTPocketError *iderror = nil;
 	NSDictionary *idresponse = [idrequest fetchObjectWithResult:&idresult error:&iderror];
 	NSInteger xmlId = [[idresponse valueForKeyPath:@"id.@innerText"] intValue];
 	
@@ -310,7 +310,7 @@
 	request.username	= @"username";
 	request.password	= @"password";
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSDictionary *response = [request fetchObjectWithResult:&result error:&error];
 	STAssertNil(error, @"Error was not nil: %@", error);
 	STAssertTrue(result == MTPocketResultSuccess, nil);
@@ -327,7 +327,7 @@
 	idrequest.format	= MTPocketFormatJSON;
 	idrequest.body		= @{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } };
 	MTPocketResult idresult;
-	NSError *iderror = nil;
+	MTPocketError *iderror = nil;
 	NSDictionary *idresponse = [idrequest fetchObjectWithResult:&idresult error:&iderror];
 	NSInteger jsonId = [[idresponse objectForKey:@"id"] intValue];
 
@@ -336,7 +336,7 @@
 	request.method		= MTPocketMethodDELETE;
 	request.format		= MTPocketFormatJSON;
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSArray *response = [request fetchObjectWithResult:&result error:&error];
 	STAssertNil(error, @"Error was not nil: %@", error);
 	STAssertTrue(result == MTPocketResultSuccess, nil);
@@ -364,7 +364,7 @@
 	request.username	= @"username";
 	request.password	= @"password";
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSDictionary *response = [request fetchObjectWithResult:&result error:&error];
 	STAssertNil(error, @"Error was not nil: %@", error);
 	STAssertTrue(result == MTPocketResultSuccess, nil);
@@ -379,7 +379,7 @@
 	idrequest.format	= MTPocketFormatXML;
 	idrequest.body		= @{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } };
 	MTPocketResult idresult;
-	NSError *iderror = nil;
+	MTPocketError *iderror = nil;
 	NSDictionary *idresponse = [idrequest fetchObjectWithResult:&idresult error:&iderror];
 	NSInteger xmlId = [[idresponse valueForKeyPath:@"id.@innerText"] intValue];
 
@@ -388,7 +388,7 @@
 	request.method = MTPocketMethodDELETE;
 	request.format = MTPocketFormatXML;
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSDictionary *response = [request fetchObjectWithResult:&result error:&error];
 	STAssertNil(error, @"Error was not nil: %@", error);
 	STAssertTrue(result == MTPocketResultSuccess, nil);
@@ -405,7 +405,7 @@
 	idrequest.username	= @"username";
 	idrequest.password	= @"password";
 	MTPocketResult idresult;
-	NSError *iderror = nil;
+	MTPocketError *iderror = nil;
 	NSDictionary *idresponse = [idrequest fetchObjectWithResult:&idresult error:&iderror];
 	NSInteger xmlId = [[idresponse valueForKeyPath:@"id.@innerText"] intValue];
 
@@ -416,7 +416,7 @@
 	request.username	= @"username";
 	request.password	= @"password";
 	MTPocketResult result;
-	NSError *error = nil;
+	MTPocketError *error = nil;
 	NSDictionary *response = [request fetchObjectWithResult:&result error:&error];
 	STAssertNil(error, @"Error was not nil: %@", error);
 	STAssertTrue(result == MTPocketResultSuccess, nil);
