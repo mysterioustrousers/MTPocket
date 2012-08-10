@@ -78,9 +78,16 @@ The long way:
 			}
 		}
 
-The short way:
+The short way (returns a NSArray/NSDictionary object from JSON):
 
 		[MTPocket objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL] method:MTPocketMethodGET format:MTPocketFormatJSON body:nil success:^(id obj, MTPocketResult result) {
+			NSArray *response = (NSArray *)obj;
+		} error:^(MTPocketResult result, NSData *data, NSError *error) {
+		}];
+
+The short way (returns a NSArray/NSDictionary object from XML):
+
+		[MTPocket objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL] method:MTPocketMethodGET format:MTPocketFormatXML body:nil success:^(id obj, MTPocketResult result) {
 			NSArray *response = (NSArray *)obj;
 		} error:^(MTPocketResult result, NSData *data, NSError *error) {
 		}];
