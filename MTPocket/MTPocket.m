@@ -152,6 +152,7 @@
 	response.format		= _format;
 	response.request	= request;
 	response.data		= data;
+	response.text		= [[NSString alloc] initWithBytes:[data bytes] length:data.length encoding:NSUTF8StringEncoding];
 
 	// set the status
 	if ([httpURLResponse statusCode] == 200) {
@@ -184,7 +185,7 @@
 	// otherwise, build an object from the response data
 	else {
 		if (_format == MTPocketFormatHTML || _format == MTPocketFormatTEXT) {
-			response.body = [[NSString alloc] initWithBytes:[data bytes] length:data.length encoding:NSUTF8StringEncoding];
+			response.body = response.text;
 		}
 		else if (_format == MTPocketFormatJSON) {
 			NSError *error = nil;

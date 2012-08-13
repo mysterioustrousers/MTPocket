@@ -81,6 +81,7 @@ The Response Object:
 	@property (nonatomic) MTPocketFormat format;			// The format of the original content. Will always be the same as the request format.
 	@property (strong, nonatomic) id body;					// The response body. Depending on the format, could be an NSString, NSArray, NSDictionary or nil.
 	@property (strong, nonatomic) NSData *data;				// The data returned form the server for debugging.
+	@property (strong, nonatomic) NSString *text;			// The data converted to a string returned form the server for debugging.
 	@property (strong, nonatomic) NSURLRequest *request;	// The original request made to the server.
 	@property (strong, nonatomic) NSError *error;			// Could be nil, but should check this for important info if its not nil.
 	
