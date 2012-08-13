@@ -13,11 +13,16 @@
 
 
 
+@implementation MTPocketResponse
 
-@implementation MTPocketError
-+ (MTPocketError *)errorWithError:(NSError *)error {
-	return [NSError errorWithDomain:error.domain code:error.code userInfo:error.userInfo];
++ (MTPocketResponse *)responseWithResponse:(NSURLResponse *)resp {
+	MTPocketResponse *response = [[MTPocketResponse alloc] initWithURL:resp.URL MIMEType:resp.MIMEType expectedContentLength:resp.expectedContentLength textEncodingName:resp.textEncodingName];
+	response.success = NO;
+	response.body = nil;
+	response.error = nil;
+	return response;
 }
+
 @end
 
 
@@ -27,10 +32,7 @@
 
 
 
-@implementation MTPocket
-
-
-
+@implementation MTPocketRequest
 
 - (id)initWithURL:(NSURL *)url
 {
@@ -43,7 +45,7 @@
     return self;
 }
 
-- (id)fetchObjectWithResult:(MTPocketResult *)result error:(MTPocketError **)error {
+- (MTPocketResponse *)fetch {
 
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_url];
 
@@ -94,15 +96,12 @@
 		}
 		else if ([_body isKindOfClass:[NSDictionary class]] || [_body isKindOfClass:[NSArray class]]) {
 			if (_format == MTPocketFormatJSON) {
-				NSError *JSONError = nil;
-				body = [NSJSONSerialization dataWithJSONObject:_body options:0 error:&JSONError];
+				NSError *error = nil;
+				body = [NSJSONSerialization dataWithJSONObject:_body options:0 error:&error];
 
-				// If there is an error parsing the JSON, the request can't go on so create a detailed error and return
-				if (JSONError) {
-					*error = [MTPocketError errorWithError:JSONError];
-					(*error).request	= request;
-					(*error).response	= nil;
-					(*error).data		= nil;
+				// It's in the developers power to ensure correct json is provided, so we throw an exception rather than return an error.
+				if (error) {
+					[[NSException exceptionWithName:@"Invalid JSON" reason:@"The JSON could not be parsed" userInfo:[error userInfo]] raise];
 					return nil;
 				}
 			}
@@ -144,66 +143,60 @@
 		[request setTimeoutInterval:_timeout];
 
 	// make the request
-	NSHTTPURLResponse *response = nil;
-	NSError *requestError = nil;
-	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&requestError];
+	NSHTTPURLResponse *httpURLResponse = nil;
+	NSError *error = nil;
+	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&httpURLResponse error:&error];
 
-	// set the status code
-	if ([response statusCode] == 200) {
-		*result = MTPocketResultSuccess;
+	// form the response
+	MTPocketResponse *response = [MTPocketResponse responseWithResponse:httpURLResponse];
+	response.format		= _format;
+	response.request	= request;
+	response.data		= data;
+
+	// set the status
+	if ([httpURLResponse statusCode] == 200) {
+		response.status = MTPocketStatusSuccess;
+		response.success = YES;
 	}
-	else if ([response statusCode] == 201) {
-		*result = MTPocketResultCreated;
+	else if ([httpURLResponse statusCode] == 201) {
+		response.status = MTPocketStatusCreated;
+		response.success = YES;
 	}
-	else if ([response statusCode] == 401 || (requestError && [requestError code] == NSURLErrorUserCancelledAuthentication)) {
-		*result = MTPocketResultUnauthorized;
+	else if ([httpURLResponse statusCode] == 401 || (error && [error code] == NSURLErrorUserCancelledAuthentication)) {
+		response.status = MTPocketStatusUnauthorized;
 	}
-	else if ([response statusCode] == 404) {
-		*result = MTPocketResultNotFound;
+	else if ([httpURLResponse statusCode] == 404) {
+		response.status = MTPocketStatusNotFound;
 	}
-	else if ([response statusCode] == 422) {
-		*result = MTPocketResultUnprocessable;
+	else if ([httpURLResponse statusCode] == 422) {
+		response.status = MTPocketStatusUnprocessable;
 	}
 	else if (!data) {
-		*result = MTPocketResultNoConnection;
+		response.status = MTPocketStatusNoConnection;
 	}
 	else {
-		*result = MTPocketResultOther;
+		response.status = MTPocketStatusOther;
 	}
 
 	// if there was an error
-	if (requestError) {
-		*error = [MTPocketError errorWithError:requestError];
-		(*error).request	= request;
-		(*error).response	= response;
-		(*error).data		= data;
-		return nil;
-	}
+	if (error) response.error = error;
 
+	// otherwise, build an object from the response data
 	else {
 		if (_format == MTPocketFormatHTML || _format == MTPocketFormatTEXT) {
-			return [[NSString alloc] initWithBytes:[data bytes] length:data.length encoding:NSUTF8StringEncoding];
+			response.body = [[NSString alloc] initWithBytes:[data bytes] length:data.length encoding:NSUTF8StringEncoding];
 		}
 		else if (_format == MTPocketFormatJSON) {
-			NSError *JSONError = nil;
-			id obj = [NSJSONSerialization JSONObjectWithData:data options:0 error:&JSONError];
-			if (JSONError) {
-				*error = [MTPocketError errorWithError:JSONError];
-				(*error).request	= request;
-				(*error).response	= response;
-				(*error).data		= data;
-				return nil;
-			}
-			else
-				return obj;
+			NSError *error = nil;
+			response.body = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+			if (error) response.error = error;
 		}
 		else if (_format == MTPocketFormatXML) {
-			return [NSDictionary dictionaryWithXMLData:data];
+			response.body = [NSDictionary dictionaryWithXMLData:data];
 		}
 	}
 
-
-	return nil;
+	return response;
 }
 
 
@@ -211,38 +204,24 @@
 
 #pragma mark - Convenience (Synchronous)
 
-+ (void)objectAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format body:(id)body success:(void (^)(id obj, MTPocketResult result))successBlock error:(void (^)(MTPocketResult result, MTPocketError *error))errorBlock {
-	MTPocket *request = [[MTPocket alloc] initWithURL:url];
++ (MTPocketResponse *)objectAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format body:(id)body {
+	MTPocketRequest *request = [[MTPocketRequest alloc] initWithURL:url];
 	request.method	= method;
 	request.format	= format;
 	request.body	= body;
-	MTPocketResult result;
-	MTPocketError *error = nil;
-	id response = [request fetchObjectWithResult:&result error:&error];
-	if (result == MTPocketResultSuccess || result == MTPocketResultCreated) {
-		successBlock(response, result);
-	}
-	else {
-		errorBlock(result, error);
-	}
+	MTPocketResponse *response = [request fetch];
+	return response;
 }
 
-+ (void)objectAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format username:(NSString *)username password:(NSString *)password body:(id)body success:(void (^)(id obj, MTPocketResult result))successBlock error:(void (^)(MTPocketResult result, MTPocketError *error))errorBlock {
-	MTPocket *request = [[MTPocket alloc] initWithURL:url];
++ (MTPocketResponse *)objectAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format username:(NSString *)username password:(NSString *)password body:(id)body {
+	MTPocketRequest *request = [[MTPocketRequest alloc] initWithURL:url];
 	request.method		= method;
 	request.format		= format;
 	request.body		= body;
 	request.username	= username;
 	request.password	= password;
-	MTPocketResult result;
-	MTPocketError *error = nil;
-	id response = [request fetchObjectWithResult:&result error:&error];
-	if (result == MTPocketResultSuccess || result == MTPocketResultCreated) {
-		successBlock(response, result);
-	}
-	else {
-		errorBlock(result, error);
-	}
+	MTPocketResponse *response = [request fetch];
+	return response;
 }
 
 
@@ -250,46 +229,32 @@
 
 #pragma mark - Convenience (Asynchronous)
 
-+ (void)objectAsynchronouslyAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format body:(id)body success:(void (^)(id obj, MTPocketResult result))successBlock error:(void (^)(MTPocketResult result, MTPocketError *error))errorBlock {
++ (void)objectAsynchronouslyAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format body:(id)body complete:(void (^)(MTPocketResponse *response))completeBlock {
 	dispatch_queue_t queue = dispatch_get_current_queue();
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-		MTPocket *request = [[MTPocket alloc] initWithURL:url];
+		MTPocketRequest *request = [[MTPocketRequest alloc] initWithURL:url];
 		request.method	= method;
 		request.format	= format;
 		request.body	= body;
-		MTPocketResult result;
-		MTPocketError *error = nil;
-		id response = [request fetchObjectWithResult:&result error:&error];
+		MTPocketResponse *response = [request fetch];
 		dispatch_async(queue, ^{
-			if (result == MTPocketResultSuccess || result == MTPocketResultCreated) {
-				successBlock(response, result);
-			}
-			else {
-				errorBlock(result, error);
-			}
+			completeBlock(response);
 		});
 	});
 }
 
-+ (void)objectAsynchronouslyAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format username:(NSString *)username password:(NSString *)password body:(id)body success:(void (^)(id obj, MTPocketResult result))successBlock error:(void (^)(MTPocketResult result, MTPocketError *error))errorBlock {
++ (void)objectAsynchronouslyAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format username:(NSString *)username password:(NSString *)password body:(id)body complete:(void (^)(MTPocketResponse *response))completeBlock {
 	dispatch_queue_t queue = dispatch_get_current_queue();
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-		MTPocket *request = [[MTPocket alloc] initWithURL:url];
+		MTPocketRequest *request = [[MTPocketRequest alloc] initWithURL:url];
 		request.method		= method;
 		request.format		= format;
 		request.body		= body;
 		request.username	= username;
 		request.password	= password;
-		MTPocketResult result;
-		MTPocketError *error = nil;
-		id response = [request fetchObjectWithResult:&result error:&error];
+		MTPocketResponse *response = [request fetch];
 		dispatch_async(queue, ^{
-			if (result == MTPocketResultSuccess || result == MTPocketResultCreated) {
-				successBlock(response, result);
-			}
-			else {
-				errorBlock(result, error);
-			}
+			completeBlock(response);
 		});
 	});
 }

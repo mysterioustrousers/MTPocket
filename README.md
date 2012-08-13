@@ -2,6 +2,8 @@ MTPocket
 ========
 
 A networking pod (Objective-C Library) that doesn't suck. (https://github.com/CocoaPods/CocoaPods/)
+Gives you a request object that does all the work for you and a response object that has all the info you'd ever want to know about the transaction.
+SUPER easy to use, see examples below.
 
 ### Installation
 
@@ -13,6 +15,8 @@ In your Podfile, add this line:
 ### Options & Defaults
 
 Here's the header file for your enjoyment:
+
+Important Enums:
 
 	// MTPocketResult
 	typedef enum {
@@ -40,9 +44,10 @@ Here's the header file for your enjoyment:
 		MTPocketMethodPUT,
 		MTPocketMethodDELETE
 	} MTPocketMethod;
+
+The Request Object:	
 	
-	
-	@interface MTPocket : NSObject
+	@interface MTPocketRequest : NSObject
 	
 	@property (readonly)			NSURL *url;				// required, readonly
 	@property (nonatomic)			MTPocketMethod method;	// default: MTPocketMethodGET
@@ -55,15 +60,30 @@ Here's the header file for your enjoyment:
 	
 	// Create and set properties. Use this if you need to set timeout, headers, etc.
 	- (id)initWithURL:(NSURL *)url;
-	- (id)fetchObjectWithResult:(MTPocketResult *)result error:(NSError **)error;
+	- (id)fetch;
+	
+	// Convenience (synchronous) 
+	+ (MTPocketResponse *)objectAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format body:(id)body;
+	+ (MTPocketResponse *)objectAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format username:(NSString *)username password:(NSString *)password body:(id)body;
+	
+	// Convenience (asynchronous)
+	+ (void)objectAsynchronouslyAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format body:(id)body complete:(void (^)(MTPocketResponse *response))completeBlock;
+	+ (void)objectAsynchronouslyAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format username:(NSString *)username password:(NSString *)password body:(id)body complete:(void (^)(MTPocketResponse *response))completeBlock;
+	
+	@end
 
-And then there is this handy error object that contains all the info you'd ever want to know about what went wrong:
+The Response Object:
 
-	@interface MTPocketError : NSError
-	@property (strong, nonatomic) NSData *data;
-	@property (strong, nonatomic) NSURLRequest *request;
-	@property (strong, nonatomic) NSURLResponse *response;
-	+ (MTPocketError *)errorWithError:(NSError *)error;
+	@interface MTPocketResponse : NSHTTPURLResponse
+	
+	@property (nonatomic) BOOL success;						// Easily determine if the request was 100% sucessful. Otherwise, lots of data to deal with the failure.
+	@property (nonatomic) MTPocketStatus status;			// A Mapping of common HTTP status codes to enum.
+	@property (nonatomic) MTPocketFormat format;			// The format of the original content. Will always be the same as the request format.
+	@property (strong, nonatomic) id body;					// The response body. Depending on the format, could be an NSString, NSArray, NSDictionary or nil.
+	@property (strong, nonatomic) NSData *data;				// The data returned form the server for debugging.
+	@property (strong, nonatomic) NSURLRequest *request;	// The original request made to the server.
+	@property (strong, nonatomic) NSError *error;			// Could be nil, but should check this for important info if its not nil.
+	
 	@end
 
 ### Example Usage
@@ -72,47 +92,52 @@ And then there is this handy error object that contains all the info you'd ever 
 
 The long way:
 
-    MTPocket *request	= [[MTPocket alloc] initWithURL:_baseURL];
-	request.format		= MTPocketFormatHTML;
-	MTPocketResult result;
-	MTPocketError *error = nil;
-	NSString *response = [request fetchObjectWithResult:&result error:&error];
-	if (result == MTPocketResultSuccess) {
+	MTPocketRequest *request	= [[MTPocketRequest alloc] initWithURL:_baseURL];
+	request.format				= MTPocketFormatHTML;
+	request.username			= @"username";
+	request.password			= @"password";
+	MTPocketResponse *response	= [request fetch];
+	
+	if (response.success) {
 		// yeah!
 	}
 	else {
-		// darn.
-		if (result == MTPocketResultNoConnection) {
+		if (response.status == MTPocketResultNoConnection) {
 			NSLog(@"The internets are down.");
 		}
 	}
 
 The short way (returns a NSArray/NSDictionary object from JSON):
 
-	[MTPocket objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL] method:MTPocketMethodGET format:MTPocketFormatJSON body:nil success:^(id obj, MTPocketResult result) {
-		NSArray *response = (NSArray *)obj;
-	} error:^(MTPocketResult result, MTPocketError *error) {
-	}];
+	MTPocketResponse *response = [MTPocketRequest objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL]
+													   method:MTPocketMethodGET
+													   format:MTPocketFormatJSON
+														 body:nil];
+														
+	NSLog(@"%@", [[response.body firstObject] objectForKey:@"thread_color"]); // => red
 
 The short way (returns a NSArray/NSDictionary object from XML):
 
-	[MTPocket objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL] method:MTPocketMethodGET format:MTPocketFormatXML body:nil success:^(id obj, MTPocketResult result) {
-		NSArray *response = (NSArray *)obj;
-	} error:^(MTPocketResult result, MTPocketError *error) {
-	}];
+	MTPocketResponse *response = [MTPocketRequest objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL]
+													   method:MTPocketMethodGET
+													   format:MTPocketFormatXML
+														 body:nil];
+													
+	NSLog(@"%@", [[[response.body valueForKeyPath:@"stitch"] firstObject] valueForKeyPath:@"thread-color"]); // => red
 
 Basic HTTP Auth:
 
-	[MTPocket objectAtURL:[NSURL URLWithString:@"needles" relativeToURL:_baseURL] method:MTPocketMethodGET format:MTPocketFormatJSON username:@"username" password:@"password" body:nil success:^(id obj, MTPocketResult result) {
-		NSArray *response = (NSArray *)obj;
-	} error:^(MTPocketResult result, MTPocketError *error) {
-	}];
-
+	MTPocketResponse *response = [MTPocketRequest objectAtURL:[NSURL URLWithString:@"needles" relativeToURL:_baseURL]
+													   method:MTPocketMethodGET
+													   format:MTPocketFormatJSON
+													 username:@"username"
+													 password:@"password"
+														 body:nil];
 
 Post:
 
 	NSDictionary *dict = @{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } };
-	[MTPocket objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL] method:MTPocketMethodPOST format:MTPocketFormatJSON body:dict success:^(id obj, MTPocketResult result) {
-		NSDictionary *response = (NSDictionary *)obj;
-	} error:^(MTPocketResult result, MTPocketError *error) {
-	}];
+	MTPocketResponse *response = [MTPocketRequest objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL]
+													   method:MTPocketMethodGET
+													   format:MTPocketFormatXML
+														 body:dict];
