@@ -5,7 +5,7 @@ A networking pod (Objective-C Library) that doesn't suck. (https://github.com/Co
 Gives you a request object that does all the work for you and a response object that has all the info you'd ever want to know about the transaction.
 SUPER easy to use, see examples below.
 
-### Advantages:
+### Advantages
 
 1. It gives you comprehensive response object that contains all the info you'd ever want to know about the response:
 	- a boolean success property, yes or no if successful.
@@ -30,11 +30,7 @@ In your Podfile, add this line:
     pod "MTPocket"
   
 
-### Options & Defaults
-
-Here's the header file for your enjoyment:
-
-Important Enums:
+### Enums
 
 	// MTPocketResult
 	typedef enum {
@@ -63,8 +59,8 @@ Important Enums:
 		MTPocketMethodDELETE
 	} MTPocketMethod;
 
-The Request Object:	
-	
+### The Request Object
+
 	@interface MTPocketRequest : NSObject
 	
 	@property (readonly)			NSURL *url;				// required, readonly
@@ -90,7 +86,7 @@ The Request Object:
 	
 	@end
 
-The Response Object:
+### The Response Object
 
 	@interface MTPocketResponse : NSHTTPURLResponse
 	
