@@ -5,6 +5,24 @@ A networking pod (Objective-C Library) that doesn't suck. (https://github.com/Co
 Gives you a request object that does all the work for you and a response object that has all the info you'd ever want to know about the transaction.
 SUPER easy to use, see examples below.
 
+### Advantages:
+
+1. It gives you comprehensive response object that contains all the info you'd ever want to know about the response:
+	- a boolean success property, yes or no if successful.
+	- the dictionary/array object generated from the response data.
+	- the raw data returned by the server (for debugging).
+	- the raw data returned by the server converted to a UTF-8 encoded string (for even easier debugging).
+	- the original request object.
+	- the apple response object (has status codes, etc.).
+	- an error object, nil if no error.
+	- a status property with common status codes mapped to easy to remember/autocompleted enums.
+	- the format the response is in (JSON/XML/TEXT).
+2. It allows you to have fine grained control, if you want it, or you can use convenience methods.
+3. It allows you to either call it synchronously so you can control what queue its on, which I like, or asynchronously on a global queue, if you don't care.
+4. It's dead simple, two simple components, a request and response object.
+5. The enums help a lot and clearly imply your options.
+
+
 ### Installation
 
 In your Podfile, add this line:
@@ -89,8 +107,6 @@ The Response Object:
 
 ### Example Usage
 
-(testing off http://button.herokuapp.com)
-
 The long way:
 
 	MTPocketRequest *request	= [[MTPocketRequest alloc] initWithURL:_baseURL];
@@ -108,23 +124,31 @@ The long way:
 		}
 	}
 
-The short way (returns a NSArray/NSDictionary object from JSON):
+The short way (synchronous):
 
 	MTPocketResponse *response = [MTPocketRequest objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL]
 													   method:MTPocketMethodGET
 													   format:MTPocketFormatJSON
 														 body:nil];
 														
-	NSLog(@"%@", [[response.body firstObject] objectForKey:@"thread_color"]); // => red
+	if (response.success) {
+		NSLog(@"%@", [[response.body firstObject] objectForKey:@"thread_color"]); // => red
+	}
 
-The short way (returns a NSArray/NSDictionary object from XML):
+The short way (asynchronous):
 
 	MTPocketResponse *response = [MTPocketRequest objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL]
 													   method:MTPocketMethodGET
-													   format:MTPocketFormatXML
-														 body:nil];
-													
-	NSLog(@"%@", [[[response.body valueForKeyPath:@"stitch"] firstObject] valueForKeyPath:@"thread-color"]); // => red
+													   format:MTPocketFormatJSON
+														 body:nil
+													 complete:^(MTPocketResponse *response) {
+														if (response.success) {
+															NSLog(@"%@", [[response.body firstObject] objectForKey:@"thread_color"]); // => red
+														}
+														else if (response.error) {
+															NSLog(@"%@", [error localizedDescription]);
+														}
+													}];
 
 Basic HTTP Auth:
 
@@ -134,11 +158,18 @@ Basic HTTP Auth:
 													 username:@"username"
 													 password:@"password"
 														 body:nil];
+														
+	if (response.success) {
+		NSLog(@"%@", [[response.body firstObject] objectForKey:@"thread_color"]); // => red
+	}
+	else if (response.status == MTPocketStatusUnauthorized) {
+		// code to let user update their login info
+	}
 
 Post:
 
 	NSDictionary *dict = @{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } };
 	MTPocketResponse *response = [MTPocketRequest objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL]
-													   method:MTPocketMethodGET
+													   method:MTPocketMethodPOST
 													   format:MTPocketFormatXML
 														 body:dict];
