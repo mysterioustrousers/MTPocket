@@ -111,6 +111,7 @@
 					_body = @{ @"root" : _body };
 				}
 				body = [[_body objectWithJSONSafeObjects] xmlString];
+				body = [[body stringByReplacingOccurrencesOfString:@"<root>" withString:@""] stringByReplacingOccurrencesOfString:@"</root>" withString:@""];
 			}
 		}
 		else {
