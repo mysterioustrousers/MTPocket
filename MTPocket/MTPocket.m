@@ -6,9 +6,10 @@
 //  Copyright (c) 2012 Mysterious Trousers. All rights reserved.
 //
 
+#import <MF_Base64Additions.h>
+#import <XMLDictionary.h>
+#import <NSDictionary+MTJSONDictionary.h>
 #import "MTPocket.h"
-#import "MF_Base64Additions.h"
-#import "XMLDictionary.h"
 
 
 
@@ -97,7 +98,7 @@
 		else if ([_body isKindOfClass:[NSDictionary class]] || [_body isKindOfClass:[NSArray class]]) {
 			if (_format == MTPocketFormatJSON) {
 				NSError *error = nil;
-				body = [NSJSONSerialization dataWithJSONObject:_body options:0 error:&error];
+				body = [NSJSONSerialization dataWithJSONObject:[_body objectWithJSONSafeObjects] options:0 error:&error];
 
 				// It's in the developers power to ensure correct json is provided, so we throw an exception rather than return an error.
 				if (error) {
@@ -109,7 +110,7 @@
 				if ([_body isKindOfClass:[NSArray class]]) {
 					_body = @{ @"root" : _body };
 				}
-				body = [_body xmlString];
+				body = [[_body objectWithJSONSafeObjects] xmlString];
 			}
 		}
 		else {

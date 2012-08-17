@@ -144,6 +144,20 @@
 	STAssertTrue([[response.body valueForKey:@"length"] intValue] == 3, nil);
 }
 
+- (void)testPostJSONWithInvalidObject
+{
+	MTPocketRequest *request	= [[MTPocketRequest alloc] initWithURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL]];
+	request.method				= MTPocketMethodPOST;
+	request.format				= MTPocketFormatJSON;
+	request.body				= @{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3, @"updated_at" : [NSDate date] } };
+	MTPocketResponse *response	= [request fetch];
+
+	STAssertNil(response.error, @"Error was not nil: %@", response.error);
+	STAssertTrue(response.status == MTPocketStatusCreated, nil);
+	STAssertNotNil(response.body, nil);
+	STAssertTrue([[response.body valueForKey:@"length"] intValue] == 3, nil);
+}
+
 - (void)testConveniencePostJSONAuthenitcated {
 	NSDictionary *dict = @{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } };
 	MTPocketResponse *response = [MTPocketRequest objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL]

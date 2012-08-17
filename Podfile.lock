@@ -1,7 +1,9 @@
 PODS:
   - Base64 (1.0.0)
+  - MTJSONDictionary (0.0.4)
   - XMLDictionary (2.0.0)
 
 DEPENDENCIES:
   - Base64
-  - XMLDictionary (from `https://github.com/mysterioustrousers/XMLDictionary.git')
+  - MTJSONDictionary
+  - XMLDictionary
