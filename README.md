@@ -28,7 +28,89 @@ SUPER easy to use, see examples below.
 In your Podfile, add this line:
 
     pod "MTPocket"
-  
+
+pod? => https://github.com/CocoaPods/CocoaPods/
+
+NOTE: You may need to add `-all_load` to "Other Linker Flags" in your targets build settings if the pods library only contains categories.
+
+### Example Usage
+
+The long way:
+
+	MTPocketRequest *request	= [[MTPocketRequest alloc] initWithURL:_baseURL];
+	request.format				= MTPocketFormatHTML;
+	request.username			= @"username";
+	request.password			= @"password";
+	MTPocketResponse *response	= [request fetch];
+	
+	if (response.success) {
+		// yeah!
+	}
+	else {
+		if (response.status == MTPocketResultNoConnection) {
+			NSLog(@"The internets are down.");
+		}
+	}
+
+The short way (synchronous):
+
+	MTPocketResponse *response = [MTPocketRequest objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL]
+													   method:MTPocketMethodGET
+													   format:MTPocketFormatJSON
+														 body:nil];
+														
+	if (response.success) {
+		NSLog(@"%@", [[response.body firstObject] objectForKey:@"thread_color"]); // => red
+	}
+
+The short way (asynchronous):
+
+	MTPocketResponse *response = [MTPocketRequest objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL]
+													   method:MTPocketMethodGET
+													   format:MTPocketFormatJSON
+														 body:nil
+													 complete:^(MTPocketResponse *response) {
+														if (response.success) {
+															NSLog(@"%@", [[response.body firstObject] objectForKey:@"thread_color"]); // => red
+														}
+														else if (response.error) {
+															NSLog(@"%@", [error localizedDescription]);
+														}
+													}];
+
+Basic HTTP Auth:
+
+	MTPocketResponse *response = [MTPocketRequest objectAtURL:[NSURL URLWithString:@"needles" relativeToURL:_baseURL]
+													   method:MTPocketMethodGET
+													   format:MTPocketFormatJSON
+													 username:@"username"
+													 password:@"password"
+														 body:nil];
+														
+	if (response.success) {
+		NSLog(@"%@", [[response.body firstObject] objectForKey:@"thread_color"]); // => red
+	}
+	else if (response.status == MTPocketStatusUnauthorized) {
+		// code to let user update their login info
+	}
+
+Post:
+
+	NSDictionary *dict = @{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } };
+	MTPocketResponse *response = [MTPocketRequest objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL]
+													   method:MTPocketMethodPOST
+													   format:MTPocketFormatXML
+														 body:dict];
+
+### Screenshots
+
+As you can see, while debugging, MTPocket provides you with a LOT of very useful information about responses from server:
+
+![Alt screenshot of debugger in XCode](http://d.pr/i/R0nb/2GQ5NysC "XCode Debugger Interface")
+
+Printing the body of the response:
+
+![Alt screenshot of console in XCode](http://d.pr/i/fMuY/uqfLDL5a "Printing body of response")
 
 ### Enums
 
@@ -100,72 +182,3 @@ In your Podfile, add this line:
 	@property (strong, nonatomic) NSError *error;			// Could be nil, but should check this for important info if its not nil.
 	
 	@end
-
-### Example Usage
-
-The long way:
-
-	MTPocketRequest *request	= [[MTPocketRequest alloc] initWithURL:_baseURL];
-	request.format				= MTPocketFormatHTML;
-	request.username			= @"username";
-	request.password			= @"password";
-	MTPocketResponse *response	= [request fetch];
-	
-	if (response.success) {
-		// yeah!
-	}
-	else {
-		if (response.status == MTPocketResultNoConnection) {
-			NSLog(@"The internets are down.");
-		}
-	}
-
-The short way (synchronous):
-
-	MTPocketResponse *response = [MTPocketRequest objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL]
-													   method:MTPocketMethodGET
-													   format:MTPocketFormatJSON
-														 body:nil];
-														
-	if (response.success) {
-		NSLog(@"%@", [[response.body firstObject] objectForKey:@"thread_color"]); // => red
-	}
-
-The short way (asynchronous):
-
-	MTPocketResponse *response = [MTPocketRequest objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL]
-													   method:MTPocketMethodGET
-													   format:MTPocketFormatJSON
-														 body:nil
-													 complete:^(MTPocketResponse *response) {
-														if (response.success) {
-															NSLog(@"%@", [[response.body firstObject] objectForKey:@"thread_color"]); // => red
-														}
-														else if (response.error) {
-															NSLog(@"%@", [error localizedDescription]);
-														}
-													}];
-
-Basic HTTP Auth:
-
-	MTPocketResponse *response = [MTPocketRequest objectAtURL:[NSURL URLWithString:@"needles" relativeToURL:_baseURL]
-													   method:MTPocketMethodGET
-													   format:MTPocketFormatJSON
-													 username:@"username"
-													 password:@"password"
-														 body:nil];
-														
-	if (response.success) {
-		NSLog(@"%@", [[response.body firstObject] objectForKey:@"thread_color"]); // => red
-	}
-	else if (response.status == MTPocketStatusUnauthorized) {
-		// code to let user update their login info
-	}
-
-Post:
-
-	NSDictionary *dict = @{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } };
-	MTPocketResponse *response = [MTPocketRequest objectAtURL:[NSURL URLWithString:@"stitches" relativeToURL:_baseURL]
-													   method:MTPocketMethodPOST
-													   format:MTPocketFormatXML
-														 body:dict];
