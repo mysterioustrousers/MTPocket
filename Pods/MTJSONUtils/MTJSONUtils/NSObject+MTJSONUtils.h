@@ -1,25 +1,18 @@
 //
-//  MTJSONDictionary.h
-//  MTJSONDictionary
+//  NSObject+MTJSONUtils.h
+//  MTJSONUtils
 //
 //  Created by Adam Kirk on 8/16/12.
 //  Copyright (c) 2012 Mysterious Trousers. All rights reserved.
 //
 
 
-@interface NSObject (MTJSONDictionary)
+@interface NSObject (MTJSONUtils)
 
-- (id)objectWithJSONSafeObjects;
 - (NSData *)JSONData;
-
-@end
-
-
-
-
-@interface NSDictionary (MTJSONDictionary)
-
+- (id)objectWithJSONSafeObjects;
 - (id)valueForComplexKeyPath:(NSString *)keyPath;
 - (NSString *)stringValueForComplexKeyPath:(NSString *)key;
 
 @end
+

@@ -1,24 +1,26 @@
 //
-//  MTJSONDictionary.m
-//  MTJSONDictionary
+//  NSObject+MTJSONUtils.m
+//  MTJSONUtils
 //
 //  Created by Adam Kirk on 8/16/12.
 //  Copyright (c) 2012 Mysterious Trousers. All rights reserved.
 //
 
-#import "NSDictionary+MTJSONDictionary.h"
+#import "NSObject+MTJSONUtils.h"
 
 
 
 
 
-@implementation NSObject (MTJSONDictionary)
+@implementation NSObject (MTJSONUtils)
 
-- (NSData *)JSONData {
+- (NSData *)JSONData
+{
 	return [NSJSONSerialization dataWithJSONObject:[self objectWithJSONSafeObjects] options:0 error:nil];
 }
 
-- (id)objectWithJSONSafeObjects {
+- (id)objectWithJSONSafeObjects
+{
 	if ([self isKindOfClass:[NSDictionary class]])
 		return [self safeDictionaryFromDictionary:self];
 
@@ -29,77 +31,6 @@
 		return [self safeObjectFromObject:self];
 }
 
-- (id)safeDictionaryFromDictionary:(id)dictionary {
-
-	NSMutableDictionary *cleanDictionary = [NSMutableDictionary dictionary];
-
-	for (id key in [dictionary allKeys]) {
-		id object = [dictionary objectForKey:key];
-
-		if ([object isKindOfClass:[NSDictionary class]])
-			[cleanDictionary setObject:[object safeDictionaryFromDictionary:object] forKey:key];
-
-		else if ([object isKindOfClass:[NSArray class]])
-			[cleanDictionary setObject:[self safeArrayFromArray:object] forKey:key];
-
-		else
-			[cleanDictionary setObject:[self safeObjectFromObject:object] forKey:key];
-	}
-
-	return cleanDictionary;
-}
-
-- (id)safeArrayFromArray:(id)array {
-
-	NSMutableArray *cleanArray = [NSMutableArray array];
-	
-	for (id object in array) {
-		if ([object isKindOfClass:[NSArray class]] || [object isKindOfClass:[NSSet class]])
-			[cleanArray addObject:[self safeArrayFromArray:object]];
-
-		else if ([object isKindOfClass:[NSDictionary class]])
-			[cleanArray addObject:[object safeDictionaryFromDictionary:object]];
-
-		else
-			[cleanArray addObject:[self safeObjectFromObject:object]];
-	}
-	
-	return cleanArray;
-}
-
-- (id)safeObjectFromObject:(id)object {
-	
-	NSArray *validClasses = @[ [NSString class], [NSNumber class], [NSNull class] ];
-	for (Class c in validClasses) {
-		if ([object isKindOfClass:c])
-			return object;
-	}
-
-	if ([object isKindOfClass:[NSDate class]]) {
-		NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-		[formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
-		[formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-		NSString *ISOString = [formatter stringFromDate:object];
-		return ISOString;
-	}
-
-	return [object description];
-}
-
-@end
-
-
-
-
-
-
-
-@implementation NSDictionary (MTJSONDictionary)
-
-
-
-
-#pragma mark - Complex Key Path
 
 - (id)valueForComplexKeyPath:(NSString *)keyPath {
 
@@ -136,6 +67,7 @@
 			}
 			if (index > [currentObject count] - 1) return nil;
 			currentObject = [currentObject objectAtIndex:index];
+			if ([currentObject isKindOfClass:[NSNull class]]) return nil;
 			[path setString:@""];
 			string = path;
 			continue;
@@ -150,7 +82,7 @@
 		}
 	}
 
-	return currentObject;
+	return [currentObject isKindOfClass:[NSNull class]] ? nil : currentObject;
 }
 
 - (NSString *)stringValueForComplexKeyPath:(NSString *)key {
@@ -172,4 +104,71 @@
 }
 
 
+
+
+
+#pragma mark - Private Methods
+
+- (id)safeDictionaryFromDictionary:(id)dictionary
+{
+
+	NSMutableDictionary *cleanDictionary = [NSMutableDictionary dictionary];
+
+	for (id key in [dictionary allKeys]) {
+		id object = [dictionary objectForKey:key];
+
+		if ([object isKindOfClass:[NSDictionary class]])
+			[cleanDictionary setObject:[object safeDictionaryFromDictionary:object] forKey:key];
+
+		else if ([object isKindOfClass:[NSArray class]])
+			[cleanDictionary setObject:[self safeArrayFromArray:object] forKey:key];
+
+		else
+			[cleanDictionary setObject:[self safeObjectFromObject:object] forKey:key];
+	}
+
+	return cleanDictionary;
+}
+
+- (id)safeArrayFromArray:(id)array
+{
+
+	NSMutableArray *cleanArray = [NSMutableArray array];
+
+	for (id object in array) {
+		if ([object isKindOfClass:[NSArray class]] || [object isKindOfClass:[NSSet class]])
+			[cleanArray addObject:[self safeArrayFromArray:object]];
+
+		else if ([object isKindOfClass:[NSDictionary class]])
+			[cleanArray addObject:[object safeDictionaryFromDictionary:object]];
+
+		else
+			[cleanArray addObject:[self safeObjectFromObject:object]];
+	}
+
+	return cleanArray;
+}
+
+- (id)safeObjectFromObject:(id)object {
+
+	NSArray *validClasses = @[ [NSString class], [NSNumber class], [NSNull class] ];
+	for (Class c in validClasses) {
+		if ([object isKindOfClass:c])
+			return object;
+	}
+
+	if ([object isKindOfClass:[NSDate class]]) {
+		NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+		[formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+		[formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+		NSString *ISOString = [formatter stringFromDate:object];
+		return ISOString;
+	}
+
+	return [object description];
+}
+
+
 @end
+
+

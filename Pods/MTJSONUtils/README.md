@@ -1,13 +1,13 @@
-MTJSONDictionary
-================
+MTJSONUtils
+===========
 
-An NSDictionary category for when you're working with it converting to/from JSON.
+An NSObject category for when you're working with it converting to/from JSON.
 
 ### Installation
 
 In your Podfile, add this line:
 
-    pod "MTJSONDictionary"
+    pod "MTJSONUtils"
   
 ### Methods
 

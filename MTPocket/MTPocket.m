@@ -8,7 +8,7 @@
 
 #import <MF_Base64Additions.h>
 #import <XMLDictionary.h>
-#import <NSDictionary+MTJSONDictionary.h>
+#import <NSObject+MTJSONUtils.h>
 #import "MTPocket.h"
 
 

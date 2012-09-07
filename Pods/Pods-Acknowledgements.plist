@@ -37,7 +37,7 @@ OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGEN
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</string>
 			<key>Title</key>
-			<string>MTJSONDictionary</string>
+			<string>MTJSONUtils</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
