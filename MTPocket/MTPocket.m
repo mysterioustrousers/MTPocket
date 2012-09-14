@@ -48,7 +48,9 @@
 
 - (MTPocketResponse *)fetch {
 
-	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_url];
+	NSMutableURLRequest *request		= [NSMutableURLRequest requestWithURL:_url];
+	NSData				*requestData	= nil;
+	NSString			*requestString	= nil;
 
 	// set method
 	NSString *method = nil;
@@ -121,9 +123,14 @@
 
 		if ([body isKindOfClass:[NSData class]]) {
 			[request setHTTPBody:body];
+			requestData		= body;
+			requestString	= [[NSString alloc] initWithBytes:[(NSData *)body bytes] length:[(NSData *)body length] encoding:NSUTF8StringEncoding];
 		}
 		else {
-			[request setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
+			NSData *bodyData = [body dataUsingEncoding:NSUTF8StringEncoding];
+			[request setHTTPBody:bodyData];
+			requestData		= bodyData;
+			requestString	= body;
 		}
 
 	}
@@ -151,10 +158,12 @@
 
 	// form the response
 	MTPocketResponse *response = [MTPocketResponse responseWithResponse:httpURLResponse];
-	response.format		= _format;
-	response.request	= request;
-	response.data		= data;
-	response.text		= [[NSString alloc] initWithBytes:[data bytes] length:data.length encoding:NSUTF8StringEncoding];
+	response.format			= _format;
+	response.request		= request;
+	response.data			= data;
+	response.requestData	= requestData;
+	response.text			= [[NSString alloc] initWithBytes:[data bytes] length:data.length encoding:NSUTF8StringEncoding];
+	response.requestText	= requestString;
 
 	// set the status
 	if ([httpURLResponse statusCode] == 200) {
