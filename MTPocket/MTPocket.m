@@ -88,8 +88,8 @@
 	}
 
 	// prepare headers
-	NSMutableDictionary *headerDictionary = [NSMutableDictionary dictionaryWithDictionary:_headers];
-	[headerDictionary addEntriesFromDictionary:@{ @"Accept" : format, @"Content-Type" : format }];
+	NSMutableDictionary *headerDictionary = [NSMutableDictionary dictionaryWithDictionary:@{ @"Accept" : format, @"Content-Type" : format }];
+	[headerDictionary addEntriesFromDictionary:_headers];
 
 	// set body
 	if (_body) {
