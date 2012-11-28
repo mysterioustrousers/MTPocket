@@ -166,21 +166,23 @@
 	response.requestText	= requestString;
 
 	// set the status
-	if ([httpURLResponse statusCode] == 200) {
-		response.status = MTPocketStatusSuccess;
-		response.success = YES;
-	}
-	else if ([httpURLResponse statusCode] == 201) {
+    NSInteger statusCode = [httpURLResponse statusCode];
+    
+	if (statusCode == 201) {
 		response.status = MTPocketStatusCreated;
 		response.success = YES;
 	}
-	else if ([httpURLResponse statusCode] == 401 || (error && [error code] == NSURLErrorUserCancelledAuthentication)) {
+	else if (statusCode >= 200 && statusCode < 300) {
+		response.status = MTPocketStatusSuccess;
+		response.success = YES;
+	}
+	else if (statusCode == 401 || (error && [error code] == NSURLErrorUserCancelledAuthentication)) {
 		response.status = MTPocketStatusUnauthorized;
 	}
-	else if ([httpURLResponse statusCode] == 404) {
+	else if (statusCode == 404) {
 		response.status = MTPocketStatusNotFound;
 	}
-	else if ([httpURLResponse statusCode] == 422) {
+	else if (statusCode == 422) {
 		response.status = MTPocketStatusUnprocessable;
 	}
 	else if (!data) {
