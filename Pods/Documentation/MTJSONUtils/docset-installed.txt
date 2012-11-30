@@ -1,0 +1,4 @@
+Documentation set was installed to Xcode!
+
+Path: /Users/adamkirk/Library/Developer/Shared/Documentation/DocSets/org.cocoapods.MTJSONUtils-0.1.0.docset
+Time: 2012-11-30 21:33:47 +0000

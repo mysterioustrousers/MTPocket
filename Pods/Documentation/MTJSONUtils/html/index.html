@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>MTJSONUtils 0.1.0 Reference</title>
+		<link rel="stylesheet" type="text/css" href="css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.0.5 (build 789)" />
+	</head>
+	<body>
+		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="index.html">MTJSONUtils 0.1.0 </a></h1>
+				<a id="developerHome" href="index.html">Adam Kirk</a>
+			</div>
+			
+			<div id="title" role="banner">
+				<h1 class="hideInXcode">MTJSONUtils 0.1.0 Reference</h1>
+			</div>
+			<ul id="headerButtons" role="toolbar"></ul>
+		</header>
+		<article>
+			<div id="overview_contents" role="main">
+				<div class="main-navigation navigation-top">
+					<a href="hierarchy.html">Next</a>
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">MTJSONUtils 0.1.0 Reference</h1>
+					</div>		
+				</div>
+				<div id="container">
+					
+					<div class="section section-overview index-overview">
+						
+						
+						<h1>MTJSONUtils</h1>
+
+<p>An NSObject category for when you&rsquo;re working with it converting to/from JSON.</p>
+
+<h3>Installation</h3>
+
+<p>In your Podfile, add this line:</p>
+
+<pre><code>pod "MTJSONUtils"
+</code></pre>
+
+<h3>Methods</h3>
+
+<p>Use the following for a shortcut to generating JSON data from a dictionary (or any NSObject):</p>
+
+<pre><code>- (NSData *)JSONData;
+</code></pre>
+
+<p>The requirements of NSJSONSerialization state that all objects must be instances of NSString, NSNumber, NSArray, NSDictionary, or NSNull.
+The following can be called on any NSObject and will return a safe deep copy of the receiver:</p>
+
+<pre><code>- (id)objectWithJSONSafeObjects;
+</code></pre>
+
+<h4>This will:</h4>
+
+<ul>
+<li>Replace NSDate objects with their ISO string representation. (e.g. <code>2012-08-12T04:17:30Z</code>)</li>
+<li>Replace any other non-valid objects with their string description.</li>
+<li>More coming&hellip;</li>
+</ul>
+
+
+<p>The following methods allow you to query into an object graph that includes arrays (not just dictionaries):</p>
+
+<pre><code>- (id)valueForComplexKeyPath:(NSString *)keyPath;
+- (NSString *)stringValueForComplexKeyPath:(NSString *)key;
+</code></pre>
+
+<h4>Available Subscripting Values:</h4>
+
+<ul>
+<li>0..infinity</li>
+<li>first</li>
+<li>last</li>
+</ul>
+
+
+<h4>Example</h4>
+
+<p>Given this object:</p>
+
+<pre><code>NSDictionary *dictionary = @{
+    @"parent" : @{
+        @"name" : @"Nathan",
+        @"children" : @[ @{
+            @"name" : @"adam",
+            @"apple_products" : @[ @{
+                @"title"        : @"macbook",
+                @"price"        : @1399.99,
+                @"date_bought"  : [NSDate dateWithTimeInterval:-22342 sinceDate:[NSDate date]]
+            },
+            @{
+                @"title"        : @"mac mini",
+                @"price"        : @599.99,
+                @"date_bought"  : [NSDate dateWithTimeInterval:-30223 sinceDate:[NSDate date]]
+            },
+            @{
+                @"title"        : @"iphone",
+                @"price"        : @199.99,
+                @"date_bought"  : [NSDate dateWithTimeInterval:-123453 sinceDate:[NSDate date]]
+            }]
+        },
+        @{
+            @"name" : @"amanda",
+            @"apple_products" : @[ @{
+                @"title"        : @"nano",
+                @"price"        : @299.99,
+                @"date_bought"  : [NSDate dateWithTimeInterval:-123453 sinceDate:[NSDate date]]
+            }]
+        },
+        @{
+            @"name" : @"andrew",
+            @"apple_products" : @[ @{
+                @"title"        : @"ipad",
+                @"price"        : @499.99,
+                @"date_bought"  : [NSDate dateWithTimeInterval:-2452342 sinceDate:[NSDate date]]
+            },
+            @{
+                @"title"        : @"ipod touch",
+                @"price"        : @399.99,
+                @"date_bought"  : [NSDate dateWithTimeInterval:-430223 sinceDate:[NSDate date]]
+            }]
+        }]
+    }
+};
+</code></pre>
+
+<p>You could query the values like this:</p>
+
+<pre><code>[[dictionary valueForComplexKeyPath:@"parent.name"]                                         // =&gt; "Nathan"
+[[dictionary valueForComplexKeyPath:@"parent.children[0].name"]                             // =&gt; "adam"
+[[dictionary valueForComplexKeyPath:@"parent.children[1].name"]                             // =&gt; "amanda"
+[[dictionary valueForComplexKeyPath:@"parent.children[2].name"]                             // =&gt; "andrew"
+[[dictionary valueForComplexKeyPath:@"parent.children[first].name"]                         // =&gt; "adam"
+[[dictionary valueForComplexKeyPath:@"parent.children[last].name"]                          // =&gt; "andrew"
+[[dictionary valueForComplexKeyPath:@"parent.children[first].apple_products[0].title"]      // =&gt; "macbook"
+[[dictionary valueForComplexKeyPath:@"parent.children[first].apple_products[1].title"]      // =&gt; "mac mini"
+[[dictionary valueForComplexKeyPath:@"parent.children[first].apple_products[2].title"]      // =&gt; "iphone"
+[[dictionary valueForComplexKeyPath:@"parent.children[first].apple_products[last].title"]   // =&gt; "iphone"
+[[dictionary valueForComplexKeyPath:@"parent.children[last].apple_products[last].title"]    // =&gt; "ipod touch"
+[[dictionary valueForComplexKeyPath:@"parent.children[last].apple_products[last].price"]    // =&gt; 399.99
+</code></pre>
+
+<h4>Misc</h4>
+
+<p>And some nifty macros for dealing with NSNull and nil:</p>
+
+<pre><code>// swaps NSNull for nil
+#define NILL(a) ([a isKindOfClass:[NSNull class]] ? nil : a)
+// swaps nil for NSNull
+#define NUL(a) a ? a : [NSNull null]
+</code></pre>
+						
+						
+					</div>
+					
+                        
+                    
+					
+					
+					
+						
+					<div class="index-column">
+						
+						
+						<h2 class="index-title">Category References</h2>
+						<ul>
+							
+							<li><a href="Categories/NSObject+MTJSONUtils.html">NSObject(MTJSONUtils)</a></li>
+							
+						</ul>
+						
+					</div>
+					
+				</div>
+				<div class="main-navigation navigation-bottom">
+					<a href="hierarchy.html">Next</a>
+				</div>
+				<div id="footer">
+					<hr />
+					<div class="footer-copyright">
+						<p><span class="copyright">&copy; 2012 Adam Kirk. All rights reserved. (Last updated: 2012-11-30)</span><br />
+						
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 789)</a>.</span></p>
+						
+	
+					</div>
+				</div>
+			</div>
+		</article>		
+	</body>
+</html>

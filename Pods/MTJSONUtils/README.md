@@ -100,3 +100,12 @@ You could query the values like this:
 	[[dictionary valueForComplexKeyPath:@"parent.children[last].apple_products[last].price"]	// => 399.99
 
 
+#### Misc
+
+And some nifty macros for dealing with NSNull and nil:
+
+	// swaps NSNull for nil
+	#define NILL(a) ([a isKindOfClass:[NSNull class]] ? nil : a)
+	// swaps nil for NSNull
+	#define NUL(a) a ? a : [NSNull null]
+

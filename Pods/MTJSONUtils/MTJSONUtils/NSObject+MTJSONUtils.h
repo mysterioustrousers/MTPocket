@@ -6,6 +6,11 @@
 //  Copyright (c) 2012 Mysterious Trousers. All rights reserved.
 //
 
+// swaps NSNull for nil
+#define NILL(a) ([a isKindOfClass:[NSNull class]] ? nil : a)
+// swaps nil for NSNull
+#define NUL(a) a ? a : [NSNull null]
+
 
 @interface NSObject (MTJSONUtils)
 
