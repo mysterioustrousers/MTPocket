@@ -48,108 +48,7 @@
 
 - (MTPocketResponse *)fetch {
 
-	NSMutableURLRequest *request		= [NSMutableURLRequest requestWithURL:_url];
-	NSData				*requestData	= nil;
-	NSString			*requestString	= nil;
-
-	// set method
-	NSString *method = nil;
-	switch (_method) {
-		case MTPocketMethodPOST:
-			method = @"POST";
-			break;
-		case MTPocketMethodPUT:
-			method = @"PUT";
-			break;
-		case MTPocketMethodDELETE:
-			method = @"DELETE";
-			break;
-		default:
-			method = @"GET";
-			break;
-	}
-	[request setHTTPMethod:method];
-
-	// set format
-	NSString *format = nil;
-	switch (_format) {
-		case MTPocketFormatXML:
-			format = @"application/xml";
-			break;
-		case MTPocketFormatHTML:
-			format = @"text/html";
-			break;
-		case MTPocketFormatTEXT:
-			format = @"text/plain";
-			break;
-		default:
-			format = @"application/json";
-			break;
-	}
-
-	// prepare headers
-	NSMutableDictionary *headerDictionary = [NSMutableDictionary dictionaryWithDictionary:@{ @"Accept" : format, @"Content-Type" : format }];
-	[headerDictionary addEntriesFromDictionary:_headers];
-
-	// set body
-	if (_body) {
-		id body = nil;
-		if ([_body isKindOfClass:[NSString class]] || [_body isKindOfClass:[NSData class]]) {
-			body = _body;
-		}
-		else if ([_body isKindOfClass:[NSDictionary class]] || [_body isKindOfClass:[NSArray class]]) {
-			if (_format == MTPocketFormatJSON) {
-				NSError *error = nil;
-				body = [NSJSONSerialization dataWithJSONObject:[_body objectWithJSONSafeObjects] options:0 error:&error];
-
-				// It's in the developers power to ensure correct json is provided, so we throw an exception rather than return an error.
-				if (error) {
-					[[NSException exceptionWithName:@"Invalid JSON" reason:@"The JSON could not be parsed" userInfo:[error userInfo]] raise];
-					return nil;
-				}
-			}
-			else if (_format == MTPocketFormatXML) {
-				if ([_body isKindOfClass:[NSArray class]]) {
-					_body = @{ @"root" : _body };
-				}
-				body = [[_body objectWithJSONSafeObjects] xmlString];
-				body = [[body stringByReplacingOccurrencesOfString:@"<root>" withString:@""] stringByReplacingOccurrencesOfString:@"</root>" withString:@""];
-			}
-		}
-		else {
-			// These problems need to be caught in development, so we throw an exception
-			[[NSException exceptionWithName:@"Invalid Body" reason:@"The body must be either an NSString, NSData, NSDictionary or NSArray, or nil" userInfo:nil] raise];
-		}
-
-		if ([body isKindOfClass:[NSData class]]) {
-			[request setHTTPBody:body];
-			requestData		= body;
-			requestString	= [[NSString alloc] initWithBytes:[(NSData *)body bytes] length:[(NSData *)body length] encoding:NSUTF8StringEncoding];
-		}
-		else {
-			NSData *bodyData = [body dataUsingEncoding:NSUTF8StringEncoding];
-			[request setHTTPBody:bodyData];
-			requestData		= bodyData;
-			requestString	= body;
-		}
-
-	}
-
-	// set username & password
-	if (_username || _password) {
-		NSString *username = _username ? _username : @"";
-		NSString *password = _password ? _password : @"";
-        NSString *plainTextAuth = [NSString stringWithFormat:@"%@:%@", username, password];
-        NSString *base64EncodedAuth = [plainTextAuth base64String];
-		[headerDictionary addEntriesFromDictionary:@{ @"Authorization" : [NSString stringWithFormat:@"Basic %@", base64EncodedAuth] }];
-    }
-
-	// set headers
-	[request setAllHTTPHeaderFields:headerDictionary];
-
-	// set timeout
-	if (_timeout)
-		[request setTimeoutInterval:_timeout];
+    NSMutableURLRequest *request = [self request];
 
 	// make the request
 	NSHTTPURLResponse *httpURLResponse = nil;
@@ -274,6 +173,147 @@
 }
 
 
++ (void)objectAtURL:(NSURL *)url
+             method:(MTPocketMethod)method
+             format:(MTPocketFormat)format
+               body:(id)body
+           progress:(void (^)(long long bytesLoaded, long long bytesTotal))progressBlock
+            success:(void (^)(MTPocketResponse *response))successBlock
+            failure:(void (^)(MTPocketRequest *response))failureBlock
+{
+    MTPocketRequest *request = [[MTPocketRequest alloc] initWithURL:url];
+    request.method	= method;
+    request.format	= format;
+    request.body	= body;
+    MTPocketResponse *response = [request fetch];
+}
+
++ (void)objectAtURL:(NSURL *)url
+             method:(MTPocketMethod)method
+             format:(MTPocketFormat)format
+           username:(NSString *)username
+           password:(NSString *)password
+               body:(id)body
+           progress:(void (^)(long long bytesLoaded, long long bytesTotal))progressBlock
+            success:(void (^)(MTPocketResponse *response))successBlock
+            failure:(void (^)(MTPocketRequest *response))failureBlock
+{
+
+}
+
+
+
+
+
+#pragma mark - Private
+
+- (NSMutableURLRequest *)request
+{
+   	NSMutableURLRequest *request		= [NSMutableURLRequest requestWithURL:_url];
+	NSData				*requestData	= nil;
+	NSString			*requestString	= nil;
+
+	// set method
+	NSString *method = nil;
+	switch (_method) {
+		case MTPocketMethodPOST:
+			method = @"POST";
+			break;
+		case MTPocketMethodPUT:
+			method = @"PUT";
+			break;
+		case MTPocketMethodDELETE:
+			method = @"DELETE";
+			break;
+		default:
+			method = @"GET";
+			break;
+	}
+	[request setHTTPMethod:method];
+
+	// set format
+	NSString *format = nil;
+	switch (_format) {
+		case MTPocketFormatXML:
+			format = @"application/xml";
+			break;
+		case MTPocketFormatHTML:
+			format = @"text/html";
+			break;
+		case MTPocketFormatTEXT:
+			format = @"text/plain";
+			break;
+		default:
+			format = @"application/json";
+			break;
+	}
+
+	// prepare headers
+	NSMutableDictionary *headerDictionary = [NSMutableDictionary dictionaryWithDictionary:@{ @"Accept" : format, @"Content-Type" : format }];
+	[headerDictionary addEntriesFromDictionary:_headers];
+
+	// set body
+	if (_body) {
+		id body = nil;
+		if ([_body isKindOfClass:[NSString class]] || [_body isKindOfClass:[NSData class]]) {
+			body = _body;
+		}
+		else if ([_body isKindOfClass:[NSDictionary class]] || [_body isKindOfClass:[NSArray class]]) {
+			if (_format == MTPocketFormatJSON) {
+				NSError *error = nil;
+				body = [NSJSONSerialization dataWithJSONObject:[_body objectWithJSONSafeObjects] options:0 error:&error];
+
+				// It's in the developers power to ensure correct json is provided, so we throw an exception rather than return an error.
+				if (error) {
+					[[NSException exceptionWithName:@"Invalid JSON" reason:@"The JSON could not be parsed" userInfo:[error userInfo]] raise];
+					return nil;
+				}
+			}
+			else if (_format == MTPocketFormatXML) {
+				if ([_body isKindOfClass:[NSArray class]]) {
+					_body = @{ @"root" : _body };
+				}
+				body = [[_body objectWithJSONSafeObjects] xmlString];
+				body = [[body stringByReplacingOccurrencesOfString:@"<root>" withString:@""] stringByReplacingOccurrencesOfString:@"</root>" withString:@""];
+			}
+		}
+		else {
+			// These problems need to be caught in development, so we throw an exception
+			[[NSException exceptionWithName:@"Invalid Body" reason:@"The body must be either an NSString, NSData, NSDictionary or NSArray, or nil" userInfo:nil] raise];
+		}
+
+		if ([body isKindOfClass:[NSData class]]) {
+			[request setHTTPBody:body];
+			requestData		= body;
+			requestString	= [[NSString alloc] initWithBytes:[(NSData *)body bytes] length:[(NSData *)body length] encoding:NSUTF8StringEncoding];
+		}
+		else {
+			NSData *bodyData = [body dataUsingEncoding:NSUTF8StringEncoding];
+			[request setHTTPBody:bodyData];
+			requestData		= bodyData;
+			requestString	= body;
+		}
+
+	}
+
+	// set username & password
+	if (_username || _password) {
+		NSString *username = _username ? _username : @"";
+		NSString *password = _password ? _password : @"";
+        NSString *plainTextAuth = [NSString stringWithFormat:@"%@:%@", username, password];
+        NSString *base64EncodedAuth = [plainTextAuth base64String];
+		[headerDictionary addEntriesFromDictionary:@{ @"Authorization" : [NSString stringWithFormat:@"Basic %@", base64EncodedAuth] }];
+    }
+
+	// set headers
+	[request setAllHTTPHeaderFields:headerDictionary];
+
+	// set timeout
+	if (_timeout)
+		[request setTimeoutInterval:_timeout];
+
+    return request;
+}
 
 
 @end
