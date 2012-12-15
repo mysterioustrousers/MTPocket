@@ -146,7 +146,7 @@ Ok, now this is cool, because normally it would be a lot of work:
 																NSLog(@"%@", response.error);
 	                                                        }].asynchronous;
 
-That's just the standard stuff. say you want to own totally custom request:
+That's just the standard stuff. say you want to cook your own totally custom request:
 
 	MTPocketRequest *request = [MTPocketRequest requestForURL:BASE_URL
                                                        method:MTPocketMethodGET
