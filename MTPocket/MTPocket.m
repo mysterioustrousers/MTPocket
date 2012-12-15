@@ -13,15 +13,150 @@
 
 
 
+@interface MTPocketResponse ()
+@property BOOL isFileDownload;
+@end
+
+
+
+
 
 @implementation MTPocketResponse
 
-+ (MTPocketResponse *)responseWithResponse:(NSURLResponse *)resp {
-	MTPocketResponse *response = [[MTPocketResponse alloc] initWithURL:resp.URL MIMEType:resp.MIMEType expectedContentLength:resp.expectedContentLength textEncodingName:resp.textEncodingName];
-	response.success = NO;
-	response.body = nil;
-	response.error = nil;
-	return response;
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        _success = NO;
+    }
+    return self;
+}
+
+- (void)setStatusCode:(NSInteger)statusCode
+{
+    _statusCode = statusCode;
+    _success = NO;
+
+    if (statusCode == 201) {
+		_status = MTPocketStatusCreated;
+		_success = YES;
+	}
+	else if (statusCode >= 200 && statusCode < 300) {
+		_status = MTPocketStatusSuccess;
+		_success = YES;
+	}
+
+	else if (statusCode == 401)
+        _status = MTPocketStatusUnauthorized;
+
+	else if (statusCode == 404)
+        _status = MTPocketStatusNotFound;
+
+	else if (statusCode == 422)
+        _status = MTPocketStatusUnprocessable;
+
+    else if (statusCode >= 500 && statusCode < 600)
+        _status = MTPocketStatusServerError;
+
+	else
+        _status = MTPocketStatusOther;
+}
+
+- (void)setStatus:(MTPocketStatus)status
+{
+    _status = status;
+    if (_status == MTPocketStatusSuccess) _success = YES;
+}
+
+- (void)setError:(NSError *)error
+{
+    _error = nil;
+    if (error) {
+        _success = NO;
+        _error = error;
+        if (error.code == NSURLErrorUserCancelledAuthentication) {
+            _statusCode = 401;
+            _status = MTPocketStatusUnauthorized;
+        }
+    }
+}
+
+- (void)setRequestData:(NSData *)requestData
+{
+    _requestData = requestData;
+}
+
+- (void)setRequestText:(NSString *)requestText
+{
+    _requestText = requestText;
+}
+
+- (void)setRequest:(NSURLRequest *)request
+{
+    _request = request;
+}
+
+- (void)setFormat:(MTPocketFormat)format
+{
+    _format = format;
+}
+
+- (void)setData:(NSData *)data
+{
+    if (!data) {
+        _status = MTPocketStatusNoConnection;
+    }
+
+    if (_error) return;
+    
+    _data = data;
+
+    if (_isFileDownload) return;
+
+    _text = [[NSString alloc] initWithBytes:[data bytes] length:data.length encoding:NSUTF8StringEncoding];
+
+    // otherwise, build an object from the response data
+    if (_format == MTPocketFormatHTML || _format == MTPocketFormatTEXT)
+        _body = _text;
+
+    else if (_format == MTPocketFormatJSON) {
+        NSError *error = nil;
+        _body = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        if (error) _error = error;
+    }
+    else if (_format == MTPocketFormatXML)
+        _body = [NSDictionary dictionaryWithXMLData:data];
+}
+
+- (void)setRequestHeaders:(NSDictionary *)requestHeaders
+{
+    _requestHeaders = requestHeaders;
+}
+
+- (void)setMIMEType:(NSString *)MIMEType
+{
+    _MIMEType = MIMEType;
+}
+
+- (void)setExpectedContentLength:(NSInteger)expectedContentLength
+{
+    _expectedContentLength = expectedContentLength;
+}
+
+- (void)setFileDownloadedPath:(NSString *)fileDownloadedPath
+{
+    if (fileDownloadedPath && !_error && _success) {
+
+        NSError *error = nil;
+        [_data writeToFile:fileDownloadedPath options:0 error:&error];
+
+        if (!error && [[NSFileManager defaultManager] fileExistsAtPath:fileDownloadedPath])
+            _fileDownloadedPath = fileDownloadedPath;
+        else if (error) {
+            _success = NO;
+            _error = error;
+        }
+    }
 }
 
 @end
@@ -33,173 +168,227 @@
 
 
 
+
+
+
+@interface MTPocketRequest ()
+@property (strong, nonatomic) MTPocketResponse *response;
+@property (strong, nonatomic) NSMutableData *mutableData;
+@end
+
+
+
+
+
 @implementation MTPocketRequest
 
-- (id)initWithURL:(NSURL *)url
+- (id)initWithURL:(NSURL *)URL
 {
     self = [super init];
     if (self) {
-        _url	= url;
+        _URL	= URL;
 		_method = MTPocketMethodGET;
 		_format = MTPocketFormatJSON;
     }
     return self;
 }
 
-- (MTPocketResponse *)fetch {
+#pragma mark - Constructors
 
-    NSMutableURLRequest *request = [self request];
++ (MTPocketRequest *)requestForURL:(NSURL *)URL
+                            format:(MTPocketFormat)format
+{
+    return [self requestForURL:URL method:MTPocketMethodGET format:format body:nil];
+}
 
-	// make the request
++ (MTPocketRequest *)requestForURL:(NSURL *)URL
+                            method:(MTPocketMethod)method
+                            format:(MTPocketFormat)format
+                              body:(id)body
+{
+    return [self requestForURL:URL method:method format:format username:nil password:nil body:body];
+}
+
++ (MTPocketRequest *)requestForURL:(NSURL *)URL
+                            method:(MTPocketMethod)method
+                            format:(MTPocketFormat)format
+                          username:(NSString *)username
+                          password:(NSString *)password
+                              body:(id)body
+{
+    return [self requestForURL:URL
+                        method:method
+                        format:format
+                      username:username
+                      password:password
+                          body:body
+                uploadFilename:nil
+               uploadFormField:nil
+                uploadMIMEType:nil
+                downloadToFile:nil
+                uploadProgress:nil
+              downloadProgress:nil
+                       success:nil
+                       failure:nil];
+}
+
++ (MTPocketRequest *)requestForURL:(NSURL *)URL
+                            method:(MTPocketMethod)method
+                            format:(MTPocketFormat)format
+                              body:(id)body
+                           success:(void (^)(MTPocketResponse *response))successBlock
+                           failure:(void (^)(MTPocketResponse *response))failureBlock
+{
+    return [self requestForURL:URL
+                        method:method
+                        format:format
+                          body:body
+                downloadToFile:nil
+              downloadProgress:nil
+                       success:successBlock
+                       failure:failureBlock];
+}
+
++ (MTPocketRequest *)requestForURL:(NSURL *)URL
+                            method:(MTPocketMethod)method
+                            format:(MTPocketFormat)format
+                              body:(id)body
+                    downloadToFile:(NSString *)downloadPath
+                  downloadProgress:(void (^)(long long bytesLoaded, long long bytesTotal))downloadProgressBlock
+                           success:(void (^)(MTPocketResponse *response))successBlock
+                           failure:(void (^)(MTPocketResponse *response))failureBlock
+{
+    return [self requestForURL:URL
+                        method:method
+                        format:format
+                      username:nil
+                      password:nil
+                          body:body
+                uploadFilename:nil
+               uploadFormField:nil
+                uploadMIMEType:nil
+                downloadToFile:downloadPath
+                uploadProgress:nil
+              downloadProgress:downloadProgressBlock
+                       success:successBlock
+                       failure:failureBlock];
+}
+
++ (MTPocketRequest *)requestForURL:(NSURL *)URL
+                            method:(MTPocketMethod)method
+                            format:(MTPocketFormat)format
+                              body:(id)body
+                    uploadFilename:(NSString *)filename
+                   uploadFormField:(NSString *)fieldName
+                    uploadMIMEType:(NSString *)MIMEType
+                    uploadProgress:(void (^)(long long bytesLoaded, long long bytesTotal))uploadProgressBlock
+                           success:(void (^)(MTPocketResponse *response))successBlock
+                           failure:(void (^)(MTPocketResponse *response))failureBlock
+{
+    return [self requestForURL:URL
+                        method:method
+                        format:format
+                      username:nil
+                      password:nil
+                          body:body
+                uploadFilename:filename
+               uploadFormField:fieldName
+                uploadMIMEType:MIMEType
+                downloadToFile:nil
+                uploadProgress:uploadProgressBlock
+              downloadProgress:nil
+                       success:successBlock
+                       failure:failureBlock];
+}
+
++ (MTPocketRequest *)requestForURL:(NSURL *)URL
+                            method:(MTPocketMethod)method
+                            format:(MTPocketFormat)format
+                          username:(NSString *)username
+                          password:(NSString *)password
+                              body:(id)body
+                    uploadFilename:(NSString *)filename
+                   uploadFormField:(NSString *)fieldName
+                    uploadMIMEType:(NSString *)MIMEType
+                    downloadToFile:(NSString *)downloadPath
+                    uploadProgress:(void (^)(long long bytesLoaded, long long bytesTotal))uploadProgressBlock
+                  downloadProgress:(void (^)(long long bytesLoaded, long long bytesTotal))downloadProgressBlock
+                           success:(void (^)(MTPocketResponse *response))successBlock
+                           failure:(void (^)(MTPocketResponse *response))failureBlock
+{
+    MTPocketRequest *request = [[MTPocketRequest alloc] initWithURL:URL];
+    request.method                      = method;
+    request.format                      = format;
+    request.username                    = username;
+    request.password                    = password;
+    request.body                        = body;
+    request.fileUploadTitle             = filename;
+    request.fileUploadFormField         = fieldName;
+    request.fileUploadMIMEType          = MIMEType;
+    request.fileDownloadPath            = downloadPath;
+    request.uploadProgressHandler       = uploadProgressBlock;
+    request.downloadProgressHandler     = downloadProgressBlock;
+    request.successHandler              = successBlock;
+    request.failureHandler              = failureBlock;
+    return  request;
+}
+
+
+
+#pragma mark - Start Request
+
+- (MTPocketResponse *)synchronous {
+
+    // create the response
+    MTPocketResponse *response = [[MTPocketResponse alloc] init];
+    NSMutableURLRequest *request = [self requestWithResponse:&response];
+    _response = response;
+
+    // send the request
 	NSHTTPURLResponse *httpURLResponse = nil;
-	NSError *error = nil;
+    NSError *error = nil;
 	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&httpURLResponse error:&error];
 
-	// form the response
-	MTPocketResponse *response = [MTPocketResponse responseWithResponse:httpURLResponse];
-	response.format			= _format;
-	response.request		= request;
-	response.data			= data;
-	response.requestData	= requestData;
-	response.text			= [[NSString alloc] initWithBytes:[data bytes] length:data.length encoding:NSUTF8StringEncoding];
-	response.requestText	= requestString;
+    // populate the response
+    [response setStatusCode:httpURLResponse.statusCode];
+    [response setError:error];
+    [response setData:data];
+    [response setMIMEType:httpURLResponse.MIMEType];
+    [response setExpectedContentLength:httpURLResponse.expectedContentLength];
+    [response setFileDownloadedPath:_fileDownloadPath];
 
-	// set the status
-    NSInteger statusCode = [httpURLResponse statusCode];
-    
-	if (statusCode == 201) {
-		response.status = MTPocketStatusCreated;
-		response.success = YES;
-	}
-	else if (statusCode >= 200 && statusCode < 300) {
-		response.status = MTPocketStatusSuccess;
-		response.success = YES;
-	}
-	else if (statusCode == 401 || (error && [error code] == NSURLErrorUserCancelledAuthentication)) {
-		response.status = MTPocketStatusUnauthorized;
-	}
-	else if (statusCode == 404) {
-		response.status = MTPocketStatusNotFound;
-	}
-	else if (statusCode == 422) {
-		response.status = MTPocketStatusUnprocessable;
-	}
-	else if (!data) {
-		response.status = MTPocketStatusNoConnection;
-	}
-	else {
-		response.status = MTPocketStatusOther;
-	}
+    NSInteger cl = httpURLResponse.expectedContentLength;
+    if (_downloadProgressHandler)   _downloadProgressHandler(cl,cl);
+    if (_uploadProgressHandler)     _uploadProgressHandler(cl,cl);
 
-	// if there was an error
-	if (error) response.error = error;
 
-	// otherwise, build an object from the response data
-	else {
-		if (_format == MTPocketFormatHTML || _format == MTPocketFormatTEXT) {
-			response.body = response.text;
-		}
-		else if (_format == MTPocketFormatJSON) {
-			NSError *error = nil;
-			response.body = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-			if (error) response.error = error;
-		}
-		else if (_format == MTPocketFormatXML) {
-			response.body = [NSDictionary dictionaryWithXMLData:data];
-		}
-	}
+    if (response.success && _successHandler)    _successHandler(response);
+    if (!response.success && _failureHandler)   _failureHandler(response);
 
 	return response;
 }
 
-
-
-
-#pragma mark - Convenience (Synchronous)
-
-+ (MTPocketResponse *)objectAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format body:(id)body {
-	MTPocketRequest *request = [[MTPocketRequest alloc] initWithURL:url];
-	request.method	= method;
-	request.format	= format;
-	request.body	= body;
-	MTPocketResponse *response = [request fetch];
-	return response;
-}
-
-+ (MTPocketResponse *)objectAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format username:(NSString *)username password:(NSString *)password body:(id)body {
-	MTPocketRequest *request = [[MTPocketRequest alloc] initWithURL:url];
-	request.method		= method;
-	request.format		= format;
-	request.body		= body;
-	request.username	= username;
-	request.password	= password;
-	MTPocketResponse *response = [request fetch];
-	return response;
-}
-
-
-
-
-#pragma mark - Convenience (Asynchronous)
-
-+ (void)objectAsynchronouslyAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format body:(id)body complete:(void (^)(MTPocketResponse *response))completeBlock {
-	dispatch_queue_t queue = dispatch_get_current_queue();
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-		MTPocketRequest *request = [[MTPocketRequest alloc] initWithURL:url];
-		request.method	= method;
-		request.format	= format;
-		request.body	= body;
-		MTPocketResponse *response = [request fetch];
-		dispatch_async(queue, ^{
-			completeBlock(response);
-		});
-	});
-}
-
-+ (void)objectAsynchronouslyAtURL:(NSURL *)url method:(MTPocketMethod)method format:(MTPocketFormat)format username:(NSString *)username password:(NSString *)password body:(id)body complete:(void (^)(MTPocketResponse *response))completeBlock {
-	dispatch_queue_t queue = dispatch_get_current_queue();
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-		MTPocketRequest *request = [[MTPocketRequest alloc] initWithURL:url];
-		request.method		= method;
-		request.format		= format;
-		request.body		= body;
-		request.username	= username;
-		request.password	= password;
-		MTPocketResponse *response = [request fetch];
-		dispatch_async(queue, ^{
-			completeBlock(response);
-		});
-	});
-}
-
-
-+ (void)objectAtURL:(NSURL *)url
-             method:(MTPocketMethod)method
-             format:(MTPocketFormat)format
-               body:(id)body
-           progress:(void (^)(long long bytesLoaded, long long bytesTotal))progressBlock
-            success:(void (^)(MTPocketResponse *response))successBlock
-            failure:(void (^)(MTPocketRequest *response))failureBlock
+- (NSURLConnection *)asynchronous
 {
-    MTPocketRequest *request = [[MTPocketRequest alloc] initWithURL:url];
-    request.method	= method;
-    request.format	= format;
-    request.body	= body;
-    MTPocketResponse *response = [request fetch];
+    // create the response
+    MTPocketResponse *response = [[MTPocketResponse alloc] init];
+    NSMutableURLRequest *request = [self requestWithResponse:&response];
+    _response = response;
+
+
+    if ([NSURLConnection canHandleRequest:request]) {
+        _mutableData = [NSMutableData data];
+        return [NSURLConnection connectionWithRequest:request delegate:self];
+    }
+
+    else {
+        [_response setStatus:MTPocketStatusNoConnection];
+        if (_failureHandler) _failureHandler(_response);
+        return nil;
+    }
 }
 
-+ (void)objectAtURL:(NSURL *)url
-             method:(MTPocketMethod)method
-             format:(MTPocketFormat)format
-           username:(NSString *)username
-           password:(NSString *)password
-               body:(id)body
-           progress:(void (^)(long long bytesLoaded, long long bytesTotal))progressBlock
-            success:(void (^)(MTPocketResponse *response))successBlock
-            failure:(void (^)(MTPocketRequest *response))failureBlock
-{
 
-}
 
 
 
@@ -207,16 +396,16 @@
 
 #pragma mark - Private
 
-- (NSMutableURLRequest *)request
+- (NSMutableURLRequest *)requestWithResponse:(MTPocketResponse **)response
 {
-   	NSMutableURLRequest *request		= [NSMutableURLRequest requestWithURL:_url];
-	NSData				*requestData	= nil;
-	NSString			*requestString	= nil;
+   	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_URL];
 
+    
 	// set method
 	NSString *method = nil;
 	switch (_method) {
 		case MTPocketMethodPOST:
+        case MTPocketMethodFILE:
 			method = @"POST";
 			break;
 		case MTPocketMethodPUT:
@@ -231,6 +420,7 @@
 	}
 	[request setHTTPMethod:method];
 
+    
 	// set format
 	NSString *format = nil;
 	switch (_format) {
@@ -248,16 +438,47 @@
 			break;
 	}
 
+    [(*response) setFormat:_format];
+
+
 	// prepare headers
-	NSMutableDictionary *headerDictionary = [NSMutableDictionary dictionaryWithDictionary:@{ @"Accept" : format, @"Content-Type" : format }];
+    NSDictionary *defaultHeaders = nil;
+    NSString *boundary = @"----WebKitFormBoundary9HN3IwANdrhDGAN4";
+    if (_method == MTPocketMethodFILE) {
+        NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+        defaultHeaders = @{ @"Accept" : format, @"Content-Type" : contentType };
+    }
+    else
+        defaultHeaders = @{ @"Accept" : format, @"Content-Type" : format };
+
+	NSMutableDictionary *headerDictionary = [NSMutableDictionary dictionaryWithDictionary:defaultHeaders];
 	[headerDictionary addEntriesFromDictionary:_headers];
 
+    
 	// set body
 	if (_body) {
 		id body = nil;
-		if ([_body isKindOfClass:[NSString class]] || [_body isKindOfClass:[NSData class]]) {
+
+        if (_method == MTPocketMethodFILE && [_body isKindOfClass:[NSData class]]) {
+            NSString *title         = _fileUploadTitle      ? _fileUploadTitle      : @"file";
+            NSString *fieldName     = _fileUploadFormField  ? _fileUploadFormField  : @"files[]";
+            NSString *MIMEType      = _fileUploadMIMEType   ? _fileUploadMIMEType   : @"application/octet-stream";
+
+            NSMutableData *postbody = [NSMutableData data];
+            [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+            [postbody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", fieldName, title] dataUsingEncoding:NSUTF8StringEncoding]];
+            [postbody appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", MIMEType] dataUsingEncoding:NSUTF8StringEncoding]];
+            [postbody appendData:_body];
+            [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+            headerDictionary[@"Content-Length"] = [NSString stringWithFormat:@"%d", postbody.length];
+
+            body = postbody;
+        }
+
+		else if ([_body isKindOfClass:[NSString class]] || [_body isKindOfClass:[NSData class]]) {
 			body = _body;
 		}
+
 		else if ([_body isKindOfClass:[NSDictionary class]] || [_body isKindOfClass:[NSArray class]]) {
 			if (_format == MTPocketFormatJSON) {
 				NSError *error = nil;
@@ -277,6 +498,7 @@
 				body = [[body stringByReplacingOccurrencesOfString:@"<root>" withString:@""] stringByReplacingOccurrencesOfString:@"</root>" withString:@""];
 			}
 		}
+
 		else {
 			// These problems need to be caught in development, so we throw an exception
 			[[NSException exceptionWithName:@"Invalid Body" reason:@"The body must be either an NSString, NSData, NSDictionary or NSArray, or nil" userInfo:nil] raise];
@@ -284,18 +506,23 @@
 
 		if ([body isKindOfClass:[NSData class]]) {
 			[request setHTTPBody:body];
-			requestData		= body;
-			requestString	= [[NSString alloc] initWithBytes:[(NSData *)body bytes] length:[(NSData *)body length] encoding:NSUTF8StringEncoding];
+			[(*response) setRequestData:body];
+            if (_method != MTPocketMethodFILE) {
+                NSString *requestText = [[NSString alloc] initWithBytes:[(NSData *)body bytes] length:[(NSData *)body length] encoding:NSUTF8StringEncoding];
+                [(*response) setRequestText:requestText];
+            }
 		}
+        
 		else {
 			NSData *bodyData = [body dataUsingEncoding:NSUTF8StringEncoding];
 			[request setHTTPBody:bodyData];
-			requestData		= bodyData;
-			requestString	= body;
+			[(*response) setRequestData:bodyData];
+            [(*response) setRequestText:body];
 		}
 
 	}
 
+    
 	// set username & password
 	if (_username || _password) {
 		NSString *username = _username ? _username : @"";
@@ -305,15 +532,69 @@
 		[headerDictionary addEntriesFromDictionary:@{ @"Authorization" : [NSString stringWithFormat:@"Basic %@", base64EncodedAuth] }];
     }
 
+
 	// set headers
 	[request setAllHTTPHeaderFields:headerDictionary];
+    [(*response) setRequestHeaders:headerDictionary];
+
 
 	// set timeout
 	if (_timeout)
 		[request setTimeoutInterval:_timeout];
 
+
+    // set properties on response
+    [(*response) setRequest:request];
+    (*response).isFileDownload = _fileDownloadPath != nil;
+
     return request;
 }
+
+
+
+#pragma mark - NSURLConnectionDelegate
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    [_response setError:error];
+    if (_failureHandler) _failureHandler(_response);
+}
+
+
+
+#pragma mark - NSURLConnectionDataDelegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response
+{
+    [_response setStatusCode:response.statusCode];
+    [_response setMIMEType:response.MIMEType];
+    [_response setExpectedContentLength:response.expectedContentLength];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [_mutableData appendData:data];
+    if (_downloadProgressHandler) {
+        NSNumber *loaded    = @([_mutableData length]);
+        NSNumber *total     = @(_response.expectedContentLength);
+        _downloadProgressHandler([loaded longLongValue], [total longLongValue]);
+    }
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    [_response setData:_mutableData];
+    [_response setFileDownloadedPath:_fileDownloadPath];
+
+    if (_response.success && _successHandler)       _successHandler(_response);
+    else if (!_response.success && _failureHandler) _failureHandler(_response);
+}
+
+- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
+{
+    if (_uploadProgressHandler) _uploadProgressHandler(totalBytesWritten, totalBytesExpectedToWrite);
+}
+
 
 
 @end

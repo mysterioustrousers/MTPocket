@@ -8,8 +8,6 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
-@interface MTPocketTests : SenTestCase
-
-@property (strong, nonatomic) NSURL *baseURL;
+@interface MTPocketTestsDELETE : SenTestCase
 
 @end
