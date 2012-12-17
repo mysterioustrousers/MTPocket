@@ -18,7 +18,7 @@
 - (void)testGetTEXT
 {
     MTPocketResponse *response = [MTPocketRequest requestForURL:BASE_URL
-                                                         format:MTPocketFormatHTML].synchronous;
+                                                         format:MTPocketFormatHTML].send;
 
 	STAssertNil(response.error, @"Error was not nil: %@", response.error);
 	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
@@ -33,7 +33,7 @@
                                                          format:MTPocketFormatHTML
                                                        username:UN
                                                        password:PW
-                                                           body:nil].synchronous;
+                                                           body:nil].send;
 
 	STAssertNil(response.error, nil);
 	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
@@ -44,7 +44,7 @@
 - (void)testGetJSON
 {
     MTPocketResponse *response = [MTPocketRequest requestForURL:STITCHES_URL
-                                                         format:MTPocketFormatJSON].synchronous;
+                                                         format:MTPocketFormatJSON].send;
 
 	STAssertNil(response.error, nil);
 	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
@@ -59,7 +59,7 @@
                                                          format:MTPocketFormatJSON
                                                        username:UN
                                                        password:PW
-                                                           body:nil].synchronous;
+                                                           body:nil].send;
 
 	STAssertNil(response.error, nil);
 	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
@@ -70,7 +70,7 @@
 - (void)testGetXML
 {
     MTPocketResponse *response = [MTPocketRequest requestForURL:STITCHES_URL
-                                                         format:MTPocketFormatXML].synchronous;
+                                                         format:MTPocketFormatXML].send;
 
 	STAssertNil(response.error, nil);
 	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
@@ -85,7 +85,7 @@
                                                          format:MTPocketFormatXML
                                                        username:UN
                                                        password:PW
-                                                           body:nil].synchronous;
+                                                           body:nil].send;
 
 	STAssertNil(response.error, nil);
 	STAssertTrue(response.status == MTPocketStatusSuccess, nil);

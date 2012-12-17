@@ -23,7 +23,7 @@
                                                          format:MTPocketFormatJSON
                                                        username:nil
                                                        password:nil
-                                                           body:@{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } }].synchronous;
+                                                           body:@{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } }].send;
 
 	STAssertNil(response.error, nil);
 	STAssertTrue(response.status == MTPocketStatusCreated, nil);
@@ -38,7 +38,7 @@
                                                          format:MTPocketFormatJSON
                                                        username:nil
                                                        password:nil
-                                                           body:@{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3, @"updated_at" : [NSDate date] } }].synchronous;
+                                                           body:@{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3, @"updated_at" : [NSDate date] } }].send;
 
 	STAssertNil(response.error, nil);
 	STAssertTrue(response.status == MTPocketStatusCreated, nil);
@@ -53,7 +53,7 @@
                                                          format:MTPocketFormatJSON
                                                        username:UN
                                                        password:PW
-                                                           body:@{ @"needle" : @{ @"sharpness" : @7, @"length" : @3 } }].synchronous;
+                                                           body:@{ @"needle" : @{ @"sharpness" : @7, @"length" : @3 } }].send;
 
 	STAssertNil(response.error, nil);
 	STAssertTrue(response.status == MTPocketStatusCreated, nil);
@@ -68,7 +68,7 @@
                                                          format:MTPocketFormatXML
                                                        username:nil
                                                        password:nil
-                                                           body:@{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } }].synchronous;
+                                                           body:@{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } }].send;
 
 	STAssertNil(response.error, nil);
 	STAssertTrue(response.status == MTPocketStatusCreated, nil);
@@ -83,7 +83,7 @@
                                                          format:MTPocketFormatXML
                                                        username:UN
                                                        password:PW
-                                                           body:@{ @"needle" : @{ @"sharpness" : @7, @"length" : @3 } }].synchronous;
+                                                           body:@{ @"needle" : @{ @"sharpness" : @7, @"length" : @3 } }].send;
 
 	STAssertNil(response.error, nil);
 	STAssertTrue(response.status == MTPocketStatusCreated, nil);

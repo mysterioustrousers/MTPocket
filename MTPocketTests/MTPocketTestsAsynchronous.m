@@ -23,50 +23,23 @@
 }
 
 
-- (void)testURLFormat
-{
-    NSURLConnection *connection = [MTPocketRequest requestForURL:BASE_URL format:MTPocketFormatHTML].asynchronous;
-    STAssertNotNil(connection, nil);
-}
 
-- (void)testURLMethodFormatBody
-{
-    NSURLConnection *connection = [MTPocketRequest requestForURL:BASE_URL
-                                                         method:MTPocketMethodGET
-                                                         format:MTPocketFormatHTML
-                                                           body:nil].asynchronous;
-
-    STAssertNotNil(connection, nil);
-}
-
-- (void)testURLMethodFormatUsernamePasswordBody
-{
-    NSURLConnection *connection = [MTPocketRequest requestForURL:NEEDLES_URL
-                                                         method:MTPocketMethodGET
-                                                         format:MTPocketFormatHTML
-                                                       username:UN
-                                                       password:PW
-                                                           body:nil].asynchronous;
-
-    STAssertNotNil(connection, nil);
-}
-
-- (void)testURLMethodFormatBodySuccessFailure
+- (void)testURLFormatSuccessFailure
 {
     __block BOOL successBlockCalled = NO;
     __block MTPocketResponse *response = nil;
 
 
-    NSURLConnection *connection = [MTPocketRequest requestForURL:BASE_URL
-                                                         method:MTPocketMethodGET
-                                                         format:MTPocketFormatHTML
-                                                           body:nil
-                                                        success:^(MTPocketResponse *successResponse) {
-                                                            response = successResponse;
-                                                            successBlockCalled = YES;
-                                                        } failure:^(MTPocketResponse *response) {
-                                                        }
-                                   ].asynchronous;
+    NSURLConnection *connection = [MTPocketAsyncRequest asyncRequestForURL:BASE_URL
+                                                                    method:MTPocketMethodGET
+                                                                    format:MTPocketFormatHTML
+                                                                      body:nil
+                                                                   success:^(MTPocketResponse *successResponse) {
+                                                                       response = successResponse;
+                                                                       successBlockCalled = YES;
+                                                                   } failure:^(MTPocketResponse *response) {
+                                                                   }
+                                   ].send;
 
     STAssertNotNil(connection, nil);
 
@@ -92,28 +65,107 @@
     STAssertNil(response.fileDownloadedPath, nil);
 }
 
-- (void)testURLMethodFormatBodyDownloadToFileNilDownloadProgressSuccessFailure
+- (void)testURLMethodFormatBodySuccessFailure
+{
+    __block BOOL successBlockCalled = NO;
+    __block MTPocketResponse *response = nil;
+
+
+    NSURLConnection *connection = [MTPocketAsyncRequest asyncRequestForURL:BASE_URL
+                                                                    method:MTPocketMethodGET
+                                                                    format:MTPocketFormatHTML
+                                                                      body:nil
+                                                                   success:^(MTPocketResponse *successResponse) {
+                                                                       response = successResponse;
+                                                                       successBlockCalled = YES;
+                                                                   } failure:^(MTPocketResponse *response) {
+                                                                   }
+                                   ].send;
+
+    STAssertNotNil(connection, nil);
+
+    STALL(!successBlockCalled)
+
+    STAssertTrue(response.success, nil);
+    STAssertTrue(response.status == MTPocketStatusSuccess, nil);
+    STAssertTrue(response.format == MTPocketFormatHTML, nil);
+    STAssertNotNil(response.body, nil);
+
+    STAssertNil(response.error, nil);
+    STAssertNotNil(response.request, nil);
+    STAssertNotNil(response.data, nil);
+    STAssertNotNil(response.text, nil);
+    STAssertNil(response.requestData, nil);
+    STAssertNil(response.requestText, nil);
+    STAssertTrue(response.statusCode == 200, nil);
+    STAssertNotNil(response.MIMEType, nil);
+    STAssertTrue(response.expectedContentLength > 0, nil);
+
+    STAssertTrue(successBlockCalled, nil);
+
+    STAssertNil(response.fileDownloadedPath, nil);
+}
+
+- (void)testURLMethodFormatUsernamePasswordBodySuccessFailure
+{
+    __block BOOL successBlockCalled = NO;
+    __block MTPocketResponse *response = nil;
+
+
+    NSURLConnection *connection = [MTPocketAsyncRequest asyncRequestForURL:BASE_URL
+                                                                    method:MTPocketMethodGET
+                                                                    format:MTPocketFormatHTML
+                                                                  username:UN
+                                                                  password:PW
+                                                                      body:nil
+                                                                   success:^(MTPocketResponse *successResponse) {
+                                                                       response = successResponse;
+                                                                       successBlockCalled = YES;
+                                                                   } failure:^(MTPocketResponse *response) {
+                                                                   }
+                                   ].send;
+
+    STAssertNotNil(connection, nil);
+
+    STALL(!successBlockCalled)
+
+    STAssertTrue(response.success, nil);
+    STAssertTrue(response.status == MTPocketStatusSuccess, nil);
+    STAssertTrue(response.format == MTPocketFormatHTML, nil);
+    STAssertNotNil(response.body, nil);
+
+    STAssertNil(response.error, nil);
+    STAssertNotNil(response.request, nil);
+    STAssertNotNil(response.data, nil);
+    STAssertNotNil(response.text, nil);
+    STAssertNil(response.requestData, nil);
+    STAssertNil(response.requestText, nil);
+    STAssertTrue(response.statusCode == 200, nil);
+    STAssertNotNil(response.MIMEType, nil);
+    STAssertTrue(response.expectedContentLength > 0, nil);
+
+    STAssertTrue(successBlockCalled, nil);
+
+    STAssertNil(response.fileDownloadedPath, nil);
+}
+
+- (void)testURLDownloadProgressSuccessFailure
 {
     __block BOOL successBlockCalled = NO;
     __block BOOL downloadProgressCalled = YES;
     __block MTPocketResponse *response = nil;
 
-    NSURLConnection *connection = [MTPocketRequest requestForURL:BASE_URL
-                                                         method:MTPocketMethodGET
-                                                         format:MTPocketFormatHTML
-                                                           body:nil
-                                                 downloadToFile:nil
-                                               downloadProgress:^(long long bytesLoaded, long long bytesTotal) {
-                                                   downloadProgressCalled = YES;
-                                               }
-                                                        success:^(MTPocketResponse *successResponse) {
-                                                            response = successResponse;
-                                                            successBlockCalled = YES;
-                                                        }
-                                                        failure:^(MTPocketResponse *response) {
-
-                                                        }
-                                  ].asynchronous;
+    NSURLConnection *connection = [MTPocketAsyncRequest asyncRequestForURL:BASE_URL
+                                                          downloadProgress:^(long long bytesLoaded, long long bytesTotal) {
+                                                              downloadProgressCalled = YES;
+                                                          }
+                                                                   success:^(MTPocketResponse *successResponse) {
+                                                                       response = successResponse;
+                                                                       successBlockCalled = YES;
+                                                                   }
+                                                                   failure:^(MTPocketResponse *response) {
+                                                                   }
+                                   ].send;
 
     STAssertNotNil(connection, nil);
 
@@ -141,7 +193,7 @@
 
 }
 
-- (void)testURLMethodFormatBodyDownloadToFileDownloadProgressSuccessFailure
+- (void)testURLDestinationPathDownloadProgressSuccessFailure
 {
     __block BOOL successBlockCalled = NO;
     __block BOOL downloadProgressCalled = NO;
@@ -149,24 +201,20 @@
 
     NSString *location = [DOCS_DIR stringByAppendingPathComponent:@"test.mp3"];
 
-    NSURLConnection *connection = [MTPocketRequest requestForURL:DOWNLOAD_FILE_URL
-                                                         method:MTPocketMethodGET
-                                                         format:MTPocketFormatHTML
-                                                           body:nil
-                                                 downloadToFile:location
-                                               downloadProgress:^(long long bytesLoaded, long long bytesTotal) {
-                                                   downloadProgressCalled = YES;
-//                                                   NSLog(@"downloading: %@/%@", @(bytesLoaded), @(bytesTotal));
-                                               }
-                                                        success:^(MTPocketResponse *successResponse) {
-                                                            response = successResponse;
-                                                            successBlockCalled = YES;
-                                                        }
-                                                        failure:^(MTPocketResponse *response) {
-
-                                                        }
-                                  ].asynchronous;
-
+    NSURLConnection *connection = [MTPocketAsyncRequest asyncRequestForURL:DOWNLOAD_FILE_URL
+                                                           destinationPath:location
+                                                          downloadProgress:^(long long bytesLoaded, long long bytesTotal) {
+                                                              downloadProgressCalled = YES;
+                                                              // NSLog(@"downloading: %@/%@", @(bytesLoaded), @(bytesTotal));
+                                                          }
+                                                                   success:^(MTPocketResponse *successResponse) {
+                                                                       response = successResponse;
+                                                                       successBlockCalled = YES;
+                                                                   }
+                                                                   failure:^(MTPocketResponse *response) {
+                                                                   }
+                                   ].send;
+    
     STAssertNotNil(connection, nil);
 
     STALL(!successBlockCalled)
@@ -194,7 +242,7 @@
     STAssertTrue([MANAGER fileExistsAtPath:response.fileDownloadedPath], nil);
 }
 
-- (void)testURLMethodFormatBodyUploadFilenameUploadFormFieldUploadMIMETypeUploadProgressSuccessFailure
+- (void)testURLBodyUploadFilenameUploadFormFieldUploadMIMEtypeUploadProgressSuccessFailure
 {
     __block BOOL successBlockCalled = NO;
     __block BOOL uploadProgressCalled = NO;
@@ -206,25 +254,23 @@
     NSData *fileData = [NSData dataWithContentsOfFile:imagePath options:0 error:&error];
     STAssertNil(error, nil);
 
-    NSURLConnection *connection = [MTPocketRequest requestForURL:UPLOAD_FILE_URL
-                                                         method:MTPocketMethodFILE
-                                                         format:MTPocketFormatJSON
-                                                           body:fileData
-                                                 uploadFilename:@"test.jpg"
-                                                uploadFormField:@"files[]"
-                                                 uploadMIMEType:@"image/jpeg"
-                                                 uploadProgress:^(long long bytesLoaded, long long bytesTotal) {
-                                                     uploadProgressCalled = YES;
-//                                                     NSLog(@"uploading: %@/%@", @(bytesLoaded), @(bytesTotal));
-                                                 }
-                                                        success:^(MTPocketResponse *successResponse) {
-                                                            response = successResponse;
-                                                            successBlockCalled = YES;
-                                                        }
-                                                        failure:^(MTPocketResponse *response) {
-
-                                                        }
-                                  ].asynchronous;
+    NSURLConnection *connection = [MTPocketAsyncRequest asyncRequestForURL:UPLOAD_FILE_URL
+                                                                    format:MTPocketFormatJSON
+                                                                      body:fileData
+                                                            uploadFilename:@"test.jpg"
+                                                           uploadFormField:@"files[]"
+                                                            uploadMIMEType:@"image/jpeg"
+                                                            uploadProgress:^(long long bytesLoaded, long long bytesTotal) {
+                                                                uploadProgressCalled = YES;
+                                                                // NSLog(@"uploading: %@/%@", @(bytesLoaded), @(bytesTotal));
+                                                            }
+                                                                   success:^(MTPocketResponse *successResponse) {
+                                                                       response = successResponse;
+                                                                       successBlockCalled = YES;
+                                                                   }
+                                                                   failure:^(MTPocketResponse *response) {
+                                                                   }
+                                   ].send;
 
 
     STAssertNotNil(connection, nil);
@@ -261,22 +307,62 @@
 
 #pragma mark - failures
 
+- (void)test_FLUNK_URLFormatSuccessFailure
+{
+    __block BOOL failureBlockCalled = NO;
+    __block MTPocketResponse *response = nil;
+
+    NSURLConnection *connection = [MTPocketAsyncRequest asyncRequestForURL:BAD_URL
+                                                                    format:MTPocketFormatHTML
+                                                                   success:^(MTPocketResponse *response) {
+                                                                   }
+                                                                   failure:^(MTPocketResponse *failureResponse) {
+                                                                       response = failureResponse;
+                                                                       failureBlockCalled = YES;
+                                                                   }
+                                   ].send;
+
+    STAssertNotNil(connection, nil);
+
+    STALL(!failureBlockCalled)
+
+    STAssertNotNil(response, nil);
+    STAssertFalse(response.success, nil);
+    STAssertTrue(response.status == MTPocketStatusNotFound, nil);
+    STAssertTrue(response.format == MTPocketFormatHTML, nil);
+    STAssertNotNil(response.body, nil);
+
+    STAssertNil(response.error, nil);
+    STAssertNotNil(response.request, nil);
+    STAssertNotNil(response.data, nil);
+    STAssertNotNil(response.text, nil);
+    STAssertNil(response.requestData, nil);
+    STAssertNil(response.requestText, nil);
+    STAssertTrue(response.statusCode == 404, nil);
+    STAssertNotNil(response.MIMEType, nil);
+    STAssertTrue(response.expectedContentLength > 0, nil);
+
+    STAssertTrue(failureBlockCalled, nil);
+
+    STAssertNil(response.fileDownloadedPath, nil);
+}
+
 - (void)test_FLUNK_URLMethodFormatBodySuccessFailure
 {
     __block BOOL failureBlockCalled = NO;
     __block MTPocketResponse *response = nil;
 
-    NSURLConnection *connection = [MTPocketRequest requestForURL:BAD_URL
-                                                         method:MTPocketMethodGET
-                                                         format:MTPocketFormatHTML
-                                                           body:nil
-                                                        success:^(MTPocketResponse *response) {
-                                                        }
-                                                        failure:^(MTPocketResponse *failureResponse) {
-                                                            response = failureResponse;
-                                                            failureBlockCalled = YES;
-                                                        }
-                                  ].asynchronous;
+    NSURLConnection *connection = [MTPocketAsyncRequest asyncRequestForURL:BAD_URL
+                                                                    method:MTPocketMethodGET
+                                                                    format:MTPocketFormatHTML
+                                                                      body:nil
+                                                                   success:^(MTPocketResponse *response) {
+                                                                   }
+                                                                   failure:^(MTPocketResponse *failureResponse) {
+                                                                       response = failureResponse;
+                                                                       failureBlockCalled = YES;
+                                                                   }
+                                   ].send;
 
     STAssertNotNil(connection, nil);
 
@@ -304,7 +390,7 @@
 }
 
 
-- (void)test_FLUNK_URLMethodFormatBodyDownloadToFileDownloadProgressSuccessFailure
+- (void)test_FLUNK_URLDestinationPathDownloadProgressSuccessFailure
 {
     __block BOOL failureBlockCalled = NO;
     __block BOOL downloadProgressCalled = NO;
@@ -312,21 +398,18 @@
 
     NSString *location = [DOCS_DIR stringByAppendingPathComponent:@"flunk/test.mp3"];
 
-    NSURLConnection *connection = [MTPocketRequest requestForURL:DOWNLOAD_FILE_URL
-                                                         method:MTPocketMethodGET
-                                                         format:MTPocketFormatHTML
-                                                           body:nil
-                                                 downloadToFile:location
-                                               downloadProgress:^(long long bytesLoaded, long long bytesTotal) {
-                                                   downloadProgressCalled = YES;
-                                               }
-                                                        success:^(MTPocketResponse *response) {
-                                                        }
-                                                        failure:^(MTPocketResponse *failureResponse) {
-                                                            response = failureResponse;
-                                                            failureBlockCalled = YES;
-                                                        }
-                                  ].asynchronous;
+    NSURLConnection *connection = [MTPocketAsyncRequest asyncRequestForURL:DOWNLOAD_FILE_URL
+                                                           destinationPath:location
+                                                          downloadProgress:^(long long bytesLoaded, long long bytesTotal) {
+                                                              downloadProgressCalled = YES;
+                                                          }
+                                                                   success:^(MTPocketResponse *response) {
+                                                                   }
+                                                                   failure:^(MTPocketResponse *failureResponse) {
+                                                                       response = failureResponse;
+                                                                       failureBlockCalled = YES;
+                                                                   }
+                                   ].send;
 
     STAssertNotNil(connection, nil);
 
@@ -356,7 +439,7 @@
 }
 
 
-- (void)test_FLUNK_URLMethodFormatBodyUploadFilenameUploadFormFieldUploadMIMETypeUploadProgressSuccessFailure
+- (void)test_FLUNK_URLBodyUploadFilenameUploadFormFieldUploadMIMETypeUploadProgressSuccessFailure
 {
     __block BOOL failureBlockCalled = NO;
     __block BOOL uploadProgressCalled = NO;
@@ -368,23 +451,23 @@
     NSData *fileData = [NSData dataWithContentsOfFile:imagePath options:0 error:&error];
     STAssertNil(error, nil);
 
-    NSURLConnection *connection = [MTPocketRequest requestForURL:UPLOAD_FILE_URL
-                                                         method:MTPocketMethodPOST
-                                                         format:MTPocketFormatJSON
-                                                           body:fileData
-                                                 uploadFilename:@"test.jpg"
-                                                uploadFormField:@"files[]"
-                                                 uploadMIMEType:@"image/jpeg"
-                                                 uploadProgress:^(long long bytesLoaded, long long bytesTotal) {
-                                                     uploadProgressCalled = YES;
-                                                 }
-                                                        success:^(MTPocketResponse *response) {
-                                                        }
-                                                        failure:^(MTPocketResponse *failureResponse) {
-                                                            response = failureResponse;
-                                                            failureBlockCalled = YES;
-                                                        }
-                                  ].asynchronous;
+    NSURLConnection *connection = [MTPocketAsyncRequest asyncRequestForURL:BAD_URL
+                                                                    format:MTPocketFormatJSON
+                                                                      body:fileData
+                                                            uploadFilename:@"test.jpg"
+                                                           uploadFormField:@"files[]"
+                                                            uploadMIMEType:@"image/jpeg"
+                                                            uploadProgress:^(long long bytesLoaded, long long bytesTotal) {
+                                                                uploadProgressCalled = YES;
+                                                            }
+                                                                   success:^(MTPocketResponse *response) {
+                                                                       NSLog(@"%@", response);
+                                                                   }
+                                                                   failure:^(MTPocketResponse *failureResponse) {
+                                                                       response = failureResponse;
+                                                                       failureBlockCalled = YES;
+                                                                   }
+                                   ].send;
 
     STAssertNotNil(connection, nil);
 
@@ -392,7 +475,7 @@
 
     STAssertNotNil(response, nil);
     STAssertFalse(response.success, nil);
-    STAssertTrue(response.status == MTPocketStatusServerError, nil);
+    STAssertTrue(response.status == MTPocketStatusNotFound, nil);
     STAssertTrue(response.format == MTPocketFormatJSON, nil);
     STAssertNil(response.body, nil);
 
@@ -402,9 +485,9 @@
     STAssertNotNil(response.text, nil);
     STAssertNotNil(response.requestData, nil);
     STAssertNil(response.requestText, nil);
-    STAssertTrue(response.statusCode == 500, nil);
+    STAssertTrue(response.statusCode == 404, nil);
     STAssertNotNil(response.MIMEType, nil);
-    STAssertFalse(response.expectedContentLength > 0, nil);
+    STAssertTrue(response.expectedContentLength > 0, nil);
     
     STAssertTrue(failureBlockCalled, nil);
     STAssertTrue(uploadProgressCalled, nil);

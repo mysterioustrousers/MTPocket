@@ -18,7 +18,7 @@ SUPER easy to use, see examples below.
 	- a status property with common status codes mapped to easy to remember/autocompleted enums.
 	- the format the response is in (JSON/XML/TEXT).
 2. It allows you to have fine grained control, if you want it, or you can use convenience methods.
-3. It allows you to either call it synchronously so you can control what queue its on, which I like, or asynchronously on a global queue, if you don't care.
+3. It allows you to either call it synchronously so you can control what queue its on, which I like, or asynchronously if you want to monitor progress, etc.
 4. It's dead simple, two simple components, a request and response object.
 5. The enums help a lot and clearly imply your options.
 6. Easily upload files as multipart/form-data.
@@ -39,7 +39,7 @@ NOTE: You may need to add `-all_load` to "Other Linker Flags" in your targets bu
 
 Let's start simple:
 
-	MTPocketResponse *response = [MTPocketRequest requestForURL:URL format:MTPocketFormatHTML].synchronous;
+	MTPocketResponse *response = [MTPocketRequest requestForURL:URL format:MTPocketFormatHTML].send;
 	
 	if (response.success) {
 		// yeah!
@@ -57,7 +57,7 @@ Next steps:
                                                          format:MTPocketFormatJSON
                                                        username:@"username"
                                                        password:@"password"
-                                                           body:nil].synchronous;
+                                                           body:nil].send;
 														
 	if (response.success) {
 		NSLog(@"%@", [[response.body firstObject] objectForKey:@"thread_color"]); // => red
@@ -74,89 +74,85 @@ Post to the server:
                                                           format:MTPocketFormatJSON
                                                         username:nil
                                                         password:nil
-                                                            body:dict].synchronous;
+                                                            body:dict].send;
 
 An easy async example:
 
-	NSURLConnection *connection = [MTPocketRequest requestForURL:BASE_URL
-                                                         method:MTPocketMethodGET
-                                                         format:MTPocketFormatHTML
-                                                           body:nil
-                                                        success:^(MTPocketResponse *response) {
-                                                            NSLog(@"%@", response.body);
-                                                        } failure:^(MTPocketResponse *response) {
-															NSLog(@"%@", response.error);
-                                                        }].asynchronous;
+    NSURLConnection *connection = [MTPocketAsyncRequest asyncRequestForURL:BASE_URL
+                                                                    method:MTPocketMethodGET
+                                                                    format:MTPocketFormatHTML
+                                                                      body:nil
+                                                                   success:^(MTPocketResponse *successResponse) {
+																		NSLog(@"%@", response.body);
+                                                                   } failure:^(MTPocketResponse *response) {
+																	   	NSLog(@"%@", response.error);
+                                                                   }
+                                   ].send;
 
 Let's monitor the progress of a large request:
 
-	NSURLConnection *connection = [MTPocketRequest requestForURL:BASE_URL
-                                                         method:MTPocketMethodGET
-                                                         format:MTPocketFormatHTML
-                                                           body:nil
-                                                 downloadToFile:nil
-                                               downloadProgress:^(long long bytesLoaded, long long bytesTotal) {
-                                                   NSLog(@"%@/%@", @(bytesLoaded), @(bytesTotal));
-                                               }
-                                                        success:^(MTPocketResponse *response) {
-															NSLog(@"%@", response.body);
-                                                        }
-                                                        failure:^(MTPocketResponse *response) {
-															NSLog(@"%@", response.error);
-                                                        }].asynchronous;
+	NSURLConnection *connection = [MTPocketAsyncRequest asyncRequestForURL:BASE_URL
+                                                          downloadProgress:^(long long bytesLoaded, long long bytesTotal) {
+                                                              NSLog(@"%@/%@", @(bytesLoaded), @(bytesTotal));
+                                                          }
+                                                                   success:^(MTPocketResponse *successResponse) {
+                                                                       NSLog(@"%@", response.body);
+                                                                   }
+                                                                   failure:^(MTPocketResponse *response) {
+																		NSLog(@"%@", response.error);
+                                                                   }
+                                   ].send;
 
 Easy enough, now let's download a file and save it to disk:
 
-	    NSString *location = [DOCS_DIR stringByAppendingPathComponent:@"test.mp3"];
-		
-	    NSURLConnection *connection = [MTPocketRequest requestForURL:DOWNLOAD_FILE_URL
-	                                                         method:MTPocketMethodGET
-	                                                         format:MTPocketFormatHTML
-	                                                           body:nil
-	                                                 downloadToFile:location
-	                                               downloadProgress:^(long long bytesLoaded, long long bytesTotal) {
-														NSLog(@"%@/%@", @(bytesLoaded), @(bytesTotal));
-	                                               }
-	                                                        success:^(MTPocketResponse *successResponse) {
-	                                                            NSLog(@"%@", response.body);
-	                                                        }
-	                                                        failure:^(MTPocketResponse *response) {
-																NSLog(@"%@", response.error);
-	                                                        }].asynchronous;
+	NSString *location = [DOCS_DIR stringByAppendingPathComponent:@"test.mp3"];
+
+    NSURLConnection *connection = [MTPocketAsyncRequest asyncRequestForURL:DOWNLOAD_FILE_URL
+                                                           destinationPath:location
+                                                          downloadProgress:^(long long bytesLoaded, long long bytesTotal) {
+                                                              NSLog(@"%@/%@", @(bytesLoaded), @(bytesTotal));
+                                                          }
+                                                                   success:^(MTPocketResponse *successResponse) {
+                                                                       NSLog(@"%@", response.body);
+                                                                   }
+                                                                   failure:^(MTPocketResponse *response) {
+																		NSLog(@"%@", response.error);
+                                                                   }
+                                   ].send;
 
 Ok, now this is cool, because normally it would be a lot of work:
 
-		NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"jpg"];
-	    NSData *fileData = [NSData dataWithContentsOfFile:imagePath];
-		
-	    NSURLConnection *connection = [MTPocketRequest requestForURL:UPLOAD_FILE_URL
-	                                                         method:MTPocketMethodFILE
-	                                                         format:MTPocketFormatJSON
-	                                                           body:fileData
-	                                                 uploadFilename:@"test.jpg"
-	                                                uploadFormField:@"files[]"
-	                                                 uploadMIMEType:@"image/jpeg"
-	                                                 uploadProgress:^(long long bytesLoaded, long long bytesTotal) {
-														NSLog(@"%@/%@", @(bytesLoaded), @(bytesTotal));
-	                                                 }
-	                                                        success:^(MTPocketResponse *successResponse) {
-																NSLog(@"%@", response.body);
-	                                                        }
-	                                                        failure:^(MTPocketResponse *response) {
-																NSLog(@"%@", response.error);
-	                                                        }].asynchronous;
+	NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"jpg"];
+    NSData *fileData = [NSData dataWithContentsOfFile:imagePath];
+	
+    NSURLConnection *connection = [MTPocketAsyncRequest asyncRequestForURL:UPLOAD_FILE_URL
+                                                                    format:MTPocketFormatJSON
+                                                                      body:fileData
+                                                            uploadFilename:@"test.jpg"
+                                                           uploadFormField:@"files[]"
+                                                            uploadMIMEType:@"image/jpeg"
+                                                            uploadProgress:^(long long bytesLoaded, long long bytesTotal) {
+	                                                              NSLog(@"%@/%@", @(bytesLoaded), @(bytesTotal));
+                                                            }
+                                                                   success:^(MTPocketResponse *successResponse) {
+                                                                       NSLog(@"%@", response.body);
+                                                                   }
+                                                                   failure:^(MTPocketResponse *response) {
+																		NSLog(@"%@", response.error);
+                                                                   }
+                                   ].send;
 
 That's just the standard stuff. say you want to cook your own totally custom request:
 
-	MTPocketRequest *request = [MTPocketRequest requestForURL:BASE_URL
-                                                       method:MTPocketMethodGET
-                                                       format:MTPocketFormatHTML
-                                                         body:nil
-                                                      success:^(MTPocketResponse *response) {
-                                                          NSLog(@"%@", response.body);
-                                                    } failure:^(MTPocketResponse *response) {
-														NSLog(@"%@", response.error);
-                                                    }];
+	NSURLConnection *connection = [MTPocketAsyncRequest asyncRequestForURL:BASE_URL
+                                                                    method:MTPocketMethodGET
+                                                                    format:MTPocketFormatHTML
+                                                                      body:nil
+                                                                   success:^(MTPocketResponse *successResponse) {
+				                                                          NSLog(@"%@", response.body);
+                                                                   } failure:^(MTPocketResponse *response) {
+																		NSLog(@"%@", response.error);
+                                                                   }];
 													
 	request.username = @"custom";
 	request.password = @"request";
@@ -164,7 +160,7 @@ That's just the standard stuff. say you want to cook your own totally custom req
 	request.timeout = 15; // seconds
 	
 	// then fire it off (this is different than above where we create the request and fire it off at the same time).
-	NSURLConnection *connection = [request asynchronous];
+	NSURLConnection *connection = [request send];
 
 ### Screenshots
 
@@ -202,7 +198,6 @@ Printing the body of the response:
 	typedef enum {
 		MTPocketMethodGET,
 		MTPocketMethodPOST,
-		MTPocketMethodFILE,     // Will POST the body (file) data and set the content type as multipart/form-data. Body must be NSData.
 		MTPocketMethodPUT,
 		MTPocketMethodDELETE
 	} MTPocketMethod;
@@ -217,15 +212,6 @@ Printing the body of the response:
 	@property (strong, nonatomic)	id              body;                                           // Can be an NSDictionary, NSArray, NSString, NSData, or nil
 	@property (strong, nonatomic)	NSDictionary    *headers;                                       // (optional)
 	@property (        nonatomic)	NSTimeInterval  timeout;                                        // (optional)
-	@property (strong, nonatomic)   void            (^uploadProgressHandler)(long long bytesLoaded, long long bytesTotal);      // only called with asynchronous
-	@property (strong, nonatomic)   void            (^downloadProgressHandler)(long long bytesLoaded, long long bytesTotal);    // only called with asynchronous
-	@property (strong, nonatomic)   void            (^successHandler)(MTPocketResponse *response);
-	@property (strong, nonatomic)   void            (^failureHandler)(MTPocketResponse *response);
-	
-	@property (strong, nonatomic)   NSString        *fileDownloadPath;                              // If not nil, it will download the contents to a file at this location
-	@property (strong, nonatomic)   NSString        *fileUploadTitle;                               // The filename of the file being uploaded.
-	@property (strong, nonatomic)   NSString        *fileUploadFormField;                           // The name of the form field this file is being uploaded with.
-	@property (strong, nonatomic)   NSString        *fileUploadMIMEType;                            // The Content-Type of the file being uploaded.
 
 ### The Response Object
 

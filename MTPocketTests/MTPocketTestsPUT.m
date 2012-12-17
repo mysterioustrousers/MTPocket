@@ -22,7 +22,7 @@
                                                            format:MTPocketFormatJSON
                                                          username:nil
                                                          password:nil
-                                                             body:@{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } }].synchronous;
+                                                             body:@{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } }].send;
 	NSInteger jsonId				= [[idresponse.body objectForKey:@"id"] intValue];
 
 	NSString *path					= [NSString stringWithFormat:@"stitches/%d", jsonId];
@@ -31,7 +31,7 @@
                                                           format:MTPocketFormatJSON
                                                         username:nil
                                                         password:nil
-                                                            body:@{ @"stitch" : @{ @"thread_color" : @"red", @"length" : @2 } }].synchronous;
+                                                            body:@{ @"stitch" : @{ @"thread_color" : @"red", @"length" : @2 } }].send;
 
 	STAssertNil(response.error, nil);
 	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
@@ -46,7 +46,7 @@
                                                            format:MTPocketFormatJSON
                                                          username:UN
                                                          password:PW
-                                                             body:@{ @"needle" : @{ @"sharpness" : @7, @"length" : @3 } }].synchronous;
+                                                             body:@{ @"needle" : @{ @"sharpness" : @7, @"length" : @3 } }].send;
 	NSInteger jsonId				= [[idresponse.body objectForKey:@"id"] intValue];
 
 	NSString *path					= [NSString stringWithFormat:@"needles/%d", jsonId];
@@ -55,7 +55,7 @@
                                                           format:MTPocketFormatJSON
                                                         username:UN
                                                         password:PW
-                                                            body:@{ @"needle" : @{ @"sharpness" : @1, @"length" : @1 } }].synchronous;
+                                                            body:@{ @"needle" : @{ @"sharpness" : @1, @"length" : @1 } }].send;
 
 	STAssertNil(response.error, nil);
 	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
@@ -70,7 +70,7 @@
                                                            format:MTPocketFormatXML
                                                          username:nil
                                                          password:nil
-                                                             body:@{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } }].synchronous;
+                                                             body:@{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } }].send;
 	NSInteger xmlId					= [[idresponse.body valueForKeyPath:@"id.@innerText"] intValue];
 
 	NSString *path					= [NSString stringWithFormat:@"stitches/%d", xmlId];
@@ -79,7 +79,7 @@
                                                           format:MTPocketFormatXML
                                                         username:nil
                                                         password:nil
-                                                            body:@{ @"stitch" : @{ @"thread_color" : @"red", @"length" : @2 } }].synchronous;
+                                                            body:@{ @"stitch" : @{ @"thread_color" : @"red", @"length" : @2 } }].send;
 
 	STAssertNil(response.error, nil);
 	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
@@ -94,7 +94,7 @@
                                                            format:MTPocketFormatXML
                                                          username:UN
                                                          password:PW
-                                                             body:@{ @"needle" : @{ @"sharpness" : @7, @"length" : @3 } }].synchronous;
+                                                             body:@{ @"needle" : @{ @"sharpness" : @7, @"length" : @3 } }].send;
 	NSInteger xmlId					= [[idresponse.body valueForKeyPath:@"id.@innerText"] intValue];
 
 	NSString *path					= [NSString stringWithFormat:@"needles/%d", xmlId];
@@ -103,7 +103,7 @@
                                                           format:MTPocketFormatXML
                                                         username:UN
                                                         password:PW
-                                                            body:@{ @"needle" : @{ @"sharpness" : @2, @"length" : @1 } }].synchronous;
+                                                            body:@{ @"needle" : @{ @"sharpness" : @2, @"length" : @1 } }].send;
 
 	STAssertNil(response.error, nil);
 	STAssertTrue(response.status == MTPocketStatusSuccess, nil);

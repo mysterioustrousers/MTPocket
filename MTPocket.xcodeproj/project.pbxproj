@@ -14,13 +14,15 @@
 		C285AC31167C0B510046B98B /* MTPocketTestsSynchronous.m in Sources */ = {isa = PBXBuildFile; fileRef = C285AC30167C0B510046B98B /* MTPocketTestsSynchronous.m */; };
 		C2BAEAA115CD91F500838B54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEAA015CD91F500838B54 /* Foundation.framework */; };
 		C2BAEAA615CD91F500838B54 /* MTPocket.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = C2BAEAA515CD91F500838B54 /* MTPocket.h */; };
-		C2BAEAA815CD91F500838B54 /* MTPocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BAEAA715CD91F500838B54 /* MTPocket.m */; };
 		C2BAEAB015CD91F500838B54 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEAAF15CD91F500838B54 /* SenTestingKit.framework */; };
 		C2BAEAB215CD91F500838B54 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEAB115CD91F500838B54 /* UIKit.framework */; };
 		C2BAEAB315CD91F500838B54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEAA015CD91F500838B54 /* Foundation.framework */; };
 		C2BAEAB615CD91F500838B54 /* libMTPocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEA9D15CD91F500838B54 /* libMTPocket.a */; };
 		C2BAEABC15CD91F500838B54 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C2BAEABA15CD91F500838B54 /* InfoPlist.strings */; };
 		C2BAEABF15CD91F500838B54 /* MTPocketTestsDELETE.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BAEABE15CD91F500838B54 /* MTPocketTestsDELETE.m */; };
+		C2BE8628167F6BD300051C97 /* MTPocketRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BE8627167F6BD300051C97 /* MTPocketRequest.m */; };
+		C2BE862C167F6BE800051C97 /* MTPocketAsyncRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BE862B167F6BE800051C97 /* MTPocketAsyncRequest.m */; };
+		C2BE862F167F6C0200051C97 /* MTPocketResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BE862E167F6C0200051C97 /* MTPocketResponse.m */; };
 		C2FAD7D5167C388E0046E550 /* MTPocketTestsAsynchronous.m in Sources */ = {isa = PBXBuildFile; fileRef = C2FAD7D4167C388E0046E550 /* MTPocketTestsAsynchronous.m */; };
 		C2FAD7D7167C671C0046E550 /* test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C2FAD7D6167C671C0046E550 /* test.jpg */; };
 /* End PBXBuildFile section */
@@ -63,7 +65,6 @@
 		C2BAEAA015CD91F500838B54 /* Foundation.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C2BAEAA415CD91F500838B54 /* MTPocket-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MTPocket-Prefix.pch"; sourceTree = "<group>"; };
 		C2BAEAA515CD91F500838B54 /* MTPocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTPocket.h; sourceTree = "<group>"; };
-		C2BAEAA715CD91F500838B54 /* MTPocket.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTPocket.m; sourceTree = "<group>"; };
 		C2BAEAAE15CD91F500838B54 /* MTPocketTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MTPocketTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2BAEAAF15CD91F500838B54 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		C2BAEAB115CD91F500838B54 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -71,6 +72,13 @@
 		C2BAEABB15CD91F500838B54 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C2BAEABD15CD91F500838B54 /* MTPocketTestsDELETE.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTPocketTestsDELETE.h; sourceTree = "<group>"; };
 		C2BAEABE15CD91F500838B54 /* MTPocketTestsDELETE.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTPocketTestsDELETE.m; sourceTree = "<group>"; };
+		C2BE8626167F6BD300051C97 /* MTPocketRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPocketRequest.h; sourceTree = "<group>"; };
+		C2BE8627167F6BD300051C97 /* MTPocketRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPocketRequest.m; sourceTree = "<group>"; };
+		C2BE862A167F6BE800051C97 /* MTPocketAsyncRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPocketAsyncRequest.h; sourceTree = "<group>"; };
+		C2BE862B167F6BE800051C97 /* MTPocketAsyncRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPocketAsyncRequest.m; sourceTree = "<group>"; };
+		C2BE862D167F6C0200051C97 /* MTPocketResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPocketResponse.h; sourceTree = "<group>"; };
+		C2BE862E167F6C0200051C97 /* MTPocketResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPocketResponse.m; sourceTree = "<group>"; };
+		C2BE8630167F72D800051C97 /* private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = private.h; sourceTree = "<group>"; };
 		C2FAD7D3167C388E0046E550 /* MTPocketTestsAsynchronous.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPocketTestsAsynchronous.h; sourceTree = "<group>"; };
 		C2FAD7D4167C388E0046E550 /* MTPocketTestsAsynchronous.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPocketTestsAsynchronous.m; sourceTree = "<group>"; };
 		C2FAD7D6167C671C0046E550 /* test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test.jpg; sourceTree = "<group>"; };
@@ -136,7 +144,13 @@
 			isa = PBXGroup;
 			children = (
 				C2BAEAA515CD91F500838B54 /* MTPocket.h */,
-				C2BAEAA715CD91F500838B54 /* MTPocket.m */,
+				C2BE8626167F6BD300051C97 /* MTPocketRequest.h */,
+				C2BE8627167F6BD300051C97 /* MTPocketRequest.m */,
+				C2BE862A167F6BE800051C97 /* MTPocketAsyncRequest.h */,
+				C2BE862B167F6BE800051C97 /* MTPocketAsyncRequest.m */,
+				C2BE862D167F6C0200051C97 /* MTPocketResponse.h */,
+				C2BE862E167F6C0200051C97 /* MTPocketResponse.m */,
+				C2BE8630167F72D800051C97 /* private.h */,
 				C2BAEAA315CD91F500838B54 /* Supporting Files */,
 			);
 			path = MTPocket;
@@ -295,7 +309,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2BAEAA815CD91F500838B54 /* MTPocket.m in Sources */,
+				C2BE8628167F6BD300051C97 /* MTPocketRequest.m in Sources */,
+				C2BE862C167F6BE800051C97 /* MTPocketAsyncRequest.m in Sources */,
+				C2BE862F167F6C0200051C97 /* MTPocketResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
