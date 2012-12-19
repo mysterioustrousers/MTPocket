@@ -8,6 +8,7 @@ Pod::Spec.new do |s|
   s.author       = { "Adam Kirk" => "atomkirk@gmail.com" }
   s.source       = { :git => "https://github.com/mysterioustrousers/MTPocket.git", :tag => "0.8.1" }
   s.source_files = 'MTPocket/*.{h,m}'
+  s.public_header_files = 'MTPocket/MTPocketRequest.h', 'MTPocket/MTPocketAsyncRequest.h', 'MTPocket/MTPocketResponse.h'
   s.dependency 'XMLDictionary', '~> 2.0.0'
   s.dependency 'MTJSONUtils', '~> 0.1.0'
   s.dependency 'Base64'
