@@ -7,7 +7,7 @@
 //
 
 #import "MTPocketAsyncRequest.h"
-#import "private.h"
+#import "mtpocket_private.h"
 
 
 @interface MTPocketAsyncRequest ()

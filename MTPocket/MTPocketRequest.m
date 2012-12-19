@@ -7,10 +7,10 @@
 //
 
 #import "MTPocketRequest.h"
-#import "private.h"
 #import <MF_Base64Additions.h>
 #import <NSObject+MTJSONUtils.h>
 #import <XMLDictionary.h>
+#import "mtpocket_private.h"
 
 
 

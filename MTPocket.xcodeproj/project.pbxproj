@@ -78,7 +78,7 @@
 		C2BE862B167F6BE800051C97 /* MTPocketAsyncRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPocketAsyncRequest.m; sourceTree = "<group>"; };
 		C2BE862D167F6C0200051C97 /* MTPocketResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPocketResponse.h; sourceTree = "<group>"; };
 		C2BE862E167F6C0200051C97 /* MTPocketResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPocketResponse.m; sourceTree = "<group>"; };
-		C2BE8630167F72D800051C97 /* private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = private.h; sourceTree = "<group>"; };
+		C2BE8630167F72D800051C97 /* mtpocket_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mtpocket_private.h; sourceTree = "<group>"; };
 		C2FAD7D3167C388E0046E550 /* MTPocketTestsAsynchronous.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPocketTestsAsynchronous.h; sourceTree = "<group>"; };
 		C2FAD7D4167C388E0046E550 /* MTPocketTestsAsynchronous.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPocketTestsAsynchronous.m; sourceTree = "<group>"; };
 		C2FAD7D6167C671C0046E550 /* test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test.jpg; sourceTree = "<group>"; };
@@ -150,7 +150,7 @@
 				C2BE862B167F6BE800051C97 /* MTPocketAsyncRequest.m */,
 				C2BE862D167F6C0200051C97 /* MTPocketResponse.h */,
 				C2BE862E167F6C0200051C97 /* MTPocketResponse.m */,
-				C2BE8630167F72D800051C97 /* private.h */,
+				C2BE8630167F72D800051C97 /* mtpocket_private.h */,
 				C2BAEAA315CD91F500838B54 /* Supporting Files */,
 			);
 			path = MTPocket;
