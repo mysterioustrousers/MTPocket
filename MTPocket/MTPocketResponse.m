@@ -13,8 +13,8 @@
 
 
 
-
 @implementation MTPocketResponse
+
 
 - (id)init
 {
@@ -74,26 +74,6 @@
     }
 }
 
-- (void)setRequestData:(NSData *)requestData
-{
-    _requestData = requestData;
-}
-
-- (void)setRequestText:(NSString *)requestText
-{
-    _requestText = requestText;
-}
-
-- (void)setRequest:(NSURLRequest *)request
-{
-    _request = request;
-}
-
-- (void)setFormat:(MTPocketFormat)format
-{
-    _format = format;
-}
-
 - (void)setData:(NSData *)data
 {
     if (!data) {
@@ -121,21 +101,6 @@
         _body = [NSDictionary dictionaryWithXMLData:data];
 }
 
-- (void)setRequestHeaders:(NSDictionary *)requestHeaders
-{
-    _requestHeaders = requestHeaders;
-}
-
-- (void)setMIMEType:(NSString *)MIMEType
-{
-    _MIMEType = MIMEType;
-}
-
-- (void)setExpectedContentLength:(NSInteger)expectedContentLength
-{
-    _expectedContentLength = expectedContentLength;
-}
-
 - (void)setFileDownloadedPath:(NSString *)fileDownloadedPath
 {
     if (fileDownloadedPath && !_error && _success) {
@@ -152,7 +117,6 @@
     }
 }
 
+
 @end
-
-
 

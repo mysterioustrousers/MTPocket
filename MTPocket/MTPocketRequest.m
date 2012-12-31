@@ -78,11 +78,12 @@
 	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&httpURLResponse error:&error];
 
     // populate the response
-    [response setStatusCode:httpURLResponse.statusCode];
-    [response setError:error];
-    [response setData:data];
-    [response setMIMEType:httpURLResponse.MIMEType];
-    [response setExpectedContentLength:httpURLResponse.expectedContentLength];
+    response.statusCode             = httpURLResponse.statusCode;
+    response.error                  = error;
+    response.data                   = data;
+    response.MIMEType               = httpURLResponse.MIMEType;
+    response.expectedContentLength  = httpURLResponse.expectedContentLength;
+    response.responseHeaders        = httpURLResponse.allHeaderFields;
 
 	return response;
 }
@@ -137,7 +138,7 @@
 			break;
 	}
 
-    [(*response) setFormat:_format];
+    (*response).format = _format;
 
 
 	// prepare headers
@@ -181,16 +182,16 @@
 
 		if ([body isKindOfClass:[NSData class]]) {
 			[request setHTTPBody:body];
-			[(*response) setRequestData:body];
+            (*response).requestData = body;
             NSString *requestText = [[NSString alloc] initWithBytes:[(NSData *)body bytes] length:[(NSData *)body length] encoding:NSUTF8StringEncoding];
-            [(*response) setRequestText:requestText];
+            (*response).requestText = requestText;
 		}
         
 		else {
 			NSData *bodyData = [body dataUsingEncoding:NSUTF8StringEncoding];
 			[request setHTTPBody:bodyData];
-			[(*response) setRequestData:bodyData];
-            [(*response) setRequestText:body];
+            (*response).requestData = bodyData;
+            (*response).requestText = body;
 		}
 
 	}
@@ -208,7 +209,7 @@
 
 	// set headers
 	[request setAllHTTPHeaderFields:headerDictionary];
-    [(*response) setRequestHeaders:headerDictionary];
+    (*response).requestHeaders = headerDictionary;
 
 
 	// set timeout
@@ -217,7 +218,7 @@
 
 
     // set properties on response
-    [(*response) setRequest:request];
+    (*response).request = request;
 
     return request;
 }

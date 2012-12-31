@@ -10,25 +10,26 @@
 
 
 @interface MTPocketRequest ()
-@property (strong, nonatomic) MTPocketResponse  *response;
+@property (nonatomic, strong) MTPocketResponse  *response;
 - (id)initWithURL:(NSURL *)URL;
 - (NSMutableURLRequest *)requestWithResponse:(MTPocketResponse **)response;
 @end
 
 
 @interface MTPocketResponse ()
-- (void)setStatusCode:(NSInteger)statusCode;
-- (void)setStatus:(MTPocketStatus)status;
-- (void)setError:(NSError *)error;
-- (void)setRequestData:(NSData *)requestData;
-- (void)setRequestText:(NSString *)requestText;
-- (void)setRequest:(NSURLRequest *)request;
-- (void)setFormat:(MTPocketFormat)format;
-- (void)setData:(NSData *)data;
-- (void)setRequestHeaders:(NSDictionary *)requestHeaders;
-- (void)setMIMEType:(NSString *)MIMEType;
-- (void)setExpectedContentLength:(NSInteger)expectedContentLength;
-- (void)setFileDownloadedPath:(NSString *)fileDownloadedPath;
+@property (nonatomic, readwrite)            NSInteger       statusCode;
+@property (nonatomic, readwrite)            MTPocketStatus  status;
+@property (nonatomic, readwrite, strong)    NSError         *error;
+@property (nonatomic, readwrite, strong)    NSData          *requestData;
+@property (nonatomic, readwrite, strong)    NSString        *requestText;
+@property (nonatomic, readwrite, strong)    NSURLRequest    *request;
+@property (nonatomic, readwrite)            MTPocketFormat  format;
+@property (nonatomic, readwrite, strong)    NSData          *data;
+@property (nonatomic, readwrite, strong)    NSDictionary    *requestHeaders;
+@property (nonatomic, readwrite, strong)    NSDictionary    *responseHeaders;
+@property (nonatomic, readwrite, strong)    NSString        *MIMEType;
+@property (nonatomic, readwrite)            NSInteger       expectedContentLength;
+@property (nonatomic, readwrite, strong)    NSString        *fileDownloadedPath;
 @end
 
 

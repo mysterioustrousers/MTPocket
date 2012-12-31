@@ -167,7 +167,7 @@
     }
 
     else {
-        [self.response setStatus:MTPocketStatusNoConnection];
+        self.response.status = MTPocketStatusNoConnection;
         if (_failureHandler) _failureHandler(self.response);
         return nil;
     }
@@ -246,7 +246,7 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    [self.response setError:error];
+    self.response.error = error;
     if (_failureHandler) _failureHandler(self.response);
 }
 
@@ -256,9 +256,10 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response
 {
-    [self.response setStatusCode:response.statusCode];
-    [self.response setMIMEType:response.MIMEType];
-    [self.response setExpectedContentLength:response.expectedContentLength];
+    self.response.statusCode            = response.statusCode;
+    self.response.MIMEType              = response.MIMEType;
+    self.response.expectedContentLength = response.expectedContentLength;
+    self.response.responseHeaders       = response.allHeaderFields;
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -273,8 +274,8 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    [self.response setData:_mutableData];
-    [self.response setFileDownloadedPath:_fileDownloadPath];
+    self.response.data                  = _mutableData;
+    self.response.fileDownloadedPath    = _fileDownloadPath;
 
     if (self.response.success && _successHandler)       _successHandler(self.response);
     else if (!self.response.success && _failureHandler) _failureHandler(self.response);

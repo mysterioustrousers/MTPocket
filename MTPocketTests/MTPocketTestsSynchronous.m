@@ -39,6 +39,7 @@
     STAssertTrue(response.statusCode == 200, nil);
     STAssertNotNil(response.MIMEType, nil);
     STAssertTrue(response.expectedContentLength > 0, nil);
+    STAssertNotNil(response.responseHeaders, nil);
 
     STAssertNil(response.fileDownloadedPath, nil);
 }
@@ -64,6 +65,7 @@
     STAssertTrue(response.statusCode == 200, nil);
     STAssertNotNil(response.MIMEType, nil);
     STAssertTrue(response.expectedContentLength > 0, nil);
+    STAssertNotNil(response.responseHeaders, nil);
 
     STAssertNil(response.fileDownloadedPath, nil);
 }
@@ -91,6 +93,7 @@
     STAssertTrue(response.statusCode == 200, nil);
     STAssertNotNil(response.MIMEType, nil);
     STAssertTrue(response.expectedContentLength > 0, nil);
+    STAssertNotNil(response.responseHeaders, nil);
 
     STAssertNil(response.fileDownloadedPath, nil);
 }
@@ -123,6 +126,7 @@
     STAssertTrue(response.statusCode == 404, nil);
     STAssertNotNil(response.MIMEType, nil);
     STAssertTrue(response.expectedContentLength > 0, nil);
+    STAssertNotNil(response.responseHeaders, nil);
 
     STAssertNil(response.fileDownloadedPath, nil);
 }
@@ -148,6 +152,7 @@
     STAssertTrue(response.statusCode == 404, nil);
     STAssertNotNil(response.MIMEType, nil);
     STAssertTrue(response.expectedContentLength > 0, nil);
+    STAssertNotNil(response.responseHeaders, nil);
 
     STAssertNil(response.fileDownloadedPath, nil);
 }
@@ -175,6 +180,7 @@
     STAssertTrue(response.statusCode == 401, nil);
     STAssertNil(response.MIMEType, nil);
     STAssertFalse(response.expectedContentLength > 0, nil);
+    STAssertNil(response.responseHeaders, nil);
 
     STAssertNil(response.fileDownloadedPath, nil);
 }

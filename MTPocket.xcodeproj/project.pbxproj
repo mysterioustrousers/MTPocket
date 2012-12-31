@@ -61,6 +61,7 @@
 		C285AC2D167C089C0046B98B /* MTPocketTestsPUT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPocketTestsPUT.m; sourceTree = "<group>"; };
 		C285AC2F167C0B510046B98B /* MTPocketTestsSynchronous.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPocketTestsSynchronous.h; sourceTree = "<group>"; };
 		C285AC30167C0B510046B98B /* MTPocketTestsSynchronous.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPocketTestsSynchronous.m; sourceTree = "<group>"; };
+		C29239B2168218AC007BCEEF /* macros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
 		C2BAEA9D15CD91F500838B54 /* libMTPocket.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMTPocket.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2BAEAA015CD91F500838B54 /* Foundation.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C2BAEAA415CD91F500838B54 /* MTPocket-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MTPocket-Prefix.pch"; sourceTree = "<group>"; };
@@ -180,6 +181,7 @@
 				C2FAD7D3167C388E0046E550 /* MTPocketTestsAsynchronous.h */,
 				C2FAD7D4167C388E0046E550 /* MTPocketTestsAsynchronous.m */,
 				C285AC28167C04CF0046B98B /* constants.h */,
+				C29239B2168218AC007BCEEF /* macros.h */,
 				C2BAEAB815CD91F500838B54 /* Supporting Files */,
 			);
 			path = MTPocketTests;

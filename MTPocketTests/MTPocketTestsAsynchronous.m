@@ -9,9 +9,8 @@
 #import "MTPocketTestsAsynchronous.h"
 #import "MTPocket.h"
 #import "constants.h"
+#import "macros.h"
 
-
-#define STALL(c) while (c) { [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.5]]; }
 
 
 @implementation MTPocketTestsAsynchronous
@@ -59,6 +58,7 @@
     STAssertTrue(response.statusCode == 200, nil);
     STAssertNotNil(response.MIMEType, nil);
     STAssertTrue(response.expectedContentLength > 0, nil);
+    STAssertNotNil(response.responseHeaders, nil);
 
     STAssertTrue(successBlockCalled, nil);
 
@@ -100,6 +100,7 @@
     STAssertTrue(response.statusCode == 200, nil);
     STAssertNotNil(response.MIMEType, nil);
     STAssertTrue(response.expectedContentLength > 0, nil);
+    STAssertNotNil(response.responseHeaders, nil);
 
     STAssertTrue(successBlockCalled, nil);
 
@@ -143,6 +144,7 @@
     STAssertTrue(response.statusCode == 200, nil);
     STAssertNotNil(response.MIMEType, nil);
     STAssertTrue(response.expectedContentLength > 0, nil);
+    STAssertNotNil(response.responseHeaders, nil);
 
     STAssertTrue(successBlockCalled, nil);
 
@@ -185,6 +187,7 @@
     STAssertTrue(response.statusCode == 200, nil);
     STAssertNotNil(response.MIMEType, nil);
     STAssertTrue(response.expectedContentLength > 0, nil);
+    STAssertNotNil(response.responseHeaders, nil);
 
     STAssertTrue(successBlockCalled, nil);
     STAssertTrue(downloadProgressCalled, nil);
@@ -234,6 +237,7 @@
     STAssertTrue(response.statusCode == 200, nil);
     STAssertNotNil(response.MIMEType, nil);
     STAssertTrue(response.expectedContentLength > 0, nil);
+    STAssertNotNil(response.responseHeaders, nil);
 
     STAssertTrue(successBlockCalled, nil);
     STAssertTrue(downloadProgressCalled, nil);
@@ -292,6 +296,7 @@
     STAssertTrue(response.statusCode == 200, nil);
     STAssertNotNil(response.MIMEType, nil);
     STAssertTrue(response.expectedContentLength == -1, nil);
+    STAssertNotNil(response.responseHeaders, nil);
 
     STAssertTrue(successBlockCalled, nil);
     STAssertTrue(uploadProgressCalled, nil);
@@ -341,6 +346,7 @@
     STAssertTrue(response.statusCode == 404, nil);
     STAssertNotNil(response.MIMEType, nil);
     STAssertTrue(response.expectedContentLength > 0, nil);
+    STAssertNotNil(response.responseHeaders, nil);
 
     STAssertTrue(failureBlockCalled, nil);
 
@@ -383,6 +389,7 @@
     STAssertTrue(response.statusCode == 404, nil);
     STAssertNotNil(response.MIMEType, nil);
     STAssertTrue(response.expectedContentLength > 0, nil);
+    STAssertNotNil(response.responseHeaders, nil);
 
     STAssertTrue(failureBlockCalled, nil);
 
@@ -430,6 +437,7 @@
     STAssertTrue(response.statusCode == 200, nil);
     STAssertNotNil(response.MIMEType, nil);
     STAssertTrue(response.expectedContentLength > 0, nil);
+    STAssertNotNil(response.responseHeaders, nil);
 
     STAssertTrue(failureBlockCalled, nil);
     STAssertTrue(downloadProgressCalled, nil);
@@ -488,7 +496,8 @@
     STAssertTrue(response.statusCode == 404, nil);
     STAssertNotNil(response.MIMEType, nil);
     STAssertTrue(response.expectedContentLength > 0, nil);
-    
+    STAssertNotNil(response.responseHeaders, nil);
+
     STAssertTrue(failureBlockCalled, nil);
     STAssertTrue(uploadProgressCalled, nil);
     
