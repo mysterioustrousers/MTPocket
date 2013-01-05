@@ -15,6 +15,9 @@
 
 @implementation MTPocketResponse
 
+@synthesize data = _data;
+@synthesize error = _error;
+
 
 - (id)init
 {

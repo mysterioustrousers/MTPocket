@@ -1,0 +1,16 @@
+Script started on Wed Jan  2 12:15:10 2013
+[?1034h[1;37m[40m~/mt-opensource/pods/MTPocket[0m subl .s[K[K[K[K[K[K[Kscripts
+bash: scripts: command not found
+[1;37m[40m~/mt-opensource/pods/MTPocket[0m mysccr[K[Kr[K[K[K[K[Kep
+bash: ep: command not found
+[1;37m[40m~/mt-opensource/pods/MTPocket[0m ep
+bash: ep: command not found
+[1;37m[40m~/mt-opensource/pods/MTPocket[0m myrb
+bash: myrb: command not found
+[1;37m[40m~/mt-opensource/pods/MTPocket[0m ep
+bash: ep: command not found
+[1;37m[40m~/mt-opensource/pods/MTPocket[0m git tag -d 0.9.9
+Deleted tag '0.9.9' (was c62bf24)
+[1;37m[40m~/mt-opensource/pods/MTPocket[0m git push origin :refs/tags/0.9.9
+To https://github.com/mysterioustrousers/MTPocket.git
+ - [deleted]         0.9.9
