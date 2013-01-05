@@ -82,8 +82,13 @@
     response.error                  = error;
     response.data                   = data;
     response.MIMEType               = httpURLResponse.MIMEType;
-    response.expectedContentLength  = httpURLResponse.expectedContentLength;
     response.responseHeaders        = httpURLResponse.allHeaderFields;
+
+    response.expectedContentLength  = httpURLResponse.expectedContentLength;
+    if (_lengthHeader || (_lengthHeader && response.expectedContentLength == NSURLResponseUnknownLength)) {
+        NSString *length = response.responseHeaders[_lengthHeader];
+        if (length) response.expectedContentLength = [length integerValue];
+    }
 
 	return response;
 }

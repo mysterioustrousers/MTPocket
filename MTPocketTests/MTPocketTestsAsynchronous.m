@@ -158,7 +158,7 @@
     __block MTPocketResponse *response = nil;
 
     NSURLConnection *connection = [MTPocketAsyncRequest asyncRequestForURL:BASE_URL
-                                                          downloadProgress:^(long long bytesLoaded, long long bytesTotal) {
+                                                          downloadProgress:^(float percent) {
                                                               downloadProgressCalled = YES;
                                                           }
                                                                    success:^(MTPocketResponse *successResponse) {
@@ -206,7 +206,7 @@
 
     NSURLConnection *connection = [MTPocketAsyncRequest asyncRequestForURL:DOWNLOAD_FILE_URL
                                                            destinationPath:location
-                                                          downloadProgress:^(long long bytesLoaded, long long bytesTotal) {
+                                                          downloadProgress:^(float percent) {
                                                               downloadProgressCalled = YES;
                                                               // NSLog(@"downloading: %@/%@", @(bytesLoaded), @(bytesTotal));
                                                           }
@@ -264,7 +264,7 @@
                                                             uploadFilename:@"test.jpg"
                                                            uploadFormField:@"files[]"
                                                             uploadMIMEType:@"image/jpeg"
-                                                            uploadProgress:^(long long bytesLoaded, long long bytesTotal) {
+                                                            uploadProgress:^(float percent) {
                                                                 uploadProgressCalled = YES;
                                                                 // NSLog(@"uploading: %@/%@", @(bytesLoaded), @(bytesTotal));
                                                             }
@@ -295,7 +295,7 @@
     STAssertNil(response.requestText, nil);
     STAssertTrue(response.statusCode == 200, nil);
     STAssertNotNil(response.MIMEType, nil);
-    STAssertTrue(response.expectedContentLength == -1, nil);
+    STAssertTrue(response.expectedContentLength > 0, nil);
     STAssertNotNil(response.responseHeaders, nil);
 
     STAssertTrue(successBlockCalled, nil);
@@ -407,7 +407,7 @@
 
     NSURLConnection *connection = [MTPocketAsyncRequest asyncRequestForURL:DOWNLOAD_FILE_URL
                                                            destinationPath:location
-                                                          downloadProgress:^(long long bytesLoaded, long long bytesTotal) {
+                                                          downloadProgress:^(float percent) {
                                                               downloadProgressCalled = YES;
                                                           }
                                                                    success:^(MTPocketResponse *response) {
@@ -465,7 +465,7 @@
                                                             uploadFilename:@"test.jpg"
                                                            uploadFormField:@"files[]"
                                                             uploadMIMEType:@"image/jpeg"
-                                                            uploadProgress:^(long long bytesLoaded, long long bytesTotal) {
+                                                            uploadProgress:^(float percent) {
                                                                 uploadProgressCalled = YES;
                                                             }
                                                                    success:^(MTPocketResponse *response) {

@@ -90,7 +90,7 @@
 }
 
 + (MTPocketAsyncRequest *)asyncRequestForURL:(NSURL *)URL
-                            downloadProgress:(void (^)(long long bytesLoaded, long long bytesTotal))downloadProgressBlock
+                            downloadProgress:(void (^)(float percent))downloadProgressBlock
                                      success:(void (^)(MTPocketResponse *response))successBlock
                                      failure:(void (^)(MTPocketResponse *response))failureBlock
 {
@@ -103,7 +103,7 @@
 
 + (MTPocketAsyncRequest *)asyncRequestForURL:(NSURL *)URL
                              destinationPath:(NSString *)filePath
-                            downloadProgress:(void (^)(long long bytesLoaded, long long bytesTotal))downloadProgressBlock
+                            downloadProgress:(void (^)(float percent))downloadProgressBlock
                                      success:(void (^)(MTPocketResponse *response))successBlock
                                      failure:(void (^)(MTPocketResponse *response))failureBlock
 {
@@ -129,7 +129,7 @@
                               uploadFilename:(NSString *)filename
                              uploadFormField:(NSString *)fieldName
                               uploadMIMEType:(NSString *)MIMEType
-                              uploadProgress:(void (^)(long long bytesLoaded, long long bytesTotal))uploadProgressBlock
+                              uploadProgress:(void (^)(float percent))uploadProgressBlock
                                      success:(void (^)(MTPocketResponse *response))successBlock
                                      failure:(void (^)(MTPocketResponse *response))failureBlock
 {
@@ -190,8 +190,8 @@
                              uploadFormField:(NSString *)fieldName
                               uploadMIMEType:(NSString *)MIMEType
                               downloadToFile:(NSString *)filePath
-                              uploadProgress:(void (^)(long long bytesLoaded, long long bytesTotal))uploadProgressBlock
-                            downloadProgress:(void (^)(long long bytesLoaded, long long bytesTotal))downloadProgressBlock
+                              uploadProgress:(void (^)(float percent))uploadProgressBlock
+                            downloadProgress:(void (^)(float percent))downloadProgressBlock
                                      success:(void (^)(MTPocketResponse *response))successBlock
                                      failure:(void (^)(MTPocketResponse *response))failureBlock
 {
@@ -258,8 +258,13 @@
 {
     self.response.statusCode            = response.statusCode;
     self.response.MIMEType              = response.MIMEType;
-    self.response.expectedContentLength = response.expectedContentLength;
     self.response.responseHeaders       = response.allHeaderFields;
+
+    self.response.expectedContentLength = response.expectedContentLength;
+    if (self.lengthHeader || (self.lengthHeader && response.expectedContentLength == NSURLResponseUnknownLength)) {
+        NSString *length = self.response.responseHeaders[self.lengthHeader];
+        if (length) self.response.expectedContentLength = [length integerValue];
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -268,7 +273,7 @@
     if (_downloadProgressHandler) {
         NSNumber *loaded    = @([_mutableData length]);
         NSNumber *total     = @(self.response.expectedContentLength);
-        _downloadProgressHandler([loaded longLongValue], [total longLongValue]);
+        _downloadProgressHandler([loaded floatValue] / [total floatValue]);
     }
 }
 
@@ -283,7 +288,7 @@
 
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 {
-    if (_uploadProgressHandler) _uploadProgressHandler(totalBytesWritten, totalBytesExpectedToWrite);
+    if (_uploadProgressHandler) _uploadProgressHandler(totalBytesWritten / totalBytesExpectedToWrite);
 }
 
 

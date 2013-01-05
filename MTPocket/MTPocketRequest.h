@@ -78,6 +78,7 @@ typedef enum {
 @property (strong, nonatomic)	id              body;           // Can be an NSDictionary, NSArray, NSString, NSData, or nil
 @property (strong, nonatomic)	NSDictionary    *headers;       // (optional)
 @property (        nonatomic)	NSTimeInterval  timeout;        // (optional)
+@property (strong, nonatomic)   NSString        *lengthHeader;  // (optional) Default: Content-Length. Could also be stream-length, etc. Will be used for progress handlers.
 
 
 + (MTPocketRequest *)requestForURL:(NSURL *)URL

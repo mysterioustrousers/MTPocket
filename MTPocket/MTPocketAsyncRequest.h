@@ -15,8 +15,8 @@
 
 @interface MTPocketAsyncRequest : MTPocketRequest <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
-@property (strong, nonatomic) void (^uploadProgressHandler)(long long bytesLoaded, long long bytesTotal);
-@property (strong, nonatomic) void (^downloadProgressHandler)(long long bytesLoaded, long long bytesTotal);
+@property (strong, nonatomic) void (^uploadProgressHandler)(float percent);
+@property (strong, nonatomic) void (^downloadProgressHandler)(float percent);
 
 
 + (MTPocketAsyncRequest *)asyncRequestForURL:(NSURL *)URL
@@ -42,14 +42,14 @@
 
 // Download file to memory
 + (MTPocketAsyncRequest *)asyncRequestForURL:(NSURL *)URL
-                            downloadProgress:(void (^)(long long bytesLoaded, long long bytesTotal))downloadProgressBlock
+                            downloadProgress:(void (^)(float percent))downloadProgressBlock
                                      success:(void (^)(MTPocketResponse *response))successBlock
                                      failure:(void (^)(MTPocketResponse *response))failureBlock;
 
 // Download file to disk
 + (MTPocketAsyncRequest *)asyncRequestForURL:(NSURL *)URL
                              destinationPath:(NSString *)filePath         // Leave this nil if you don't want to download to a file
-                            downloadProgress:(void (^)(long long bytesLoaded, long long bytesTotal))downloadProgressBlock
+                            downloadProgress:(void (^)(float percent))downloadProgressBlock
                                      success:(void (^)(MTPocketResponse *response))successBlock
                                      failure:(void (^)(MTPocketResponse *response))failureBlock;
 
@@ -60,7 +60,7 @@
                               uploadFilename:(NSString *)filename         // The filename of the file being uploaded.
                              uploadFormField:(NSString *)fieldName        // The name of the form field this file is being uploaded with.
                               uploadMIMEType:(NSString *)MIMEType         // The Content-Type of the file being uploaded.
-                              uploadProgress:(void (^)(long long bytesLoaded, long long bytesTotal))uploadProgressBlock
+                              uploadProgress:(void (^)(float percent))uploadProgressBlock
                                      success:(void (^)(MTPocketResponse *response))successBlock
                                      failure:(void (^)(MTPocketResponse *response))failureBlock;
 
