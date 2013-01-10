@@ -15,7 +15,12 @@
 
 
 
+
 @implementation MTPocketRequest
+
+
+static NSNumber *__defaultTimeout;
+
 
 - (id)initWithURL:(NSURL *)URL
 {
@@ -91,6 +96,15 @@
     }
 
 	return response;
+}
+
+
+
+
+
++ (void)setDefaultTimeout:(NSTimeInterval)timeout
+{
+    __defaultTimeout = @(timeout);
 }
 
 
@@ -218,8 +232,8 @@
 
 
 	// set timeout
-	if (_timeout)
-		[request setTimeoutInterval:_timeout];
+	if (_timeout || __defaultTimeout)
+		[request setTimeoutInterval:(_timeout != 0 ? _timeout : [__defaultTimeout doubleValue])];
 
 
     // set properties on response

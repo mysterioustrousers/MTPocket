@@ -18,8 +18,9 @@ typedef enum {
     MTPocketStatusUnauthorized,     // 401
     MTPocketStatusUnprocessable,    // 422
 	MTPocketStatusNotFound,         // 404
-	MTPocketStatusNoConnection,
     MTPocketStatusServerError,      // 500..599
+	MTPocketStatusNoConnection,
+    MTPocketStatusTimedOut,
 	MTPocketStatusOther,
 } MTPocketStatus;
 
@@ -77,7 +78,7 @@ typedef enum {
 @property (strong, nonatomic)	NSString        *password;
 @property (strong, nonatomic)	id              body;           // Can be an NSDictionary, NSArray, NSString, NSData, or nil
 @property (strong, nonatomic)	NSDictionary    *headers;       // (optional)
-@property (        nonatomic)	NSTimeInterval  timeout;        // (optional)
+@property (        nonatomic)	NSTimeInterval  timeout;        // (optional) Default: 60 seconds. You can set a new default below.
 @property (strong, nonatomic)   NSString        *lengthHeader;  // (optional) Default: Content-Length. Could also be stream-length, etc. Will be used for progress handlers.
 
 
@@ -98,6 +99,10 @@ typedef enum {
 
 // Initiate request
 - (MTPocketResponse *)send;
+
+
+// Defaults
++ (void)setDefaultTimeout:(NSTimeInterval)timeout;
 
 
 @end

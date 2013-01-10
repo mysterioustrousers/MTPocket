@@ -74,15 +74,15 @@
             _statusCode = 401;
             _status = MTPocketStatusUnauthorized;
         }
+        if (error.code == NSURLErrorTimedOut) {
+            _statusCode = 408;
+            _status = MTPocketStatusTimedOut;
+        }
     }
 }
 
 - (void)setData:(NSData *)data
 {
-    if (!data) {
-        _status = MTPocketStatusNoConnection;
-    }
-
     if (_error) return;
 
     _data = data;
