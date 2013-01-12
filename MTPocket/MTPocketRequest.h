@@ -101,7 +101,8 @@ typedef enum {
 - (MTPocketResponse *)send;
 
 
-// Defaults
+// Config
++ (void)setGlobalUsername:(NSString *)username password:(NSString *)password;
 + (void)setDefaultTimeout:(NSTimeInterval)timeout;
 
 

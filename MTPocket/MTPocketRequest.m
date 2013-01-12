@@ -19,6 +19,8 @@
 @implementation MTPocketRequest
 
 
+static NSString *__globalUsername;
+static NSString *__globalPassword;
 static NSNumber *__defaultTimeout;
 
 
@@ -32,7 +34,6 @@ static NSNumber *__defaultTimeout;
     }
     return self;
 }
-
 
 
 
@@ -101,6 +102,11 @@ static NSNumber *__defaultTimeout;
 
 
 
++ (void)setGlobalUsername:(NSString *)username password:(NSString *)password
+{
+    __globalUsername = username;
+    __globalPassword = password;
+}
 
 + (void)setDefaultTimeout:(NSTimeInterval)timeout
 {
@@ -120,7 +126,6 @@ static NSNumber *__defaultTimeout;
 {
    	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_URL];
 
-    
 	// set method
 	NSString *method = nil;
 	switch (_method) {
@@ -217,9 +222,9 @@ static NSNumber *__defaultTimeout;
 
     
 	// set username & password
-	if (_username || _password) {
-		NSString *username = _username ? _username : @"";
-		NSString *password = _password ? _password : @"";
+	if (_username || _password || __globalUsername || __globalPassword) {
+		NSString *username = _username ? _username : (__globalUsername ? __globalUsername : @"");
+		NSString *password = _password ? _password : (__globalPassword ? __globalPassword : @"");
         NSString *plainTextAuth = [NSString stringWithFormat:@"%@:%@", username, password];
         NSString *base64EncodedAuth = [plainTextAuth base64String];
 		[headerDictionary addEntriesFromDictionary:@{ @"Authorization" : [NSString stringWithFormat:@"Basic %@", base64EncodedAuth] }];
