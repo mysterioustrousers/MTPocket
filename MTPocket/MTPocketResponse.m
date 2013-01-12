@@ -37,6 +37,10 @@
 		_status = MTPocketStatusCreated;
 		_success = YES;
 	}
+    else if (statusCode == 204) {
+        _status = MTPocketStatusNoContent;
+        _success = YES;
+    }
 	else if (statusCode >= 200 && statusCode < 300) {
 		_status = MTPocketStatusSuccess;
 		_success = YES;

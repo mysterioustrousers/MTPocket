@@ -15,12 +15,13 @@
 typedef enum {
     MTPocketStatusSuccess,          // 200..299
 	MTPocketStatusCreated,          // 201
+    MTPocketStatusNoContent,        // 204
     MTPocketStatusUnauthorized,     // 401
     MTPocketStatusUnprocessable,    // 422
 	MTPocketStatusNotFound,         // 404
+    MTPocketStatusTimedOut,         // 408
     MTPocketStatusServerError,      // 500..599
 	MTPocketStatusNoConnection,
-    MTPocketStatusTimedOut,
 	MTPocketStatusOther,
 } MTPocketStatus;
 

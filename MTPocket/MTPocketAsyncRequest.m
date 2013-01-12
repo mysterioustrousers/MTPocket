@@ -228,7 +228,7 @@
         [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 
         [request setValue:contentType forHTTPHeaderField:@"Content-Type"];
-        [request setValue:[NSString stringWithFormat:@"%d", postbody.length] forHTTPHeaderField:@"Content-Length"];
+        [request setValue:[NSString stringWithFormat:@"%ld", postbody.length] forHTTPHeaderField:@"Content-Length"];
         [request setHTTPBody:postbody];
     }
 
