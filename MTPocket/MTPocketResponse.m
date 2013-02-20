@@ -6,9 +6,8 @@
 //  Copyright (c) 2012 Mysterious Trousers. All rights reserved.
 //
 
-#import "MTPocketResponse.h"
-#import "mtpocket_private.h"
 #import <XMLDictionary.h>
+#import "MTPocket.h"
 
 
 
@@ -91,7 +90,7 @@
 
     _data = data;
 
-    if (_isFileDownload) return;
+    if (_request.fileDownloadPath) return;
 
     _text = [[NSString alloc] initWithBytes:[data bytes] length:data.length encoding:NSUTF8StringEncoding];
 

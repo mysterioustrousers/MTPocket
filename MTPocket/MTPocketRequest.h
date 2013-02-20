@@ -8,22 +8,9 @@
 
 @class MTPocketResponse;
 
-/**
- MTPocketStatus
- A mapping of common HTTP status codes for easier use.
- */
-typedef enum {
-    MTPocketStatusSuccess,          // 200..299
-	MTPocketStatusCreated,          // 201
-    MTPocketStatusNoContent,        // 204
-    MTPocketStatusUnauthorized,     // 401
-    MTPocketStatusUnprocessable,    // 422
-	MTPocketStatusNotFound,         // 404
-    MTPocketStatusTimedOut,         // 408
-    MTPocketStatusServerError,      // 500..599
-	MTPocketStatusNoConnection,
-	MTPocketStatusOther,
-} MTPocketStatus;
+
+typedef void (^MTPocketCallback)(MTPocketResponse *response);
+typedef void (^MTPocketProgressCallback)(float percent);
 
 /**
  MTPocketFormat
@@ -50,61 +37,78 @@ typedef enum {
 
 
 
-/**
-
- MTPocketRequest
- 
- Use the convenience constructors to create a request and then call `send` to make the request.
- The convenience constructors will give you a "template" for a common request, but you can always
- use the properties of this class to customize the request further.
- 
- Example: One shot
-
-    MTPocketResponse *response = [MTPocketRequest requestForURL:URL format:MTPocketFormatHTML].send;
- 
- Example: Customize
-
-     MTPocketRequest *request = [MTPocketRequest requestForURL:URL method:MTPocketMethodPost format:MTPocketFormatJSON body:@{"Name" : "Adam"}];
-     request.timeout = 60;
-     [request send];
-
- */
 
 @interface MTPocketRequest : NSObject
 
-@property (readonly)			NSURL           *URL;           // (Required, Read-only)
-@property (        nonatomic)	MTPocketMethod  method;         // Default: MTPocketMethodGET
-@property (        nonatomic)	MTPocketFormat  format;         // Defaut: MTPocketFormatJSON
-@property (strong, nonatomic)	NSString        *username;      // (optional) HTTP Basic auth
-@property (strong, nonatomic)	NSString        *password;
-@property (strong, nonatomic)	id              body;           // Can be an NSDictionary, NSArray, NSString, NSData, or nil
-@property (strong, nonatomic)	NSDictionary    *headers;       // (optional)
-@property (        nonatomic)	NSTimeInterval  timeout;        // (optional) Default: 60 seconds. You can set a new default below.
-@property (strong, nonatomic)   NSString        *lengthHeader;  // (optional) Default: Content-Length. Could also be stream-length, etc. Will be used for progress handlers.
+@property (strong, nonatomic)   NSURL               *baseURL;               // (optional) Will override the default base URL set on the shared pocket singleton
+
+// Basic options
+@property (strong,  nonatomic)  NSString            *path;                  // (required) The resource path after the base url. Can include placeholders like ':id' that will be filled in respectively with 'identifiers'. e.g. @"buttons/:button_id/stitches/:id"
+@property (strong,  nonatomic)	NSArray             *identifiers;           // (required) NSNumber/NSString objects that are swapping it
+@property (         nonatomic)	MTPocketMethod      method;                 // (required) Default: MTPocketMethodGET
+@property (         nonatomic)	MTPocketFormat      format;                 // (required) Defaut: MTPocketFormatJSON
+@property (readonly,nonatomic)	NSMutableDictionary *params;                // (optional) Query string params. @{ @"page" : @(2) } => ?page=2
+@property (strong,  nonatomic)  id                  body;                   // (optional) The body of the request. Can be NSData, NSString, NSDictionary, NSArray.
+
+// Additional options
+@property (readonly,nonatomic)	NSMutableDictionary *headers;               // (optional) The headers dictionary. You can add or delete from the template.
+@property (         nonatomic)	NSTimeInterval      timeout;                // (optional) Default: 60 seconds.
+@property (strong,  nonatomic)  NSString            *contentLengthHeader;   // (optional) Default: Content-Length. Could also be stream-length, etc. Will be used for progress handlers.
 
 
-+ (MTPocketRequest *)requestForURL:(NSURL *)URL
-                            format:(MTPocketFormat)format;
-
-+ (MTPocketRequest *)requestForURL:(NSURL *)URL
-                            method:(MTPocketMethod)method
-                            format:(MTPocketFormat)format
-                              body:(id)body;
-
-+ (MTPocketRequest *)requestForURL:(NSURL *)URL
-                            method:(MTPocketMethod)method
-                            format:(MTPocketFormat)format
-                          username:(NSString *)username
-                          password:(NSString *)password
-                              body:(id)body;
-
-// Initiate request
-- (MTPocketResponse *)send;
 
 
-// Config
-+ (void)setGlobalUsername:(NSString *)username password:(NSString *)password;
-+ (void)setDefaultTimeout:(NSTimeInterval)timeout;
++ (MTPocketRequest *)requestWithPath:(NSString *)path
+                         identifiers:(NSArray *)identifiers
+                              method:(MTPocketMethod)method
+                                body:(id)body
+                              params:(NSDictionary *)params;
+
+
+
+#pragma mark - Adding callbacks
+
+/**
+ You can add multiple callbacks for success and failure. This comes in handy if, for example, you have a library that abstracts away handling the
+ request result, but wants to delegate the actual act of triggering the request to the application using the library. The library would have model
+ objects with methods like "fetch" and when called, it would add its own callback so that on success it could populate the object with the returned
+ data, then pass the request object back to the calling application so that it can add it's own success callbacks and actually trigger the call.
+ This allows the library to keep it's methods simple and short, simply returning an MTPocketRequest object that the application can call itself rather
+ than having every method in the library have sucess and failure callbacks adding tons of clutter to the interface. This also allows the application
+ to modify the request if it needs to and/or call it on a particular thread. So, bottom line, this allows the library to create the request, attach it's
+ opportunity to deal with the request and then pass it off to the calling application.
+ */
+
+- (void)addSuccess:(MTPocketCallback)success;
+- (void)addFailure:(MTPocketCallback)failure;
+
+
+
+
+#pragma mark - Send
+
+- (void)sendWithSuccess:(MTPocketCallback)success
+                failure:(MTPocketCallback)failure;
+
+- (void)sendWithSuccess:(MTPocketCallback)success
+                failure:(MTPocketCallback)failure
+         uploadProgress:(MTPocketProgressCallback)uploadProgress
+       downloadProgress:(MTPocketProgressCallback)downloadProgress;
+
+- (void)sendFileData:(NSData *)fileData
+            filename:(NSString *)filename
+           formField:(NSString *)formField
+            MIMEType:(NSString *)MIMEType
+             success:(MTPocketCallback)success
+             failure:(MTPocketCallback)failure
+      uploadProgress:(MTPocketProgressCallback)uploadProgress;
+
+
+
+#pragma mark - Helpers
+
++ (NSDictionary *)headerDictionaryForBasicAuthWithUsername:(NSString *)username password:(NSString *)password;
++ (NSDictionary *)headerDictionaryForTokenAuthWithToken:(NSString *)token;
 
 
 @end

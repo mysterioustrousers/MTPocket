@@ -8,6 +8,23 @@
 
 #import "MTPocketRequest.h"
 
+/**
+ MTPocketStatus
+ A mapping of common HTTP status codes for easier use.
+ */
+typedef enum {
+    MTPocketStatusSuccess,          // 200..299
+	MTPocketStatusCreated,          // 201
+    MTPocketStatusNoContent,        // 204
+    MTPocketStatusUnauthorized,     // 401
+    MTPocketStatusUnprocessable,    // 422
+	MTPocketStatusNotFound,         // 404
+    MTPocketStatusTimedOut,         // 408
+    MTPocketStatusServerError,      // 500..599
+	MTPocketStatusNoConnection,
+	MTPocketStatusOther,
+} MTPocketStatus;
+
 
 @interface MTPocketResponse : NSObject
 
@@ -17,7 +34,7 @@
 @property (nonatomic, readonly, strong) id                body;                    // The response body. Depending on the format, could be an NSString, NSArray, NSDictionary or nil.
 
 @property (nonatomic, readonly, strong) NSError           *error;                  // Could be nil, but should check this for important info if its not nil.
-@property (nonatomic, readonly, strong) NSURLRequest      *request;                // The original request made to the server (for debugging).
+@property (nonatomic, readonly, strong) MTPocketRequest   *request;                // The original request made to the server (for debugging).
 @property (nonatomic, readonly, strong) NSData            *data;                   // The data returned form the server (for debugging).
 @property (nonatomic, readonly, strong) NSString          *text;                   // The data converted to a string returned form the server (for debugging).
 @property (nonatomic, readonly, strong) NSData            *requestData;            // The data that was sent as the body with the request (for debugging).
