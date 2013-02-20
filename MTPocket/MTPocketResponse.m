@@ -7,16 +7,12 @@
 //
 
 #import <XMLDictionary.h>
-#import "MTPocket.h"
+#import "mtpocket_private.h"
 
 
 
 
 @implementation MTPocketResponse
-
-@synthesize data = _data;
-@synthesize error = _error;
-
 
 - (id)init
 {
@@ -90,8 +86,6 @@
 
     _data = data;
 
-    if (_request.fileDownloadPath) return;
-
     _text = [[NSString alloc] initWithBytes:[data bytes] length:data.length encoding:NSUTF8StringEncoding];
 
     // otherwise, build an object from the response data
@@ -105,22 +99,6 @@
     }
     else if (_format == MTPocketFormatXML)
         _body = [NSDictionary dictionaryWithXMLData:data];
-}
-
-- (void)setFileDownloadedPath:(NSString *)fileDownloadedPath
-{
-    if (fileDownloadedPath && !_error && _success) {
-
-        NSError *error = nil;
-        [_data writeToFile:fileDownloadedPath options:0 error:&error];
-
-        if (!error && [[NSFileManager defaultManager] fileExistsAtPath:fileDownloadedPath])
-            _fileDownloadedPath = fileDownloadedPath;
-        else if (error) {
-            _success = NO;
-            _error = error;
-        }
-    }
 }
 
 

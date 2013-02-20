@@ -38,9 +38,13 @@ typedef enum {
 
 
 
+
+
+
+
 @interface MTPocketRequest : NSObject
 
-@property (strong, nonatomic)   NSURL               *baseURL;               // (optional) Will override the default base URL set on the shared pocket singleton
+@property (strong,  nonatomic)   NSURL              *baseURL;               // (optional) Will override the default base URL set on the shared pocket singleton
 
 // Basic options
 @property (strong,  nonatomic)  NSString            *path;                  // (required) The resource path after the base url. Can include placeholders like ':id' that will be filled in respectively with 'identifiers'. e.g. @"buttons/:button_id/stitches/:id"
@@ -56,13 +60,21 @@ typedef enum {
 @property (strong,  nonatomic)  NSString            *contentLengthHeader;   // (optional) Default: Content-Length. Could also be stream-length, etc. Will be used for progress handlers.
 
 
-
++ (MTPocketRequest *)requestTemplate;
 
 + (MTPocketRequest *)requestWithPath:(NSString *)path
                          identifiers:(NSArray *)identifiers
                               method:(MTPocketMethod)method
                                 body:(id)body
                               params:(NSDictionary *)params;
+
+
+
+
+
+
+
+
 
 
 
@@ -81,6 +93,14 @@ typedef enum {
 
 - (void)addSuccess:(MTPocketCallback)success;
 - (void)addFailure:(MTPocketCallback)failure;
+
+
+
+
+
+
+
+
 
 
 
@@ -105,10 +125,27 @@ typedef enum {
 
 
 
-#pragma mark - Helpers
 
+
+
+
+
+
+
+
+
+#pragma mark - Headers
+
+- (void)addHeaders:(NSDictionary *)dictionary;
 + (NSDictionary *)headerDictionaryForBasicAuthWithUsername:(NSString *)username password:(NSString *)password;
 + (NSDictionary *)headerDictionaryForTokenAuthWithToken:(NSString *)token;
+
+
+
+
+
+
+
 
 
 @end

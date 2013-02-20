@@ -9,32 +9,27 @@
 #import <MF_Base64Additions.h>
 #import <NSObject+MTJSONUtils.h>
 #import <XMLDictionary.h>
-#import "MTPocket.h"
+#import "mtpocket_private.h"
 
 
 
-@interface MTPocketResponse ()
-@property (nonatomic, readwrite)            NSInteger       statusCode;
-@property (nonatomic, readwrite)            MTPocketStatus  status;
-@property (nonatomic, readwrite, strong)    NSError         *error;
-@property (nonatomic, readwrite, strong)    NSData          *requestData;
-@property (nonatomic, readwrite, strong)    NSString        *requestText;
-@property (nonatomic, readwrite, strong)    MTPocketRequest *request;
-@property (nonatomic, readwrite)            MTPocketFormat  format;
-@property (nonatomic, readwrite, strong)    NSData          *data;
-@property (nonatomic, readwrite, strong)    NSDictionary    *requestHeaders;
-@property (nonatomic, readwrite, strong)    NSDictionary    *responseHeaders;
-@property (nonatomic, readwrite, strong)    NSString        *MIMEType;
-@property (nonatomic, readwrite)            NSInteger       expectedContentLength;
-@end
+NSString *randomStringWithLength(NSInteger length)
+{
+	unichar string[length];
+	for (NSInteger i = 0; i < length; i++) {
+		unichar r = (arc4random() % 25) + 65;
+		string[i] = r;
+	}
+	return [[NSString stringWithCharacters:string length:length] lowercaseString];
+}
 
 
 
 
 @interface MTPocketRequest () <NSCopying, NSURLConnectionDelegate, NSURLConnectionDataDelegate>
-@property (readonly, readwrite, nonatomic)	NSMutableDictionary         *params;
-@property (readonly, readwrite, nonatomic)	NSMutableDictionary         *headers;
-@property (nonatomic, strong)               MTPocketResponse            *response;
+@property (strong, readwrite, nonatomic)	NSMutableDictionary         *params;
+@property (strong, readwrite, nonatomic)	NSMutableDictionary         *headers;
+@property (strong, nonatomic)               MTPocketResponse            *response;
 @property (strong, nonatomic)               NSMutableData               *mutableData;
 @property (strong, nonatomic)               NSData                      *fileData;              // (optional) The actual file data.
 @property (strong, nonatomic)               NSString                    *fileUploadFilename;    // (optional) The filename of the file being uploaded.
@@ -52,37 +47,45 @@
 @implementation MTPocketRequest
 
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+		_format             = MTPocketFormatJSON;
+        _timeout            = -1;
+        _successHandlers    = [NSMutableArray array];
+        _failureHandlers    = [NSMutableArray array];
+        _headers            = [NSMutableDictionary dictionary];
+        _params             = [NSMutableDictionary dictionary];
+    }
+    return self;
+}
+
 - (id)initWithPath:(NSString *)path
        identifiers:(NSArray *)identifiers
             method:(MTPocketMethod)method
               body:(id)body
             params:(NSDictionary *)params
 {
-    self = [super init];
+    self = [self init];
     if (self) {
         _path           = path;
         _identifiers    = identifiers;
         _method         = method;
         _body           = body;
         [_params addEntriesFromDictionary:params];
-
-		_format         = MTPocketFormatJSON;
-        _timeout        = -1;
     }
     return self;
 }
 
-+ (MTPocketRequest *)requestWithPath:(NSString *)path
-                         identifiers:(NSArray *)identifiers
-                              method:(MTPocketMethod)method
-                                body:(id)body
-                              params:(NSDictionary *)params
++ (MTPocketRequest *)requestTemplate
 {
-    MTPocketRequest *request = [[MTPocketRequest alloc] initWithPath:path
-                                                         identifiers:identifiers
-                                                              method:method
-                                                                body:body
-                                                              params:params];
+    return [[MTPocketRequest alloc] initWithPath:nil identifiers:nil method:MTPocketMethodGET body:nil params:nil];
+}
+
++ (MTPocketRequest *)requestWithPath:(NSString *)path identifiers:(NSArray *)identifiers method:(MTPocketMethod)method body:(id)body params:(NSDictionary *)params
+{
+    MTPocketRequest *request = [[MTPocketRequest alloc] initWithPath:path identifiers:identifiers method:method body:body params:params];
     return request;
 }
 
@@ -93,12 +96,12 @@
 
 - (void)addSuccess:(MTPocketCallback)success
 {
-    [_successHandlers addObject:success];
+    if (success) [_successHandlers addObject:success];
 }
 
 - (void)addFailure:(MTPocketCallback)failure
 {
-    [_failureHandlers addObject:failure];
+    if (failure) [_failureHandlers addObject:failure];
 }
 
 
@@ -111,7 +114,7 @@
                 failure:(MTPocketCallback)failure
 {
     [self sendWithSuccess:success
-                  failure:success
+                  failure:failure
            uploadProgress:nil
          downloadProgress:nil];
 }
@@ -165,7 +168,12 @@
 
 
 
-#pragma mark - Helpers
+#pragma mark - Headers
+
+- (void)addHeaders:(NSDictionary *)dictionary
+{
+    [_headers addEntriesFromDictionary:dictionary];
+}
 
 + (NSDictionary *)headerDictionaryForBasicAuthWithUsername:(NSString *)username password:(NSString *)password
 {
@@ -300,7 +308,6 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 			format = @"application/json";
 			break;
 	}
-
     _response.format = _format;
 
 
@@ -309,16 +316,15 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 	NSMutableDictionary *headerDictionary = [NSMutableDictionary dictionaryWithDictionary:defaultHeaders];
 	[headerDictionary addEntriesFromDictionary:_headers];
 
+    // set headers
+	[request setAllHTTPHeaderFields:headerDictionary];
+
 
 
 	// set body
     if (_fileData && _fileUploadFormField && _fileUploadFilename && _fileUploadMIMEType) {
 
-        NSString *boundary      = @"----WebKitFormBoundary9HN3IwANdrhDGAN4";
-
-        // set Content-Type in HTTP header
-        NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-        [request setValue:contentType forHTTPHeaderField:@"Content-Type"];
+        NSString *boundary  = [NSString stringWithFormat:@"----WebKitFormBoundary%@", randomStringWithLength(20)];
 
         // post body
         NSMutableData *body = [NSMutableData data];
@@ -326,7 +332,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
         // add params (all params are strings)
         if ([_body isKindOfClass:[NSDictionary class]]) {
             for (NSString *param in [_body allKeys]) {
-                [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+                [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
                 [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", param] dataUsingEncoding:NSUTF8StringEncoding]];
                 [body appendData:[[NSString stringWithFormat:@"%@\r\n", [_body objectForKey:param]] dataUsingEncoding:NSUTF8StringEncoding]];
             }
@@ -334,18 +340,42 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 
         // add image data
         if (_fileData) {
-            [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+            [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
             [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", _fileUploadFormField, _fileUploadFilename] dataUsingEncoding:NSUTF8StringEncoding]];
             [body appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", _fileUploadMIMEType] dataUsingEncoding:NSUTF8StringEncoding]];
+            _response.requestText = [NSString stringWithUTF8String:[body bytes]];
             [body appendData:_fileData];
-            [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
         }
         
-        [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
         
+        // set Content-Type in HTTP header
+        NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+        [request setValue:contentType forHTTPHeaderField:@"Content-Type"];
+        [request setValue:[NSString stringWithFormat:@"%d", body.length] forHTTPHeaderField:@"Content-Length"];
+
         // setting the body of the post to the reqeust
         [request setHTTPBody:body];
-        
+        _response.requestData = body;
+
+
+//        [request setHTTPBody:_fileData];
+//        NSString *requestText = [[NSString alloc] initWithBytes:[(NSData *)_body bytes] length:[(NSData *)_body length] encoding:NSUTF8StringEncoding];
+//        _response.requestText = requestText;
+//
+//        NSString *boundary      = @"----WebKitFormBoundary9HN3IwANdrhDGAN4";
+//        NSString *contentType   = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+//
+//        NSMutableData *postbody = [NSMutableData data];
+//        [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+//        [postbody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", _fileUploadFormField, _fileUploadFilename] dataUsingEncoding:NSUTF8StringEncoding]];
+//        [postbody appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", _fileUploadMIMEType] dataUsingEncoding:NSUTF8StringEncoding]];
+//        [postbody appendData:_fileData];
+//        [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+//
+//        [request setValue:contentType forHTTPHeaderField:@"Content-Type"];
+//        [request setValue:[NSString stringWithFormat:@"%d", postbody.length] forHTTPHeaderField:@"Content-Length"];
+//        [request setHTTPBody:postbody];
     }
 	else if (_body) {
 		id body = nil;
@@ -396,24 +426,21 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 	}
 
     
-	// set headers
-	[request setAllHTTPHeaderFields:headerDictionary];
-
-
 	// set timeout
 	if (_timeout != 0)
 		[request setTimeoutInterval:_timeout];
 
 
     // Misc
-    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
-    [request setHTTPShouldHandleCookies:NO];
+//    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+//    [request setHTTPShouldHandleCookies:NO];
 
 
 
     // set properties on response
-    _response.requestHeaders  = headerDictionary;
-    _response.request         = self;
+    _response.requestHeaders    = headerDictionary;
+    _response.pocketRequest     = self;
+    _response.request           = request;
 
 
     return request;
@@ -461,7 +488,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
     NSURL *URL = [baseURL URLByAppendingPathComponent:routeString];
 
     // add parameters if present (hackery because URLByAppendingPathCompenent escapes the ? character. Pretty dumb.
-    if (params) URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", [URL absoluteString], paramsString]];
+    if (params && params.count > 0) URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", [URL absoluteString], paramsString]];
 
     return URL;
 }

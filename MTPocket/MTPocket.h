@@ -21,7 +21,7 @@
 
 @property (readonly, nonatomic) NSDictionary *templates;
 
-- (void)addTemplateWithName:(NSString *)name request:(MTPocketRequest *)request;
+- (void)addRequestTemplate:(MTPocketRequest *)request name:(NSString *)name;
 
 - (void)removeTemplateWithName:(NSString *)name;
 

@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Mysterious Trousers. All rights reserved.
 //
 
-#import "MTPocket.h"
 
+#import "mtpocket_private.h"
 
 
 @interface MTPocket ()
@@ -37,7 +37,7 @@
     return __sharedPocket;
 }
 
-- (void)addTemplateWithName:(NSString *)name request:(MTPocketRequest *)request
+- (void)addRequestTemplate:(MTPocketRequest *)request name:(NSString *)name
 {
     NSMutableDictionary *dict = (NSMutableDictionary *)_templates;
     dict[name] = [request copy];
@@ -61,7 +61,7 @@
     request.identifiers     = identifiers;
     request.method          = method;
     request.body            = body;
-    [request.params addEntriesFromDictionary:params];
+    if (params) [request.params addEntriesFromDictionary:params];
     return request;
 }
 
