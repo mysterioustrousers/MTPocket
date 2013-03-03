@@ -11,17 +11,20 @@
 
 
 @interface MTPocket ()
-@property (strong, readwrite, nonatomic) NSDictionary *templates;
+@property (assign,            nonatomic) BOOL           templatesRegistered;
+@property (strong, readwrite, nonatomic) NSDictionary   *templates;
 @end
 
 
 @implementation MTPocket
 
+
 - (id)init
 {
     self = [super init];
     if (self) {
-        _templates = [NSMutableDictionary dictionary];
+        _templates              = [NSMutableDictionary dictionary];
+        _templatesRegistered    = NO;
     }
     return self;
 }
@@ -29,12 +32,29 @@
 + (MTPocket *)sharedPocket
 {
     static MTPocket *__sharedPocket = nil;
+
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        __sharedPocket = [[MTPocket alloc] init];
-        [__sharedPocket registerTemplates];
+        __sharedPocket = [[self alloc] init];
     });
+
+    if (!__sharedPocket.templatesRegistered) {
+        [__sharedPocket registerTemplates];
+        __sharedPocket.templatesRegistered = YES;
+    }
+
     return __sharedPocket;
+}
+
+
+
+
+
+#pragma mark - Templates
+
+- (void)registerTemplates
+{
+    // to be overridden
 }
 
 - (void)addRequestTemplate:(MTPocketRequest *)request name:(NSString *)name
@@ -48,6 +68,10 @@
     NSMutableDictionary *dict = (NSMutableDictionary *)_templates;
     dict[name] = nil;
 }
+
+
+
+#pragma mark - Create Request
 
 - (MTPocketRequest *)requestWithTemplate:(NSString *)name
                                     path:(NSString *)path
@@ -66,16 +90,5 @@
 }
 
 
-
-
-#pragma mark - Methods to override
-
-- (void)registerTemplates
-{
-}
-
-
-
-
-
 @end
+

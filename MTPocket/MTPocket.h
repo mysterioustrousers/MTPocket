@@ -19,7 +19,12 @@
 
 
 
+#pragma mark - Templates
+
 @property (readonly, nonatomic) NSDictionary *templates;
+
+// overwride
+- (void)registerTemplates;
 
 - (void)addRequestTemplate:(MTPocketRequest *)request name:(NSString *)name;
 
@@ -27,6 +32,8 @@
 
 
 
+
+#pragma mark - Create Request
 - (MTPocketRequest *)requestWithTemplate:(NSString *)name
                                     path:(NSString *)path
                              identifiers:(NSArray *)identifiers

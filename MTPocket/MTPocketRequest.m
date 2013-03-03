@@ -29,7 +29,7 @@ NSString *randomStringWithLength(NSInteger length)
 @interface MTPocketRequest () <NSCopying, NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 @property (strong, readwrite, nonatomic)	NSMutableDictionary         *params;
 @property (strong, readwrite, nonatomic)	NSMutableDictionary         *headers;
-@property (strong, nonatomic)               MTPocketResponse            *response;
+@property (strong, nonatomic)               MTPocketRequest            *response;
 @property (strong, nonatomic)               NSMutableData               *mutableData;
 @property (strong, nonatomic)               NSData                      *fileData;              // (optional) The actual file data.
 @property (strong, nonatomic)               NSString                    *fileUploadFilename;    // (optional) The filename of the file being uploaded.
@@ -37,6 +37,7 @@ NSString *randomStringWithLength(NSInteger length)
 @property (strong, nonatomic)               NSString                    *fileUploadMIMEType;    // (optional) The Content-Type of the file being uploaded.
 @property (strong, nonatomic)               NSMutableArray              *successHandlers;
 @property (strong, nonatomic)               NSMutableArray              *failureHandlers;
+@property (strong, nonatomic)               NSMutableArray              *completeHandlers;
 @property (strong, nonatomic)               MTPocketProgressCallback    downloadProgressHandler;
 @property (strong, nonatomic)               MTPocketProgressCallback    uploadProgressHandler;
 @end
@@ -89,6 +90,32 @@ NSString *randomStringWithLength(NSInteger length)
     return request;
 }
 
++ (MTPocketRequest *)requestWithURL:(NSURL *)URL
+                             method:(MTPocketMethod)method
+                               body:(id)body
+{
+    NSString *scheme            = [URL scheme];
+    NSString *host              = [URL host];
+    NSNumber *port              = [URL port];
+    NSString *p                 = [URL path];
+    NSString *query             = [URL query];
+    NSMutableString *baseURL    = [NSMutableString string];
+    NSMutableString *path       = [NSMutableString string];
+    if (scheme) [baseURL appendFormat:@"%@://", scheme];
+    if (host)   [baseURL appendString:host];
+    if (port)   [baseURL appendFormat:@":%@", port];
+    if (p)      [path    appendString:p];
+    if (query)  [path    appendFormat:@"?%@", query];
+
+    MTPocketRequest *request = [self requestWithPath:path identifiers:nil method:method body:body params:nil];
+    request.baseURL = [NSURL URLWithString:baseURL];
+    return request;
+}
+
+- (NSURL *)resolvedURL
+{
+    return [self URLForPath:_path identifiers:_identifiers params:_params];
+}
 
 
 
@@ -104,6 +131,10 @@ NSString *randomStringWithLength(NSInteger length)
     if (failure) [_failureHandlers addObject:failure];
 }
 
+- (void)addComplete:(MTPocketCallback)complete
+{
+    if (complete) [_completeHandlers addObject:complete];
+}
 
 
 
@@ -131,7 +162,7 @@ NSString *randomStringWithLength(NSInteger length)
     _downloadProgressHandler    = downloadProgress;
 
     // create the response
-    _response = [[MTPocketResponse alloc] init];
+    _response = [[MTPocketRequest alloc] init];
     NSMutableURLRequest *request = [self preparedRequest];
 
     // if the request can be sent
@@ -143,6 +174,9 @@ NSString *randomStringWithLength(NSInteger length)
     // if it can't, there's probably not a connection, so we'll just call the failure callback.
     else {
         _response.status = MTPocketStatusNoConnection;
+        for (MTPocketCallback handler in _completeHandlers) {
+            handler(_response);
+        }
         for (MTPocketCallback handler in _failureHandlers) {
             handler(_response);
         }
@@ -186,12 +220,64 @@ NSString *randomStringWithLength(NSInteger length)
 
 + (NSDictionary *)headerDictionaryForTokenAuthWithToken:(NSString *)token
 {
-    return @{ @"Authorization" : [NSString stringWithFormat:@"Token token'\"%@\"", token] };
+    return @{ @"Authorization" : [NSString stringWithFormat:@"Token token=\"%@\"", token] };
+}
+
++ (NSDictionary *)headerDictionaryForBearerAuthWithToken:(NSString *)token
+{
+    return @{ @"Authorization" : [NSString stringWithFormat:@"Bearer %@", token] };
 }
 
 
 
+#pragma mark - Generating URLs
 
+- (NSURL *)URLForPath:(NSString *)path identifiers:(NSArray *)identifiers params:(NSDictionary *)params
+{
+    // parse the route and insert identifiers
+    NSArray *parts = [path componentsSeparatedByString:@"/"];
+    NSMutableArray *newParts = [NSMutableArray array];
+    NSMutableArray *ids = [NSMutableArray arrayWithArray:identifiers];
+    for (NSString *part in parts) {
+        if (part.length == 0) continue;
+        if ([part characterAtIndex:0] == ':') {
+            if (ids.count == 0) continue;
+            id object = ids[0];
+            id identifier = nil;
+            if ([object isKindOfClass:[NSArray class]]) {
+                identifier = [(NSArray *)object componentsJoinedByString:@","];
+            }
+            else {
+                identifier = object;
+            }
+            [ids removeObjectAtIndex:0];
+            [newParts addObject:identifier];
+        }
+        else
+            [newParts addObject:part];
+    }
+
+    NSString *routeString = [newParts componentsJoinedByString:@"/"];
+
+    // append params
+    NSMutableArray *paramPairs = [NSMutableArray array];
+    for (NSString *key in [params allKeys]) {
+        NSString *value = params[key];
+        if ([value isKindOfClass:[NSString class]])
+            value = [value stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [paramPairs addObject:[NSString stringWithFormat:@"%@=%@", key, value]];
+    }
+    NSString *paramsString = [paramPairs componentsJoinedByString:@"&"];
+
+    // construct the path
+    NSURL *baseURL = _baseURL ? _baseURL : [MTPocket sharedPocket].defaultBaseURL;
+    NSURL *URL = [baseURL URLByAppendingPathComponent:routeString];
+
+    // add parameters if present (hackery because URLByAppendingPathCompenent escapes the ? character. Pretty dumb.
+    if (params && params.count > 0) URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", [URL absoluteString], paramsString]];
+
+    return URL;
+}
 
 
 
@@ -201,6 +287,9 @@ NSString *randomStringWithLength(NSInteger length)
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     _response.error = error;
+    for (MTPocketCallback callback in _completeHandlers) {
+        callback(_response);
+    }
     for (MTPocketCallback callback in _failureHandlers) {
         callback(_response);
     }
@@ -238,6 +327,10 @@ NSString *randomStringWithLength(NSInteger length)
 {
     _response.data                  = _mutableData;
 
+    for (MTPocketCallback callback in _completeHandlers) {
+        Handle(_response);
+    }
+
     if (_response.success) {
         for (MTPocketCallback handler in _successHandlers) {
             handler(_response);
@@ -270,8 +363,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 
 - (NSMutableURLRequest *)preparedRequest
 {
-    NSURL *URL = [self URLForPath:_path identifiers:_identifiers params:_params];
-   	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+   	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[self resolvedURL]];
 
 	// set method
 	NSString *method = nil;
@@ -352,30 +444,12 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
         // set Content-Type in HTTP header
         NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
         [request setValue:contentType forHTTPHeaderField:@"Content-Type"];
-        [request setValue:[NSString stringWithFormat:@"%d", body.length] forHTTPHeaderField:@"Content-Length"];
+        [request setValue:[NSString stringWithFormat:@"%ld", (unsigned long)body.length] forHTTPHeaderField:@"Content-Length"];
 
         // setting the body of the post to the reqeust
         [request setHTTPBody:body];
         _response.requestData = body;
 
-
-//        [request setHTTPBody:_fileData];
-//        NSString *requestText = [[NSString alloc] initWithBytes:[(NSData *)_body bytes] length:[(NSData *)_body length] encoding:NSUTF8StringEncoding];
-//        _response.requestText = requestText;
-//
-//        NSString *boundary      = @"----WebKitFormBoundary9HN3IwANdrhDGAN4";
-//        NSString *contentType   = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-//
-//        NSMutableData *postbody = [NSMutableData data];
-//        [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-//        [postbody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", _fileUploadFormField, _fileUploadFilename] dataUsingEncoding:NSUTF8StringEncoding]];
-//        [postbody appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", _fileUploadMIMEType] dataUsingEncoding:NSUTF8StringEncoding]];
-//        [postbody appendData:_fileData];
-//        [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-//
-//        [request setValue:contentType forHTTPHeaderField:@"Content-Type"];
-//        [request setValue:[NSString stringWithFormat:@"%d", postbody.length] forHTTPHeaderField:@"Content-Length"];
-//        [request setHTTPBody:postbody];
     }
 	else if (_body) {
 		id body = nil;
@@ -446,52 +520,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
     return request;
 }
 
-- (NSURL *)URLForPath:(NSString *)path identifiers:(NSArray *)identifiers params:(NSDictionary *)params
-{
-    // parse the route and insert identifiers
-    NSArray *parts = [path componentsSeparatedByString:@"/"];
-    NSMutableArray *newParts = [NSMutableArray array];
-    NSMutableArray *ids = [NSMutableArray arrayWithArray:identifiers];
-    for (NSString *part in parts) {
-        if (part.length == 0) continue;
-        if ([part characterAtIndex:0] == ':') {
-            if (ids.count == 0) continue;
-            id object = ids[0];
-            id identifier = nil;
-            if ([object isKindOfClass:[NSArray class]]) {
-                identifier = [(NSArray *)object componentsJoinedByString:@","];
-            }
-            else {
-                identifier = object;
-            }
-            [ids removeObjectAtIndex:0];
-            [newParts addObject:identifier];
-        }
-        else
-            [newParts addObject:part];
-    }
 
-    NSString *routeString = [newParts componentsJoinedByString:@"/"];
-
-    // append params
-    NSMutableArray *paramPairs = [NSMutableArray array];
-    for (NSString *key in [params allKeys]) {
-        NSString *value = params[key];
-        if ([value isKindOfClass:[NSString class]])
-            value = [value stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        [paramPairs addObject:[NSString stringWithFormat:@"%@=%@", key, value]];
-    }
-    NSString *paramsString = [paramPairs componentsJoinedByString:@"&"];
-
-    // construct the path
-    NSURL *baseURL = _baseURL ? _baseURL : [MTPocket sharedPocket].defaultBaseURL;
-    NSURL *URL = [baseURL URLByAppendingPathComponent:routeString];
-
-    // add parameters if present (hackery because URLByAppendingPathCompenent escapes the ? character. Pretty dumb.
-    if (params && params.count > 0) URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", [URL absoluteString], paramsString]];
-
-    return URL;
-}
 
 
 

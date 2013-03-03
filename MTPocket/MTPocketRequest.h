@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 Mysterious Trousers. All rights reserved.
 //
 
-@class MTPocketResponse;
+@class MTPocketRequest;
 
 
-typedef void (^MTPocketCallback)(MTPocketResponse *response);
+typedef void (^MTPocketCallback)(MTPocketRequest *response);
 typedef void (^MTPocketProgressCallback)(float percent);
 
 /**
@@ -68,6 +68,15 @@ typedef enum {
                                 body:(id)body
                               params:(NSDictionary *)params;
 
++ (MTPocketRequest *)requestWithURL:(NSURL *)URL
+                             method:(MTPocketMethod)method
+                               body:(id)body;
+
+/**
+ The URL that is generated after the baseURL is added, identifiers are inserted and parameters are added to the 
+ query string.
+ */
+- (NSURL *)resolvedURL;
 
 
 
@@ -93,6 +102,11 @@ typedef enum {
 
 - (void)addSuccess:(MTPocketCallback)success;
 - (void)addFailure:(MTPocketCallback)failure;
+
+/**
+ Is called once the request is completed, regardless of the result. It is called BEFORE success/failure callbacks.
+ */
+- (void)addComplete:(MTPocketCallback)complete;
 
 
 
@@ -139,10 +153,7 @@ typedef enum {
 - (void)addHeaders:(NSDictionary *)dictionary;
 + (NSDictionary *)headerDictionaryForBasicAuthWithUsername:(NSString *)username password:(NSString *)password;
 + (NSDictionary *)headerDictionaryForTokenAuthWithToken:(NSString *)token;
-
-
-
-
++ (NSDictionary *)headerDictionaryForBearerAuthWithToken:(NSString *)token;
 
 
 
