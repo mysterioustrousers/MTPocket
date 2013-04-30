@@ -7,4 +7,4 @@
 //
 
 #define STALL(c)    while (c) { [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.5]]; }
-#define MAKE_URL(p) @"http://button.herokuapp.com/" p
+#define MAKE_URL(p) @"http://button.herokuapp.com" p

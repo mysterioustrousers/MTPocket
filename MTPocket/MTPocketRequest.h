@@ -139,15 +139,6 @@ typedef enum {
              failure:(MTPocketCallback)failure
       uploadProgress:(MTPocketProgressCallback)uploadProgress;
 
-// TODO NEEDS TESTING
-// success/failure will be called for each request, allComplete will be called when all requests have completed.
-+ (void)sendBatchRequests:(NSArray *)requests
-                  success:(MTPocketBatchCallback)success
-                  failure:(MTPocketBatchCallback)failure
-              allComplete:(void (^)(BOOL allSuccessful))allComplete;
-
-
-
 
 
 

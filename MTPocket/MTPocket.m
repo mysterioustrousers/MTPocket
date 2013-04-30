@@ -29,22 +29,23 @@
     return self;
 }
 
+
+
+
+
+#pragma mark - Public
+
 + (MTPocket *)sharedPocket
 {
-    static MTPocket *__sharedPocket = nil;
-
+    static MTPocket *__sharedPocket;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        __sharedPocket = [[self alloc] init];
+        __sharedPocket = [MTPocket new];
     });
-
-    if (!__sharedPocket.templatesRegistered) {
-        __sharedPocket.templatesRegistered = YES;
-        [__sharedPocket registerTemplates];
-    }
-
     return __sharedPocket;
 }
+
+
 
 
 
@@ -55,9 +56,10 @@
 - (void)registerTemplates
 {
     // to be overridden
+    _templatesRegistered = YES;
 }
 
-- (void)addRequestTemplate:(MTPocketRequest *)request name:(NSString *)name
+- (void)addTemplateWithRequest:(MTPocketRequest *)request name:(NSString *)name
 {
     NSMutableDictionary *dict = (NSMutableDictionary *)_templates;
     dict[name] = [request copy];
@@ -80,6 +82,8 @@
                                     body:(id)body
                                   params:(NSDictionary *)params
 {
+    if (!_templatesRegistered) [self registerTemplates];
+
     MTPocketRequest *request = [_templates[name] copy];
     request.path            = path;
     request.identifiers     = identifiers;

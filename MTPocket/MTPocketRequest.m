@@ -82,12 +82,24 @@ NSString *randomStringWithLength(NSInteger length)
 
 + (MTPocketRequest *)requestTemplate
 {
-    return [[MTPocketRequest alloc] initWithPath:nil identifiers:nil method:MTPocketMethodGET body:nil params:nil];
+    return [[MTPocketRequest alloc] initWithPath:nil
+                                     identifiers:nil
+                                          method:MTPocketMethodGET
+                                            body:nil
+                                          params:nil];
 }
 
-+ (MTPocketRequest *)requestWithPath:(NSString *)path identifiers:(NSArray *)identifiers method:(MTPocketMethod)method body:(id)body params:(NSDictionary *)params
++ (MTPocketRequest *)requestWithPath:(NSString *)path
+                         identifiers:(NSArray *)identifiers
+                              method:(MTPocketMethod)method
+                                body:(id)body
+                              params:(NSDictionary *)params
 {
-    MTPocketRequest *request = [[MTPocketRequest alloc] initWithPath:path identifiers:identifiers method:method body:body params:params];
+    MTPocketRequest *request = [[MTPocketRequest alloc] initWithPath:path
+                                                         identifiers:identifiers
+                                                              method:method
+                                                                body:body
+                                                              params:params];
     return request;
 }
 
@@ -199,17 +211,6 @@ NSString *randomStringWithLength(NSInteger length)
     [self sendWithSuccess:success failure:failure uploadProgress:uploadProgress downloadProgress:nil];
 }
 
-+ (void)sendBatchRequests:(NSArray *)requests
-                  success:(MTPocketBatchCallback)success
-                  failure:(MTPocketBatchCallback)failure
-              allComplete:(void (^)(BOOL allSuccessful))allComplete;
-{
-    if ([requests count] == 0) {
-        if (allComplete) allComplete(YES);
-        return;
-    }
-    [self sendRecursiveRequests:requests success:success failure:failure allComplete:allComplete allSuccessful:YES];
-}
 
 
 
@@ -530,30 +531,6 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 
     return request;
 }
-
-+ (void)sendRecursiveRequests:(NSArray *)requests
-                      success:(MTPocketBatchCallback)success
-                      failure:(MTPocketBatchCallback)failure
-                  allComplete:(void (^)(BOOL allSuccessful))allComplete
-                allSuccessful:(BOOL)allSuccessful
-{
-    if ([requests count] == 0) {
-        if (allComplete) allComplete(allSuccessful);
-        return;
-    }
-    NSMutableArray *queue       = [NSMutableArray arrayWithArray:requests];
-    MTPocketRequest *request    = queue[0];
-    [queue removeLastObject];
-    [request sendWithSuccess:^(MTPocketResponse *response) {
-        if (success) success(request, response);
-        [self sendRecursiveRequests:queue success:success failure:failure allComplete:allComplete allSuccessful:allSuccessful];
-    } failure:^(MTPocketResponse *response) {
-        if (failure) failure(request, response);
-        [self sendRecursiveRequests:queue success:success failure:failure allComplete:allComplete allSuccessful:NO];
-    }];
-}
-
-
 
 
 

@@ -39,7 +39,7 @@
 - (void)testSimpleRoute
 {
     NSURL *URL = [_request URLForPath:@"agents" identifiers:nil params:nil];
-    STAssertTrue([[URL absoluteString] isEqualToString:MAKE_URL(@"agents")], nil);
+    STAssertTrue([[URL absoluteString] isEqualToString:MAKE_URL(@"/agents")], nil);
 }
 
 - (void)testRouteWithId

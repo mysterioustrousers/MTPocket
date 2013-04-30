@@ -23,7 +23,7 @@
 //    template.timeout = 2;
     [template addHeaders:[MTPocketRequest headerDictionaryForBasicAuthWithUsername:UN password:PW]];
     [template.params addEntriesFromDictionary:@{ @"sessionId": @"fewoijalkfsdjlfsdhlaes" }];
-    [[MTPocket sharedPocket] addRequestTemplate:template name:@"api"];
+    [[MTPocket sharedPocket] addTemplateWithRequest:template name:@"api"];
 }
 
 - (void)testUseTemplate
