@@ -29,7 +29,7 @@ NSString *randomStringWithLength(NSInteger length)
 @interface MTPocketRequest () <NSCopying, NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 @property (strong, readwrite, nonatomic)	NSMutableDictionary         *params;
 @property (strong, readwrite, nonatomic)	NSMutableDictionary         *headers;
-@property (strong, nonatomic)               MTPocketRequest            *response;
+@property (strong, nonatomic)               MTPocketResponse            *response;
 @property (strong, nonatomic)               NSMutableData               *mutableData;
 @property (strong, nonatomic)               NSData                      *fileData;              // (optional) The actual file data.
 @property (strong, nonatomic)               NSString                    *fileUploadFilename;    // (optional) The filename of the file being uploaded.
@@ -56,6 +56,7 @@ NSString *randomStringWithLength(NSInteger length)
         _timeout            = -1;
         _successHandlers    = [NSMutableArray array];
         _failureHandlers    = [NSMutableArray array];
+        _completeHandlers   = [NSMutableArray array];
         _headers            = [NSMutableDictionary dictionary];
         _params             = [NSMutableDictionary dictionary];
     }
@@ -162,7 +163,7 @@ NSString *randomStringWithLength(NSInteger length)
     _downloadProgressHandler    = downloadProgress;
 
     // create the response
-    _response = [[MTPocketRequest alloc] init];
+    _response = [[MTPocketResponse alloc] init];
     NSMutableURLRequest *request = [self preparedRequest];
 
     // if the request can be sent
@@ -198,7 +199,17 @@ NSString *randomStringWithLength(NSInteger length)
     [self sendWithSuccess:success failure:failure uploadProgress:uploadProgress downloadProgress:nil];
 }
 
-
++ (void)sendBatchRequests:(NSArray *)requests
+                  success:(MTPocketBatchCallback)success
+                  failure:(MTPocketBatchCallback)failure
+              allComplete:(void (^)(BOOL allSuccessful))allComplete;
+{
+    if ([requests count] == 0) {
+        if (allComplete) allComplete(YES);
+        return;
+    }
+    [self sendRecursiveRequests:requests success:success failure:failure allComplete:allComplete allSuccessful:YES];
+}
 
 
 
@@ -327,8 +338,8 @@ NSString *randomStringWithLength(NSInteger length)
 {
     _response.data                  = _mutableData;
 
-    for (MTPocketCallback callback in _completeHandlers) {
-        Handle(_response);
+    for (MTPocketCallback handler in _completeHandlers) {
+        handler(_response);
     }
 
     if (_response.success) {
@@ -518,6 +529,28 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 
 
     return request;
+}
+
++ (void)sendRecursiveRequests:(NSArray *)requests
+                      success:(MTPocketBatchCallback)success
+                      failure:(MTPocketBatchCallback)failure
+                  allComplete:(void (^)(BOOL allSuccessful))allComplete
+                allSuccessful:(BOOL)allSuccessful
+{
+    if ([requests count] == 0) {
+        if (allComplete) allComplete(allSuccessful);
+        return;
+    }
+    NSMutableArray *queue       = [NSMutableArray arrayWithArray:requests];
+    MTPocketRequest *request    = queue[0];
+    [queue removeLastObject];
+    [request sendWithSuccess:^(MTPocketResponse *response) {
+        if (success) success(request, response);
+        [self sendRecursiveRequests:queue success:success failure:failure allComplete:allComplete allSuccessful:allSuccessful];
+    } failure:^(MTPocketResponse *response) {
+        if (failure) failure(request, response);
+        [self sendRecursiveRequests:queue success:success failure:failure allComplete:allComplete allSuccessful:NO];
+    }];
 }
 
 

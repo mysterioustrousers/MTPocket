@@ -8,11 +8,15 @@ A objective-c networking library that doesn't suck. Setting up network requests 
 - Simple API.
 - Templates.
 - Asynchronous.
+- Request based.
+  - Can easily retry a request.
+  - Can easily archive a request for sending later with new success/failure callbacks.
 - Success/failure callbacks.
-  - You can actually add multiple success/failure callbacks. This is great for building libraries. The library builds a request, adds callback to handle the data and returns the request to the calling application to add its own callbacks and send the request.
+  - You can actually add multiple success/failure callbacks. This is great for building libraries. The library builds a request, adds callback to handle building it's object graph and returns the request to the calling application to add its own callbacks and send the request.
 - Upload/Download progress callbacks.
 - Multi-part form uploads.
 - Awesome URL path building.
+
 
 ### Installation
 

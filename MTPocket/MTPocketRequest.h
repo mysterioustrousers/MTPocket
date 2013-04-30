@@ -6,10 +6,12 @@
 //  Copyright (c) 2012 Mysterious Trousers. All rights reserved.
 //
 
+@class MTPocketResponse;
 @class MTPocketRequest;
 
 
-typedef void (^MTPocketCallback)(MTPocketRequest *response);
+typedef void (^MTPocketCallback)(MTPocketResponse *response);
+typedef void (^MTPocketBatchCallback)(MTPocketRequest *request, MTPocketResponse *response);
 typedef void (^MTPocketProgressCallback)(float percent);
 
 /**
@@ -137,7 +139,12 @@ typedef enum {
              failure:(MTPocketCallback)failure
       uploadProgress:(MTPocketProgressCallback)uploadProgress;
 
-
+// TODO NEEDS TESTING
+// success/failure will be called for each request, allComplete will be called when all requests have completed.
++ (void)sendBatchRequests:(NSArray *)requests
+                  success:(MTPocketBatchCallback)success
+                  failure:(MTPocketBatchCallback)failure
+              allComplete:(void (^)(BOOL allSuccessful))allComplete;
 
 
 

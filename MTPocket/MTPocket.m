@@ -39,8 +39,8 @@
     });
 
     if (!__sharedPocket.templatesRegistered) {
-        [__sharedPocket registerTemplates];
         __sharedPocket.templatesRegistered = YES;
+        [__sharedPocket registerTemplates];
     }
 
     return __sharedPocket;

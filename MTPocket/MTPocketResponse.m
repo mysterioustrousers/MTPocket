@@ -1,5 +1,5 @@
 //
-//  MTPocketRequest.m
+//  MTPocketResponse.m
 //  MTPocket
 //
 //  Created by Adam Kirk on 12/17/12.

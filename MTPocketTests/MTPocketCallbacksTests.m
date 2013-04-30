@@ -191,6 +191,47 @@
     STAssertNotNil(response.responseHeaders, nil);
 }
 
+- (void)testCompleteHandler
+{
+    __block BOOL blockCalled = NO;
+    __block MTPocketResponse *response = nil;
+
+    MTPocketRequest *request = [MTPocketRequest requestWithPath:@"stitchess" identifiers:nil method:MTPocketMethodGET body:nil params:nil];
+    request.format = MTPocketFormatJSON;
+
+    [request addComplete:^(MTPocketResponse *resp) {
+        blockCalled = YES;
+        response    = resp;
+    }];
+
+    [request sendWithSuccess:^(MTPocketResponse *resp) {
+        STFail(@"Request succeeded when it should have failed");
+        blockCalled = YES;
+    } failure:^(MTPocketResponse *resp) {
+    }];
+
+    STALL(!blockCalled)
+
+    STAssertFalse(response.success, nil);
+    STAssertTrue(response.status == MTPocketStatusNotFound, nil);
+    STAssertTrue(response.format == MTPocketFormatJSON, nil);
+    STAssertNil(response.body, nil);
+
+    STAssertNotNil(response.error, nil);
+    STAssertNotNil(response.request, nil);
+    STAssertNotNil(response.data, nil);
+    STAssertNotNil(response.text, nil);
+    STAssertNil(response.requestData, nil);
+    STAssertNil(response.requestText, nil);
+    STAssertTrue(response.statusCode == 404, nil);
+    STAssertNotNil(response.MIMEType, nil);
+    STAssertTrue(response.expectedContentLength > 0, nil);
+    STAssertNotNil(response.responseHeaders, nil);
+
+}
+
+
+
 
 
 

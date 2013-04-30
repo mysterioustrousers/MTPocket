@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2A7E2828DDF64004BE0EE3B3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8C814F625014ECE8DB99D18 /* libPods.a */; };
+		C248505E16EC29B600FAC80B /* MTPocketBatchRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C248505D16EC29B600FAC80B /* MTPocketBatchRequestTests.m */; };
 		C298E45E16D165F6009252AD /* MTPocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C298E45D16D165F5009252AD /* MTPocket.m */; };
 		C298E46116D31A48009252AD /* MTPocketPathTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C298E46016D31A48009252AD /* MTPocketPathTests.m */; };
 		C299487816D457AE005C87BC /* MTPocketPUTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C299486C16D457AE005C87BC /* MTPocketPUTTests.m */; };
@@ -51,6 +52,8 @@
 
 /* Begin PBXFileReference section */
 		B8C814F625014ECE8DB99D18 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C248505C16EC29B600FAC80B /* MTPocketBatchRequestTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPocketBatchRequestTests.h; sourceTree = "<group>"; };
+		C248505D16EC29B600FAC80B /* MTPocketBatchRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPocketBatchRequestTests.m; sourceTree = "<group>"; };
 		C285AC28167C04CF0046B98B /* constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		C29239B2168218AC007BCEEF /* macros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
 		C298E45C16D165F5009252AD /* MTPocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPocket.h; sourceTree = "<group>"; };
@@ -181,6 +184,8 @@
 				C299487416D457AE005C87BC /* MTPocketDELETETests.m */,
 				C299487616D457AE005C87BC /* MTPocketCallbacksTests.h */,
 				C299487516D457AE005C87BC /* MTPocketCallbacksTests.m */,
+				C248505C16EC29B600FAC80B /* MTPocketBatchRequestTests.h */,
+				C248505D16EC29B600FAC80B /* MTPocketBatchRequestTests.m */,
 				C285AC28167C04CF0046B98B /* constants.h */,
 				C29239B2168218AC007BCEEF /* macros.h */,
 				C2BAEAB815CD91F500838B54 /* Supporting Files */,
@@ -329,6 +334,7 @@
 				C299487C16D457AE005C87BC /* MTPocketDELETETests.m in Sources */,
 				C299487D16D457AE005C87BC /* MTPocketCallbacksTests.m in Sources */,
 				C299488116D48D78005C87BC /* MTPocketTemplateTests.m in Sources */,
+				C248505E16EC29B600FAC80B /* MTPocketBatchRequestTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
