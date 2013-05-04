@@ -30,7 +30,7 @@
 /**
  Subclassing is not required, you can use this provided shared instance, add templates to it, etc.
  */
-+ (MTPocket *)sharedPocket;
++ (instancetype)sharedPocket;
 
 /**
  If you register a template with no base url set, it will use this if not nil.

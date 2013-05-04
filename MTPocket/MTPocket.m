@@ -35,12 +35,12 @@
 
 #pragma mark - Public
 
-+ (MTPocket *)sharedPocket
++ (instancetype)sharedPocket
 {
-    static MTPocket *__sharedPocket;
+    static id __sharedPocket;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        __sharedPocket = [MTPocket new];
+        __sharedPocket = [self new];
     });
     return __sharedPocket;
 }
