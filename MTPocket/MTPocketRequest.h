@@ -110,6 +110,10 @@ typedef enum {
  */
 - (void)addComplete:(MTPocketCallback)complete;
 
+/**
+ Remove all callbacks from a request. You should call this before retrying a request.
+ */
+- (void)removeAllHandlers;
 
 
 

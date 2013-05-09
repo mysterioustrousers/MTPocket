@@ -149,6 +149,14 @@ NSString *randomStringWithLength(NSInteger length)
     if (complete) [_completeHandlers addObject:complete];
 }
 
+- (void)removeAllHandlers
+{
+    [_successHandlers removeAllObjects];
+    [_failureHandlers removeAllObjects];
+    [_completeHandlers removeAllObjects];
+}
+
+
 
 
 
