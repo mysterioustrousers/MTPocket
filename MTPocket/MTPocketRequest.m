@@ -53,7 +53,7 @@ NSString *randomStringWithLength(NSInteger length)
     self = [super init];
     if (self) {
 		_format             = MTPocketFormatJSON;
-        _timeout            = -1;
+        _timeout            = 60;
         _successHandlers    = [NSMutableArray array];
         _failureHandlers    = [NSMutableArray array];
         _completeHandlers   = [NSMutableArray array];
