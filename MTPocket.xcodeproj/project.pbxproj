@@ -27,7 +27,6 @@
 		C299488116D48D78005C87BC /* MTPocketTemplateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C299488016D48D78005C87BC /* MTPocketTemplateTests.m */; };
 		C2BAEAA115CD91F500838B54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEAA015CD91F500838B54 /* Foundation.framework */; };
 		C2BAEAB015CD91F500838B54 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEAAF15CD91F500838B54 /* SenTestingKit.framework */; };
-		C2BAEAB215CD91F500838B54 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEAB115CD91F500838B54 /* UIKit.framework */; };
 		C2BAEAB315CD91F500838B54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEAA015CD91F500838B54 /* Foundation.framework */; };
 		C2BAEAB615CD91F500838B54 /* libMTPocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEA9D15CD91F500838B54 /* libMTPocket.a */; };
 		C2BAEABC15CD91F500838B54 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C2BAEABA15CD91F500838B54 /* InfoPlist.strings */; };
@@ -68,9 +67,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C21CB4B4175117590082CB97 /* libBase64.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libBase64.a; path = "Base64/build/Release-iphoneos/libBase64.a"; sourceTree = "<group>"; };
-		C21CB4B6175117620082CB97 /* libMTJSONUtils.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libMTJSONUtils.a; path = "MTJSONUtils/build/Release-iphoneos/libMTJSONUtils.a"; sourceTree = "<group>"; };
-		C21CB4B8175117680082CB97 /* libXMLDictionary.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libXMLDictionary.a; path = "XMLDictionary/build/Release-iphoneos/libXMLDictionary.a"; sourceTree = "<group>"; };
+		C21CB4B4175117590082CB97 /* libBase64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBase64.a; path = "Base64/build/Release-iphoneos/libBase64.a"; sourceTree = "<group>"; };
+		C21CB4B6175117620082CB97 /* libMTJSONUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMTJSONUtils.a; path = "MTJSONUtils/build/Release-iphoneos/libMTJSONUtils.a"; sourceTree = "<group>"; };
+		C21CB4B8175117680082CB97 /* libXMLDictionary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXMLDictionary.a; path = "XMLDictionary/build/Release-iphoneos/libXMLDictionary.a"; sourceTree = "<group>"; };
 		C21CB4C8175118750082CB97 /* libMTPocket.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMTPocket.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C285AC28167C04CF0046B98B /* constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		C29239B2168218AC007BCEEF /* macros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
@@ -96,7 +95,6 @@
 		C2BAEAA415CD91F500838B54 /* MTPocket-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MTPocket-Prefix.pch"; sourceTree = "<group>"; };
 		C2BAEAAE15CD91F500838B54 /* MTPocketTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MTPocketTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2BAEAAF15CD91F500838B54 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		C2BAEAB115CD91F500838B54 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		C2BAEAB915CD91F500838B54 /* MTPocketTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MTPocketTests-Info.plist"; sourceTree = "<group>"; };
 		C2BAEABB15CD91F500838B54 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C2BE8626167F6BD300051C97 /* MTPocketRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPocketRequest.h; sourceTree = "<group>"; };
@@ -134,7 +132,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2BAEAB015CD91F500838B54 /* SenTestingKit.framework in Frameworks */,
-				C2BAEAB215CD91F500838B54 /* UIKit.framework in Frameworks */,
 				C2BAEAB315CD91F500838B54 /* Foundation.framework in Frameworks */,
 				C2BAEAB615CD91F500838B54 /* libMTPocket.a in Frameworks */,
 			);
@@ -171,7 +168,6 @@
 				C21CB4B4175117590082CB97 /* libBase64.a */,
 				C2BAEAA015CD91F500838B54 /* Foundation.framework */,
 				C2BAEAAF15CD91F500838B54 /* SenTestingKit.framework */,
-				C2BAEAB115CD91F500838B54 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
