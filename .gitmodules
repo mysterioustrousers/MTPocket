@@ -1,0 +1,9 @@
+[submodule "Base64"]
+	path = Base64
+	url = https://github.com/mysterioustrousers/Base64.git
+[submodule "MTJSONUtils"]
+	path = MTJSONUtils
+	url = https://github.com/mysterioustrousers/MTJSONUtils.git
+[submodule "XMLDictionary"]
+	path = XMLDictionary
+	url = https://github.com/mysterioustrousers/XMLDictionary.git
