@@ -32,6 +32,8 @@
 		C2BAEABC15CD91F500838B54 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C2BAEABA15CD91F500838B54 /* InfoPlist.strings */; };
 		C2BE8628167F6BD300051C97 /* MTPocketRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BE8627167F6BD300051C97 /* MTPocketRequest.m */; };
 		C2BE862F167F6C0200051C97 /* MTPocketResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BE862E167F6C0200051C97 /* MTPocketResponse.m */; };
+		C2ECB36F17517A6B00A779AC /* MTPocket.h in Headers */ = {isa = PBXBuildFile; fileRef = C298E45C16D165F5009252AD /* MTPocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C2ECB37017517A6C00A779AC /* MTPocket.h in Headers */ = {isa = PBXBuildFile; fileRef = C298E45C16D165F5009252AD /* MTPocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C2FAD7D7167C671C0046E550 /* test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C2FAD7D6167C671C0046E550 /* test.jpg */; };
 /* End PBXBuildFile section */
 
@@ -231,6 +233,25 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		C2ECB36D17517A6200A779AC /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2ECB37017517A6C00A779AC /* MTPocket.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2ECB36E17517A6700A779AC /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2ECB36F17517A6B00A779AC /* MTPocket.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		C21CB4BA175118750082CB97 /* MTPocket-OSX */ = {
 			isa = PBXNativeTarget;
@@ -239,6 +260,7 @@
 				C21CB4BB175118750082CB97 /* Sources */,
 				C21CB4BF175118750082CB97 /* Frameworks */,
 				C21CB4C4175118750082CB97 /* CopyFiles */,
+				C2ECB36E17517A6700A779AC /* Headers */,
 			);
 			buildRules = (
 			);
@@ -256,6 +278,7 @@
 				C2BAEA9915CD91F500838B54 /* Sources */,
 				C2BAEA9A15CD91F500838B54 /* Frameworks */,
 				C2BAEA9B15CD91F500838B54 /* CopyFiles */,
+				C2ECB36D17517A6200A779AC /* Headers */,
 			);
 			buildRules = (
 			);
@@ -417,7 +440,6 @@
 				);
 				PRODUCT_NAME = MTPocket;
 				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = macosx;
 			};
 			name = Debug;
@@ -441,7 +463,6 @@
 				);
 				PRODUCT_NAME = MTPocket;
 				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = macosx;
 			};
 			name = Release;
@@ -473,6 +494,7 @@
 					"-all_load",
 				);
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Debug;
@@ -497,6 +519,7 @@
 					"-all_load",
 				);
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -518,7 +541,6 @@
 					"\"$(SDKROOT)/usr/lib/system\"",
 				);
 				PRODUCT_NAME = MTPocket;
-				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -538,7 +560,6 @@
 					"\"$(SDKROOT)/usr/lib/system\"",
 				);
 				PRODUCT_NAME = MTPocket;
-				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
