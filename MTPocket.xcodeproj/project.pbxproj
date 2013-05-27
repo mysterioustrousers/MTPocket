@@ -11,6 +11,12 @@
 		C21CB4BD175118750082CB97 /* MTPocketResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BE862E167F6C0200051C97 /* MTPocketResponse.m */; };
 		C21CB4BE175118750082CB97 /* MTPocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C298E45D16D165F5009252AD /* MTPocket.m */; };
 		C21CB4C0175118750082CB97 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEAA015CD91F500838B54 /* Foundation.framework */; };
+		C22341351753B585009F985D /* libBase64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C22341321753B585009F985D /* libBase64.a */; };
+		C22341361753B585009F985D /* libMTJSONUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C22341331753B585009F985D /* libMTJSONUtils.a */; };
+		C22341371753B585009F985D /* libXMLDictionary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C22341341753B585009F985D /* libXMLDictionary.a */; };
+		C22341381753B599009F985D /* libBase64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C22341321753B585009F985D /* libBase64.a */; };
+		C22341391753B599009F985D /* libMTJSONUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C22341331753B585009F985D /* libMTJSONUtils.a */; };
+		C223413A1753B599009F985D /* libXMLDictionary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C22341341753B585009F985D /* libXMLDictionary.a */; };
 		C298E45E16D165F6009252AD /* MTPocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C298E45D16D165F5009252AD /* MTPocket.m */; };
 		C298E46116D31A48009252AD /* MTPocketPathTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C298E46016D31A48009252AD /* MTPocketPathTests.m */; };
 		C299487816D457AE005C87BC /* MTPocketPUTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C299486C16D457AE005C87BC /* MTPocketPUTTests.m */; };
@@ -30,104 +36,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C2A824ED1753AC2A008D834F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2A824E71753AC2A008D834F /* XMLDictionary.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C2BAEAE215D00E6E00838B54;
-			remoteInfo = "XMLDictionary-iOS";
-		};
-		C2A824EF1753AC2A008D834F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2A824E71753AC2A008D834F /* XMLDictionary.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C254D9EE17510A59009B7B3B;
-			remoteInfo = "XMLDictionary-OSX";
-		};
-		C2A824F11753AC2A008D834F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2A824E71753AC2A008D834F /* XMLDictionary.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C2BAEAF315D00E6E00838B54;
-			remoteInfo = XMLDictionaryTests;
-		};
-		C2A825071753AC5F008D834F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2A825011753AC5F008D834F /* MTJSONUtils.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C29BFEFF15DD9A14004B71D0;
-			remoteInfo = "MTJSONUtils-iOS";
-		};
-		C2A825091753AC5F008D834F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2A825011753AC5F008D834F /* MTJSONUtils.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C254D9E3175109C4009B7B3B;
-			remoteInfo = "MTJSONUtils-OSX";
-		};
-		C2A8250B1753AC5F008D834F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2A825011753AC5F008D834F /* MTJSONUtils.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C29BFF1015DD9A14004B71D0;
-			remoteInfo = MTJSONUtilsTests;
-		};
-		C2A825121753AC65008D834F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2A8250D1753AC64008D834F /* Base64.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C254D9F31751125C009B7B3B;
-			remoteInfo = "Base64-iOS";
-		};
-		C2A825141753AC65008D834F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2A8250D1753AC64008D834F /* Base64.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C254DA0A1751129E009B7B3B;
-			remoteInfo = "Base64-OSX";
-		};
-		C2A8251C1753AC8C008D834F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2A824E71753AC2A008D834F /* XMLDictionary.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = C2BAEAE115D00E6E00838B54;
-			remoteInfo = "XMLDictionary-iOS";
-		};
-		C2A8251E1753AC8C008D834F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2A8250D1753AC64008D834F /* Base64.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = C254D9F21751125C009B7B3B;
-			remoteInfo = "Base64-iOS";
-		};
-		C2A825201753AC8C008D834F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2A825011753AC5F008D834F /* MTJSONUtils.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = C29BFEFE15DD9A14004B71D0;
-			remoteInfo = "MTJSONUtils-iOS";
-		};
-		C2A825221753AC92008D834F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2A824E71753AC2A008D834F /* XMLDictionary.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = C254D9E417510A59009B7B3B;
-			remoteInfo = "XMLDictionary-OSX";
-		};
-		C2A825241753AC92008D834F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2A8250D1753AC64008D834F /* Base64.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = C254DA001751129E009B7B3B;
-			remoteInfo = "Base64-OSX";
-		};
-		C2A825261753AC92008D834F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2A825011753AC5F008D834F /* MTJSONUtils.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = C254D9DA175109C4009B7B3B;
-			remoteInfo = "MTJSONUtils-OSX";
-		};
 		C2BAEAB415CD91F500838B54 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2BAEA9415CD91F500838B54 /* Project object */;
@@ -160,6 +68,9 @@
 
 /* Begin PBXFileReference section */
 		C21CB4C8175118750082CB97 /* libMTPocket.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMTPocket.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C22341321753B585009F985D /* libBase64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBase64.a; path = Base64/build/Release/libBase64.a; sourceTree = "<group>"; };
+		C22341331753B585009F985D /* libMTJSONUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMTJSONUtils.a; path = MTJSONUtils/build/Release/libMTJSONUtils.a; sourceTree = "<group>"; };
+		C22341341753B585009F985D /* libXMLDictionary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXMLDictionary.a; path = XMLDictionary/build/Release/libXMLDictionary.a; sourceTree = "<group>"; };
 		C285AC28167C04CF0046B98B /* constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		C29239B2168218AC007BCEEF /* macros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
 		C298E45C16D165F5009252AD /* MTPocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPocket.h; sourceTree = "<group>"; };
@@ -179,9 +90,6 @@
 		C299487E16D45BAE005C87BC /* mtpocket_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mtpocket_private.h; sourceTree = "<group>"; };
 		C299487F16D48D78005C87BC /* MTPocketTemplateTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPocketTemplateTests.h; sourceTree = "<group>"; };
 		C299488016D48D78005C87BC /* MTPocketTemplateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPocketTemplateTests.m; sourceTree = "<group>"; };
-		C2A824E71753AC2A008D834F /* XMLDictionary.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XMLDictionary.xcodeproj; path = XMLDictionary/XMLDictionary.xcodeproj; sourceTree = "<group>"; };
-		C2A825011753AC5F008D834F /* MTJSONUtils.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MTJSONUtils.xcodeproj; path = MTJSONUtils/MTJSONUtils.xcodeproj; sourceTree = "<group>"; };
-		C2A8250D1753AC64008D834F /* Base64.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Base64.xcodeproj; path = Base64/Base64.xcodeproj; sourceTree = "<group>"; };
 		C2BAEA9D15CD91F500838B54 /* libMTPocket.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMTPocket.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2BAEAA015CD91F500838B54 /* Foundation.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C2BAEAA415CD91F500838B54 /* MTPocket-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MTPocket-Prefix.pch"; sourceTree = "<group>"; };
@@ -201,6 +109,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C22341351753B585009F985D /* libBase64.a in Frameworks */,
+				C22341361753B585009F985D /* libMTJSONUtils.a in Frameworks */,
+				C22341371753B585009F985D /* libXMLDictionary.a in Frameworks */,
 				C21CB4C0175118750082CB97 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -209,6 +120,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C22341381753B599009F985D /* libBase64.a in Frameworks */,
+				C22341391753B599009F985D /* libMTJSONUtils.a in Frameworks */,
+				C223413A1753B599009F985D /* libXMLDictionary.a in Frameworks */,
 				C2BAEAA115CD91F500838B54 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -226,35 +140,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C2A824E81753AC2A008D834F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C2A824EE1753AC2A008D834F /* libXMLDictionary.a */,
-				C2A824F01753AC2A008D834F /* libXMLDictionary.a */,
-				C2A824F21753AC2A008D834F /* XMLDictionaryTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		C2A825021753AC5F008D834F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C2A825081753AC5F008D834F /* libMTJSONUtils.a */,
-				C2A8250A1753AC5F008D834F /* libMTJSONUtils.a */,
-				C2A8250C1753AC5F008D834F /* MTJSONUtilsTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		C2A8250E1753AC64008D834F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C2A825131753AC65008D834F /* libBase64.a */,
-				C2A825151753AC65008D834F /* libBase64.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		C2BAEA9215CD91F500838B54 = {
 			isa = PBXGroup;
 			children = (
@@ -278,9 +163,9 @@
 		C2BAEA9F15CD91F500838B54 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C2A824E71753AC2A008D834F /* XMLDictionary.xcodeproj */,
-				C2A825011753AC5F008D834F /* MTJSONUtils.xcodeproj */,
-				C2A8250D1753AC64008D834F /* Base64.xcodeproj */,
+				C22341321753B585009F985D /* libBase64.a */,
+				C22341331753B585009F985D /* libMTJSONUtils.a */,
+				C22341341753B585009F985D /* libXMLDictionary.a */,
 				C2BAEAA015CD91F500838B54 /* Foundation.framework */,
 				C2BAEAAF15CD91F500838B54 /* SenTestingKit.framework */,
 			);
@@ -358,9 +243,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C2A825231753AC92008D834F /* PBXTargetDependency */,
-				C2A825251753AC92008D834F /* PBXTargetDependency */,
-				C2A825271753AC92008D834F /* PBXTargetDependency */,
 			);
 			name = "MTPocket-OSX";
 			productName = MTPocket;
@@ -378,9 +260,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C2A8251D1753AC8C008D834F /* PBXTargetDependency */,
-				C2A8251F1753AC8C008D834F /* PBXTargetDependency */,
-				C2A825211753AC8C008D834F /* PBXTargetDependency */,
 			);
 			name = "MTPocket-iOS";
 			productName = MTPocket;
@@ -425,20 +304,6 @@
 			mainGroup = C2BAEA9215CD91F500838B54;
 			productRefGroup = C2BAEA9E15CD91F500838B54 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = C2A8250E1753AC64008D834F /* Products */;
-					ProjectRef = C2A8250D1753AC64008D834F /* Base64.xcodeproj */;
-				},
-				{
-					ProductGroup = C2A825021753AC5F008D834F /* Products */;
-					ProjectRef = C2A825011753AC5F008D834F /* MTJSONUtils.xcodeproj */;
-				},
-				{
-					ProductGroup = C2A824E81753AC2A008D834F /* Products */;
-					ProjectRef = C2A824E71753AC2A008D834F /* XMLDictionary.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				C2BAEA9C15CD91F500838B54 /* MTPocket-iOS */,
@@ -447,65 +312,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		C2A824EE1753AC2A008D834F /* libXMLDictionary.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libXMLDictionary.a;
-			remoteRef = C2A824ED1753AC2A008D834F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C2A824F01753AC2A008D834F /* libXMLDictionary.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libXMLDictionary.a;
-			remoteRef = C2A824EF1753AC2A008D834F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C2A824F21753AC2A008D834F /* XMLDictionaryTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = XMLDictionaryTests.octest;
-			remoteRef = C2A824F11753AC2A008D834F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C2A825081753AC5F008D834F /* libMTJSONUtils.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libMTJSONUtils.a;
-			remoteRef = C2A825071753AC5F008D834F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C2A8250A1753AC5F008D834F /* libMTJSONUtils.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libMTJSONUtils.a;
-			remoteRef = C2A825091753AC5F008D834F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C2A8250C1753AC5F008D834F /* MTJSONUtilsTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = MTJSONUtilsTests.octest;
-			remoteRef = C2A8250B1753AC5F008D834F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C2A825131753AC65008D834F /* libBase64.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libBase64.a;
-			remoteRef = C2A825121753AC65008D834F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C2A825151753AC65008D834F /* libBase64.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libBase64.a;
-			remoteRef = C2A825141753AC65008D834F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C2BAEAAB15CD91F500838B54 /* Resources */ = {
@@ -573,36 +379,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C2A8251D1753AC8C008D834F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "XMLDictionary-iOS";
-			targetProxy = C2A8251C1753AC8C008D834F /* PBXContainerItemProxy */;
-		};
-		C2A8251F1753AC8C008D834F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Base64-iOS";
-			targetProxy = C2A8251E1753AC8C008D834F /* PBXContainerItemProxy */;
-		};
-		C2A825211753AC8C008D834F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "MTJSONUtils-iOS";
-			targetProxy = C2A825201753AC8C008D834F /* PBXContainerItemProxy */;
-		};
-		C2A825231753AC92008D834F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "XMLDictionary-OSX";
-			targetProxy = C2A825221753AC92008D834F /* PBXContainerItemProxy */;
-		};
-		C2A825251753AC92008D834F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Base64-OSX";
-			targetProxy = C2A825241753AC92008D834F /* PBXContainerItemProxy */;
-		};
-		C2A825271753AC92008D834F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "MTJSONUtils-OSX";
-			targetProxy = C2A825261753AC92008D834F /* PBXContainerItemProxy */;
-		};
 		C2BAEAB515CD91F500838B54 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C2BAEA9C15CD91F500838B54 /* MTPocket-iOS */;

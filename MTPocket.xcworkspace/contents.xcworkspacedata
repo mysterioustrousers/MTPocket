@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "container:MTPocket.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:XMLDictionary/XMLDictionary.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:MTJSONUtils/MTJSONUtils.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Base64/Base64.xcodeproj">
+   </FileRef>
+</Workspace>
