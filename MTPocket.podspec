@@ -11,6 +11,6 @@ Pod::Spec.new do |s|
   s.public_header_files = 'MTPocket/MTPocket.h', 'MTPocket/MTPocketRequest.h', 'MTPocket/MTPocketAsyncRequest.h', 'MTPocket/MTPocketResponse.h'
   s.requires_arc = true
   s.dependency 'XMLDictionary'
-  s.dependency 'MTJSONUtils'
+  s.dependency 'MTJSONUtils', '~> 0.1.1'
   s.dependency 'Base64'
 end
