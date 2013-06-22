@@ -72,8 +72,8 @@
 		C21CB4C8175118750082CB97 /* libMTPocket.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMTPocket.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C22341331753B585009F985D /* libMTJSONUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMTJSONUtils.a; path = MTJSONUtils/build/Release/libMTJSONUtils.a; sourceTree = "<group>"; };
 		C22341341753B585009F985D /* libXMLDictionary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXMLDictionary.a; path = XMLDictionary/build/Release/libXMLDictionary.a; sourceTree = "<group>"; };
-		C27D91931753F39200C622DA /* libBase64.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libBase64.a; path = "Base64/build/Release-iphoneos/libBase64.a"; sourceTree = "<group>"; };
-		C27D91951753F3F600C622DA /* libBase64.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libBase64.a; path = Base64/build/Release/libBase64.a; sourceTree = "<group>"; };
+		C27D91931753F39200C622DA /* libBase64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBase64.a; path = "Base64/build/Release-iphoneos/libBase64.a"; sourceTree = "<group>"; };
+		C27D91951753F3F600C622DA /* libBase64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBase64.a; path = Base64/build/Release/libBase64.a; sourceTree = "<group>"; };
 		C285AC28167C04CF0046B98B /* constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		C29239B2168218AC007BCEEF /* macros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
 		C298E45C16D165F5009252AD /* MTPocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPocket.h; sourceTree = "<group>"; };
@@ -316,7 +316,7 @@
 		C2BAEA9415CD91F500838B54 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Mysterious Trousers";
 			};
 			buildConfigurationList = C2BAEA9715CD91F500838B54 /* Build configuration list for PBXProject "MTPocket" */;
@@ -426,7 +426,6 @@
 		C21CB4C6175118750082CB97 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				DSTROOT = /tmp/MTPocket.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -449,7 +448,6 @@
 		C21CB4C7175118750082CB97 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				DSTROOT = /tmp/MTPocket.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -473,7 +471,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -491,6 +488,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -505,7 +503,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
