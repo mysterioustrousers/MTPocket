@@ -137,59 +137,59 @@
     STAssertNotNil(response.responseHeaders, nil);
 }
 
-- (void)testUploadFile
-{
-    __block BOOL successBlockCalled = NO;
-    __block BOOL uploadProgressCalled = NO;
-    __block MTPocketResponse *response = nil;
-
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-	NSString *imagePath = [bundle pathForResource:@"test" ofType:@"jpg"];
-    NSError *error = nil;
-    NSData *fileData = [NSData dataWithContentsOfFile:imagePath options:0 error:&error];
-    STAssertNil(error, nil);
-
-    MTPocketRequest *request = [MTPocketRequest requestWithPath:nil identifiers:nil method:MTPocketMethodPOST body:nil params:nil];
-    request.format  = MTPocketFormatJSON;
-    request.baseURL = UPLOAD_FILE_URL;
-
-    [request sendFileData:fileData
-                 filename:@"test.jpg"
-                formField:@"files[]"
-                 MIMEType:@"image/jpeg"
-                  success:^(MTPocketResponse *resp) {
-                      response = resp;
-                      successBlockCalled = YES;
-                 } failure:^(MTPocketResponse *response) {
-                     STFail(@"Request Failed");
-                     uploadProgressCalled = YES;
-                 } uploadProgress:^(float percent) {
-                     uploadProgressCalled = YES;
-                 }];
-
-
-    STALL(!successBlockCalled);
-
-    STAssertTrue(successBlockCalled, nil);
-    STAssertTrue(uploadProgressCalled, nil);
-
-    STAssertNotNil(response, nil);
-    STAssertTrue(response.success, nil);
-    STAssertTrue(response.status == MTPocketStatusSuccess, nil);
-    STAssertTrue(response.format == MTPocketFormatJSON, nil);
-    STAssertNotNil(response.body, nil);
-
-    STAssertNil(response.error, nil);
-    STAssertNotNil(response.request, nil);
-    STAssertNotNil(response.data, nil);
-    STAssertNotNil(response.text, nil);
-    STAssertNotNil(response.requestData, nil);
-    STAssertNil(response.requestText, nil);
-    STAssertTrue(response.statusCode == 200, nil);
-    STAssertNotNil(response.MIMEType, nil);
-    STAssertTrue(response.expectedContentLength > 0, nil);
-    STAssertNotNil(response.responseHeaders, nil);
-}
+//- (void)testUploadFile
+//{
+//    __block BOOL successBlockCalled = NO;
+//    __block BOOL uploadProgressCalled = NO;
+//    __block MTPocketResponse *response = nil;
+//
+//    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+//	NSString *imagePath = [bundle pathForResource:@"test" ofType:@"jpg"];
+//    NSError *error = nil;
+//    NSData *fileData = [NSData dataWithContentsOfFile:imagePath options:0 error:&error];
+//    STAssertNil(error, nil);
+//
+//    MTPocketRequest *request = [MTPocketRequest requestWithPath:nil identifiers:nil method:MTPocketMethodPOST body:nil params:nil];
+//    request.format  = MTPocketFormatJSON;
+//    request.baseURL = UPLOAD_FILE_URL;
+//
+//    [request sendFileData:fileData
+//                 filename:@"test.jpg"
+//                formField:@"files[]"
+//                 MIMEType:@"image/jpeg"
+//                  success:^(MTPocketResponse *resp) {
+//                      response = resp;
+//                      successBlockCalled = YES;
+//                 } failure:^(MTPocketResponse *response) {
+//                     STFail(@"Request Failed");
+//                     uploadProgressCalled = YES;
+//                 } uploadProgress:^(float percent) {
+//                     uploadProgressCalled = YES;
+//                 }];
+//
+//
+//    STALL(!successBlockCalled);
+//
+//    STAssertTrue(successBlockCalled, nil);
+//    STAssertTrue(uploadProgressCalled, nil);
+//
+//    STAssertNotNil(response, nil);
+//    STAssertTrue(response.success, nil);
+//    STAssertTrue(response.status == MTPocketStatusSuccess, nil);
+//    STAssertTrue(response.format == MTPocketFormatJSON, nil);
+//    STAssertNotNil(response.body, nil);
+//
+//    STAssertNil(response.error, nil);
+//    STAssertNotNil(response.request, nil);
+//    STAssertNotNil(response.data, nil);
+//    STAssertNotNil(response.text, nil);
+//    STAssertNotNil(response.requestData, nil);
+//    STAssertNil(response.requestText, nil);
+//    STAssertTrue(response.statusCode == 200, nil);
+//    STAssertNotNil(response.MIMEType, nil);
+//    STAssertTrue(response.expectedContentLength > 0, nil);
+//    STAssertNotNil(response.responseHeaders, nil);
+//}
 
 - (void)testCompleteHandler
 {

@@ -11,12 +11,6 @@
 		C21CB4BD175118750082CB97 /* MTPocketResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BE862E167F6C0200051C97 /* MTPocketResponse.m */; };
 		C21CB4BE175118750082CB97 /* MTPocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C298E45D16D165F5009252AD /* MTPocket.m */; };
 		C21CB4C0175118750082CB97 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEAA015CD91F500838B54 /* Foundation.framework */; };
-		C22341361753B585009F985D /* libMTJSONUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C22341331753B585009F985D /* libMTJSONUtils.a */; };
-		C22341371753B585009F985D /* libXMLDictionary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C22341341753B585009F985D /* libXMLDictionary.a */; };
-		C22341391753B599009F985D /* libMTJSONUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C22341331753B585009F985D /* libMTJSONUtils.a */; };
-		C223413A1753B599009F985D /* libXMLDictionary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C22341341753B585009F985D /* libXMLDictionary.a */; };
-		C27D91941753F39200C622DA /* libBase64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C27D91931753F39200C622DA /* libBase64.a */; };
-		C27D91961753F3F600C622DA /* libBase64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C27D91951753F3F600C622DA /* libBase64.a */; };
 		C298E45E16D165F6009252AD /* MTPocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C298E45D16D165F5009252AD /* MTPocket.m */; };
 		C298E46116D31A48009252AD /* MTPocketPathTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C298E46016D31A48009252AD /* MTPocketPathTests.m */; };
 		C299487816D457AE005C87BC /* MTPocketPUTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C299486C16D457AE005C87BC /* MTPocketPUTTests.m */; };
@@ -25,6 +19,20 @@
 		C299487C16D457AE005C87BC /* MTPocketDELETETests.m in Sources */ = {isa = PBXBuildFile; fileRef = C299487416D457AE005C87BC /* MTPocketDELETETests.m */; };
 		C299487D16D457AE005C87BC /* MTPocketCallbacksTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C299487516D457AE005C87BC /* MTPocketCallbacksTests.m */; };
 		C299488116D48D78005C87BC /* MTPocketTemplateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C299488016D48D78005C87BC /* MTPocketTemplateTests.m */; };
+		C2B93FFE177D38C3001096DC /* XMLDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B93FFC177D38C3001096DC /* XMLDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C2B93FFF177D38C3001096DC /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B93FFD177D38C3001096DC /* XMLDictionary.m */; };
+		C2B94000177D38C8001096DC /* XMLDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B93FFC177D38C3001096DC /* XMLDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C2B94001177D38CE001096DC /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B93FFD177D38C3001096DC /* XMLDictionary.m */; };
+		C2B94004177D3919001096DC /* MF_Base64Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B94002177D3919001096DC /* MF_Base64Additions.h */; };
+		C2B94005177D3919001096DC /* MF_Base64Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B94002177D3919001096DC /* MF_Base64Additions.h */; };
+		C2B94006177D3919001096DC /* MF_Base64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B94003177D3919001096DC /* MF_Base64Additions.m */; };
+		C2B94007177D3919001096DC /* MF_Base64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B94003177D3919001096DC /* MF_Base64Additions.m */; };
+		C2B9400A177D3982001096DC /* MTJSONUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B94009177D3982001096DC /* MTJSONUtilsTests.m */; };
+		C2B9400D177D398C001096DC /* XMLDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B9400C177D398C001096DC /* XMLDictionaryTests.m */; };
+		C2B94010177D399D001096DC /* NSObject+MTJSONUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B9400E177D399D001096DC /* NSObject+MTJSONUtils.h */; };
+		C2B94011177D399D001096DC /* NSObject+MTJSONUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B9400E177D399D001096DC /* NSObject+MTJSONUtils.h */; };
+		C2B94012177D399D001096DC /* NSObject+MTJSONUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B9400F177D399D001096DC /* NSObject+MTJSONUtils.m */; };
+		C2B94013177D399D001096DC /* NSObject+MTJSONUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B9400F177D399D001096DC /* NSObject+MTJSONUtils.m */; };
 		C2BAEAA115CD91F500838B54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEAA015CD91F500838B54 /* Foundation.framework */; };
 		C2BAEAB015CD91F500838B54 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEAAF15CD91F500838B54 /* SenTestingKit.framework */; };
 		C2BAEAB315CD91F500838B54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEAA015CD91F500838B54 /* Foundation.framework */; };
@@ -70,10 +78,6 @@
 
 /* Begin PBXFileReference section */
 		C21CB4C8175118750082CB97 /* libMTPocket.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMTPocket.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		C22341331753B585009F985D /* libMTJSONUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMTJSONUtils.a; path = MTJSONUtils/build/Release/libMTJSONUtils.a; sourceTree = "<group>"; };
-		C22341341753B585009F985D /* libXMLDictionary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXMLDictionary.a; path = XMLDictionary/build/Release/libXMLDictionary.a; sourceTree = "<group>"; };
-		C27D91931753F39200C622DA /* libBase64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBase64.a; path = "Base64/build/Release-iphoneos/libBase64.a"; sourceTree = "<group>"; };
-		C27D91951753F3F600C622DA /* libBase64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBase64.a; path = Base64/build/Release/libBase64.a; sourceTree = "<group>"; };
 		C285AC28167C04CF0046B98B /* constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		C29239B2168218AC007BCEEF /* macros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
 		C298E45C16D165F5009252AD /* MTPocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPocket.h; sourceTree = "<group>"; };
@@ -93,6 +97,16 @@
 		C299487E16D45BAE005C87BC /* mtpocket_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mtpocket_private.h; sourceTree = "<group>"; };
 		C299487F16D48D78005C87BC /* MTPocketTemplateTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPocketTemplateTests.h; sourceTree = "<group>"; };
 		C299488016D48D78005C87BC /* MTPocketTemplateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPocketTemplateTests.m; sourceTree = "<group>"; };
+		C2B93FFC177D38C3001096DC /* XMLDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLDictionary.h; sourceTree = "<group>"; };
+		C2B93FFD177D38C3001096DC /* XMLDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLDictionary.m; sourceTree = "<group>"; };
+		C2B94002177D3919001096DC /* MF_Base64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MF_Base64Additions.h; sourceTree = "<group>"; };
+		C2B94003177D3919001096DC /* MF_Base64Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MF_Base64Additions.m; sourceTree = "<group>"; };
+		C2B94008177D3982001096DC /* MTJSONUtilsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTJSONUtilsTests.h; sourceTree = "<group>"; };
+		C2B94009177D3982001096DC /* MTJSONUtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTJSONUtilsTests.m; sourceTree = "<group>"; };
+		C2B9400B177D398C001096DC /* XMLDictionaryTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLDictionaryTests.h; sourceTree = "<group>"; };
+		C2B9400C177D398C001096DC /* XMLDictionaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLDictionaryTests.m; sourceTree = "<group>"; };
+		C2B9400E177D399D001096DC /* NSObject+MTJSONUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MTJSONUtils.h"; sourceTree = "<group>"; };
+		C2B9400F177D399D001096DC /* NSObject+MTJSONUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MTJSONUtils.m"; sourceTree = "<group>"; };
 		C2BAEA9D15CD91F500838B54 /* libMTPocket.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMTPocket.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2BAEAA015CD91F500838B54 /* Foundation.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C2BAEAA415CD91F500838B54 /* MTPocket-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MTPocket-Prefix.pch"; sourceTree = "<group>"; };
@@ -112,9 +126,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C27D91961753F3F600C622DA /* libBase64.a in Frameworks */,
-				C22341361753B585009F985D /* libMTJSONUtils.a in Frameworks */,
-				C22341371753B585009F985D /* libXMLDictionary.a in Frameworks */,
 				C21CB4C0175118750082CB97 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -123,9 +134,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C27D91941753F39200C622DA /* libBase64.a in Frameworks */,
-				C22341391753B599009F985D /* libMTJSONUtils.a in Frameworks */,
-				C223413A1753B599009F985D /* libXMLDictionary.a in Frameworks */,
 				C2BAEAA115CD91F500838B54 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,6 +151,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C2B93FFB177D38B4001096DC /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				C2B93FFC177D38C3001096DC /* XMLDictionary.h */,
+				C2B93FFD177D38C3001096DC /* XMLDictionary.m */,
+				C2B94002177D3919001096DC /* MF_Base64Additions.h */,
+				C2B94003177D3919001096DC /* MF_Base64Additions.m */,
+				C2B9400E177D399D001096DC /* NSObject+MTJSONUtils.h */,
+				C2B9400F177D399D001096DC /* NSObject+MTJSONUtils.m */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
 		C2BAEA9215CD91F500838B54 = {
 			isa = PBXGroup;
 			children = (
@@ -166,10 +187,6 @@
 		C2BAEA9F15CD91F500838B54 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C27D91951753F3F600C622DA /* libBase64.a */,
-				C27D91931753F39200C622DA /* libBase64.a */,
-				C22341331753B585009F985D /* libMTJSONUtils.a */,
-				C22341341753B585009F985D /* libXMLDictionary.a */,
 				C2BAEAA015CD91F500838B54 /* Foundation.framework */,
 				C2BAEAAF15CD91F500838B54 /* SenTestingKit.framework */,
 			);
@@ -186,6 +203,7 @@
 				C2BE862D167F6C0200051C97 /* MTPocketResponse.h */,
 				C2BE862E167F6C0200051C97 /* MTPocketResponse.m */,
 				C299487E16D45BAE005C87BC /* mtpocket_private.h */,
+				C2B93FFB177D38B4001096DC /* Support */,
 				C2BAEAA315CD91F500838B54 /* Supporting Files */,
 			);
 			path = MTPocket;
@@ -202,6 +220,8 @@
 		C2BAEAB715CD91F500838B54 /* MTPocketTests */ = {
 			isa = PBXGroup;
 			children = (
+				C2B94008177D3982001096DC /* MTJSONUtilsTests.h */,
+				C2B94009177D3982001096DC /* MTJSONUtilsTests.m */,
 				C298E45F16D31A48009252AD /* MTPocketPathTests.h */,
 				C298E46016D31A48009252AD /* MTPocketPathTests.m */,
 				C299487F16D48D78005C87BC /* MTPocketTemplateTests.h */,
@@ -216,6 +236,8 @@
 				C299487416D457AE005C87BC /* MTPocketDELETETests.m */,
 				C299487616D457AE005C87BC /* MTPocketCallbacksTests.h */,
 				C299487516D457AE005C87BC /* MTPocketCallbacksTests.m */,
+				C2B9400B177D398C001096DC /* XMLDictionaryTests.h */,
+				C2B9400C177D398C001096DC /* XMLDictionaryTests.m */,
 				C285AC28167C04CF0046B98B /* constants.h */,
 				C29239B2168218AC007BCEEF /* macros.h */,
 				C2BAEAB815CD91F500838B54 /* Supporting Files */,
@@ -241,6 +263,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2ECB37017517A6C00A779AC /* MTPocket.h in Headers */,
+				C2B93FFE177D38C3001096DC /* XMLDictionary.h in Headers */,
+				C2B94004177D3919001096DC /* MF_Base64Additions.h in Headers */,
+				C2B94010177D399D001096DC /* NSObject+MTJSONUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +274,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2ECB36F17517A6B00A779AC /* MTPocket.h in Headers */,
+				C2B94000177D38C8001096DC /* XMLDictionary.h in Headers */,
+				C2B94005177D3919001096DC /* MF_Base64Additions.h in Headers */,
+				C2B94011177D399D001096DC /* NSObject+MTJSONUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,6 +402,9 @@
 				C21CB4BC175118750082CB97 /* MTPocketRequest.m in Sources */,
 				C21CB4BD175118750082CB97 /* MTPocketResponse.m in Sources */,
 				C21CB4BE175118750082CB97 /* MTPocket.m in Sources */,
+				C2B94001177D38CE001096DC /* XMLDictionary.m in Sources */,
+				C2B94007177D3919001096DC /* MF_Base64Additions.m in Sources */,
+				C2B94013177D399D001096DC /* NSObject+MTJSONUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,6 +415,9 @@
 				C2BE8628167F6BD300051C97 /* MTPocketRequest.m in Sources */,
 				C2BE862F167F6C0200051C97 /* MTPocketResponse.m in Sources */,
 				C298E45E16D165F6009252AD /* MTPocket.m in Sources */,
+				C2B93FFF177D38C3001096DC /* XMLDictionary.m in Sources */,
+				C2B94006177D3919001096DC /* MF_Base64Additions.m in Sources */,
+				C2B94012177D399D001096DC /* NSObject+MTJSONUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,6 +432,8 @@
 				C299487C16D457AE005C87BC /* MTPocketDELETETests.m in Sources */,
 				C299487D16D457AE005C87BC /* MTPocketCallbacksTests.m in Sources */,
 				C299488116D48D78005C87BC /* MTPocketTemplateTests.m in Sources */,
+				C2B9400A177D3982001096DC /* MTJSONUtilsTests.m in Sources */,
+				C2B9400D177D398C001096DC /* XMLDictionaryTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Mysterious Trousers. All rights reserved.
 //
 
-#import <XMLDictionary.h>
+#import "XMLDictionary.h"
 #import "mtpocket_private.h"
 
 
