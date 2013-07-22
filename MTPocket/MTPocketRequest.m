@@ -562,6 +562,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
     copy.headers                = [_headers mutableCopy];
     copy.timeout                = _timeout;
     copy.contentLengthHeader    = [_contentLengthHeader copy];
+    copy.userAgent              = [_userAgent copy];
     return copy;
 }
 
