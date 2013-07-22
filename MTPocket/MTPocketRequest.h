@@ -60,6 +60,7 @@ typedef enum {
 @property (readonly,nonatomic)	NSMutableDictionary *headers;               // (optional) The headers dictionary. You can add or delete from the template.
 @property (         nonatomic)	NSTimeInterval      timeout;                // (optional) Default: 60 seconds.
 @property (strong,  nonatomic)  NSString            *contentLengthHeader;   // (optional) Default: Content-Length. Could also be stream-length, etc. Will be used for progress handlers.
+@property (strong,  nonatomic)  NSString            *userAgent;             // (optional) Default: MTPocket/1.0
 
 
 + (MTPocketRequest *)requestTemplate;

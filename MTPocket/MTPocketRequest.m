@@ -59,6 +59,7 @@ NSString *randomStringWithLength(NSInteger length)
         _completeHandlers   = [NSMutableArray array];
         _headers            = [NSMutableDictionary dictionary];
         _params             = [NSMutableDictionary dictionary];
+        _userAgent          = nil;
     }
     return self;
 }
@@ -250,6 +251,7 @@ NSString *randomStringWithLength(NSInteger length)
 
 
 
+
 #pragma mark - Generating URLs
 
 - (NSURL *)URLForPath:(NSString *)path identifiers:(NSArray *)identifiers params:(NSDictionary *)params
@@ -423,8 +425,11 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
     _response.format = _format;
 
 
+    // user agent
+    NSString *userAgentString = _userAgent ? _userAgent : @"MTPocket/1.0";
+
 	// prepare headers
-    NSDictionary *defaultHeaders = @{ @"Accept" : format, @"Content-Type" : format };
+    NSDictionary *defaultHeaders = @{ @"Accept" : format, @"Content-Type" : format, @"User-Agent" : userAgentString };
 	NSMutableDictionary *headerDictionary = [NSMutableDictionary dictionaryWithDictionary:defaultHeaders];
 	[headerDictionary addEntriesFromDictionary:_headers];
 
