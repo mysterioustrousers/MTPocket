@@ -425,17 +425,19 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
     _response.format = _format;
 
 
-    // user agent
-    NSString *userAgentString = _userAgent ? _userAgent : @"MTPocket/1.0";
 
 	// prepare headers
-    NSDictionary *defaultHeaders = @{ @"Accept" : format, @"Content-Type" : format, @"User-Agent" : userAgentString };
+    NSDictionary *defaultHeaders = @{ @"Accept" : format, @"Content-Type" : format };
 	NSMutableDictionary *headerDictionary = [NSMutableDictionary dictionaryWithDictionary:defaultHeaders];
 	[headerDictionary addEntriesFromDictionary:_headers];
 
+    // user agent
+    if (_userAgent) {
+        [headerDictionary setObject:_userAgent forKey:@"User-Agent"];
+    }
+
     // set headers
 	[request setAllHTTPHeaderFields:headerDictionary];
-
 
 
 	// set body
