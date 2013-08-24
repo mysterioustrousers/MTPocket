@@ -27,6 +27,7 @@ NSString *randomStringWithLength(NSInteger length)
 
 
 @interface MTPocketRequest () <NSCopying, NSURLConnectionDelegate, NSURLConnectionDataDelegate>
+@property (strong, nonatomic)               NSURL                       *URL;
 @property (strong, readwrite, nonatomic)	NSMutableDictionary         *params;
 @property (strong, readwrite, nonatomic)	NSMutableDictionary         *headers;
 @property (strong, nonatomic)               MTPocketResponse            *response;
@@ -60,6 +61,7 @@ NSString *randomStringWithLength(NSInteger length)
         _headers            = [NSMutableDictionary dictionary];
         _params             = [NSMutableDictionary dictionary];
         _userAgent          = nil;
+        _URL                = nil;
     }
     return self;
 }
@@ -77,6 +79,19 @@ NSString *randomStringWithLength(NSInteger length)
         _method         = method;
         _body           = body;
         [_params addEntriesFromDictionary:params];
+    }
+    return self;
+}
+
+- (id)initWithURL:(NSURL *)aURL
+           method:(MTPocketMethod)method
+             body:(id)body
+{
+    self = [self init];
+    if (self) {
+        _URL            = aURL;
+        _method         = method;
+        _body           = body;
     }
     return self;
 }
@@ -108,27 +123,12 @@ NSString *randomStringWithLength(NSInteger length)
                              method:(MTPocketMethod)method
                                body:(id)body
 {
-    NSString *scheme            = [URL scheme];
-    NSString *host              = [URL host];
-    NSNumber *port              = [URL port];
-    NSString *p                 = [URL path];
-    NSString *query             = [URL query];
-    NSMutableString *baseURL    = [NSMutableString string];
-    NSMutableString *path       = [NSMutableString string];
-    if (scheme) [baseURL appendFormat:@"%@://", scheme];
-    if (host)   [baseURL appendString:host];
-    if (port)   [baseURL appendFormat:@":%@", port];
-    if (p)      [path    appendString:p];
-    if (query)  [path    appendFormat:@"?%@", query];
-
-    MTPocketRequest *request = [self requestWithPath:path identifiers:nil method:method body:body params:nil];
-    request.baseURL = [NSURL URLWithString:baseURL];
-    return request;
+    return [[MTPocketRequest alloc] initWithURL:URL method:method body:body];
 }
 
 - (NSURL *)resolvedURL
 {
-    return [self URLForPath:_path identifiers:_identifiers params:_params];
+    return _URL ?: [self URLForPath:_path identifiers:_identifiers params:_params];
 }
 
 
@@ -347,7 +347,7 @@ NSString *randomStringWithLength(NSInteger length)
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    _response.data                  = _mutableData;
+    _response.data = _mutableData;
 
     for (MTPocketCallback handler in _completeHandlers) {
         handler(_response);
@@ -427,14 +427,14 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 
 
 	// prepare headers
-    NSDictionary *defaultHeaders = @{ @"Accept" : format, @"Content-Type" : format };
-	NSMutableDictionary *headerDictionary = [NSMutableDictionary dictionaryWithDictionary:defaultHeaders];
-	[headerDictionary addEntriesFromDictionary:_headers];
+    NSMutableDictionary *headerDictionary = [@{ @"Accept" : format, @"Content-Type" : format } mutableCopy];
 
     // user agent
     if (_userAgent) {
         [headerDictionary setObject:_userAgent forKey:@"User-Agent"];
     }
+
+	[headerDictionary addEntriesFromDictionary:_headers];
 
     // set headers
 	[request setAllHTTPHeaderFields:headerDictionary];
@@ -557,6 +557,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 - (id)copyWithZone:(NSZone *)zone
 {
     MTPocketRequest *copy = [[MTPocketRequest alloc] init];
+    copy.URL                    = _URL;
     copy.baseURL                = [_baseURL copy];
     copy.method                 = _method;
     copy.format                 = _format;
