@@ -88,7 +88,7 @@
 - (void)testToXML
 {
 	NSDictionary *dict = @{ @"dogs" :  @{ @"dog" : @[ @{ @"name" : @"snoopy", @"breed" : @"golden retriever" }, @{ @"name" : @"fuzzball", @"breed" : @"german shepard" } ] } };
-	NSString *xmlString = [dict xmlString];
+	NSString *xmlString = [dict XMLString];
 	STAssertNotNil(xmlString, @"xml string was nil");
 	STAssertTrue(xmlString.length > 0, @"The string was empty");
 }

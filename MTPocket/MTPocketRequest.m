@@ -500,7 +500,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 				if ([_body isKindOfClass:[NSArray class]]) {
 					_body = @{ @"root" : _body };
 				}
-				body = [[_body objectWithJSONSafeObjects] xmlString];
+				body = [[_body objectWithJSONSafeObjects] innerXML];
 				body = [[body stringByReplacingOccurrencesOfString:@"<root>" withString:@""] stringByReplacingOccurrencesOfString:@"</root>" withString:@""];
 			}
 		}
