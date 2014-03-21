@@ -24,7 +24,7 @@
 @property (nonatomic, readwrite, strong)    NSDictionary    *requestHeaders;
 @property (nonatomic, readwrite, strong)    NSDictionary    *responseHeaders;
 @property (nonatomic, readwrite, strong)    NSString        *MIMEType;
-@property (nonatomic, readwrite)            NSInteger       expectedContentLength;
+@property (nonatomic, readwrite)            NSUInteger      expectedContentLength;
 @end
 
 

@@ -44,6 +44,6 @@ typedef enum {
 @property (nonatomic, readonly, strong) NSDictionary      *responseHeaders;
 @property (nonatomic, readonly)         NSInteger         statusCode;              // The actual integer status code of the response.
 @property (nonatomic, readonly, strong) NSString          *MIMEType;               // What the server reports as the content type of the response.
-@property (nonatomic, readonly)         NSInteger         expectedContentLength;   // What the server reports as the expected content length of the response.
+@property (nonatomic, readonly)         NSUInteger        expectedContentLength;   // What the server reports as the expected content length of the response.
 
 @end
