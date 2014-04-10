@@ -98,7 +98,7 @@
             if (error) _error = error;
         }
         else {
-            _body = _text;
+            _body = nil;
         }
     }
 }
