@@ -11,7 +11,6 @@
 		C21CB4BD175118750082CB97 /* MTPocketResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BE862E167F6C0200051C97 /* MTPocketResponse.m */; };
 		C21CB4BE175118750082CB97 /* MTPocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C298E45D16D165F5009252AD /* MTPocket.m */; };
 		C21CB4C0175118750082CB97 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEAA015CD91F500838B54 /* Foundation.framework */; };
-		C298E45E16D165F6009252AD /* MTPocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C298E45D16D165F5009252AD /* MTPocket.m */; };
 		C298E46116D31A48009252AD /* MTPocketPathTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C298E46016D31A48009252AD /* MTPocketPathTests.m */; };
 		C299487816D457AE005C87BC /* MTPocketPUTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C299486C16D457AE005C87BC /* MTPocketPUTTests.m */; };
 		C299487916D457AE005C87BC /* MTPocketPOSTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C299486D16D457AE005C87BC /* MTPocketPOSTTests.m */; };
@@ -19,53 +18,31 @@
 		C299487C16D457AE005C87BC /* MTPocketDELETETests.m in Sources */ = {isa = PBXBuildFile; fileRef = C299487416D457AE005C87BC /* MTPocketDELETETests.m */; };
 		C299487D16D457AE005C87BC /* MTPocketCallbacksTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C299487516D457AE005C87BC /* MTPocketCallbacksTests.m */; };
 		C299488116D48D78005C87BC /* MTPocketTemplateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C299488016D48D78005C87BC /* MTPocketTemplateTests.m */; };
-		C2B94004177D3919001096DC /* MF_Base64Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B94002177D3919001096DC /* MF_Base64Additions.h */; };
 		C2B94005177D3919001096DC /* MF_Base64Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B94002177D3919001096DC /* MF_Base64Additions.h */; };
-		C2B94006177D3919001096DC /* MF_Base64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B94003177D3919001096DC /* MF_Base64Additions.m */; };
 		C2B94007177D3919001096DC /* MF_Base64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B94003177D3919001096DC /* MF_Base64Additions.m */; };
 		C2B9400A177D3982001096DC /* MTJSONUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B94009177D3982001096DC /* MTJSONUtilsTests.m */; };
-		C2B9400D177D398C001096DC /* XMLDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B9400C177D398C001096DC /* XMLDictionaryTests.m */; };
-		C2B94010177D399D001096DC /* NSObject+MTJSONUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B9400E177D399D001096DC /* NSObject+MTJSONUtils.h */; };
 		C2B94011177D399D001096DC /* NSObject+MTJSONUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B9400E177D399D001096DC /* NSObject+MTJSONUtils.h */; };
-		C2B94012177D399D001096DC /* NSObject+MTJSONUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B9400F177D399D001096DC /* NSObject+MTJSONUtils.m */; };
 		C2B94013177D399D001096DC /* NSObject+MTJSONUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B9400F177D399D001096DC /* NSObject+MTJSONUtils.m */; };
-		C2BAEAA115CD91F500838B54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEAA015CD91F500838B54 /* Foundation.framework */; };
-		C2BAEAB015CD91F500838B54 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEAAF15CD91F500838B54 /* SenTestingKit.framework */; };
 		C2BAEAB315CD91F500838B54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEAA015CD91F500838B54 /* Foundation.framework */; };
-		C2BAEAB615CD91F500838B54 /* libMTPocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BAEA9D15CD91F500838B54 /* libMTPocket.a */; };
 		C2BAEABC15CD91F500838B54 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C2BAEABA15CD91F500838B54 /* InfoPlist.strings */; };
-		C2BE8628167F6BD300051C97 /* MTPocketRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BE8627167F6BD300051C97 /* MTPocketRequest.m */; };
-		C2BE862F167F6C0200051C97 /* MTPocketResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BE862E167F6C0200051C97 /* MTPocketResponse.m */; };
+		C2C9BD4018F6DC860034290D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C9BD3F18F6DC860034290D /* XCTest.framework */; };
+		C2C9BD4318F6DCC00034290D /* libMTPocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C21CB4C8175118750082CB97 /* libMTPocket.a */; };
 		C2ECB36F17517A6B00A779AC /* MTPocket.h in Headers */ = {isa = PBXBuildFile; fileRef = C298E45C16D165F5009252AD /* MTPocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C2ECB37017517A6C00A779AC /* MTPocket.h in Headers */ = {isa = PBXBuildFile; fileRef = C298E45C16D165F5009252AD /* MTPocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C2F5B06317E11AD300A67F98 /* XMLDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = C2F5B06117E11AD300A67F98 /* XMLDictionary.h */; };
-		C2F5B06417E11AD300A67F98 /* XMLDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = C2F5B06117E11AD300A67F98 /* XMLDictionary.h */; };
-		C2F5B06517E11AD300A67F98 /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F5B06217E11AD300A67F98 /* XMLDictionary.m */; };
-		C2F5B06617E11AD300A67F98 /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F5B06217E11AD300A67F98 /* XMLDictionary.m */; };
 		C2FAD7D7167C671C0046E550 /* test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C2FAD7D6167C671C0046E550 /* test.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C2BAEAB415CD91F500838B54 /* PBXContainerItemProxy */ = {
+		C2C9BD4118F6DC980034290D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2BAEA9415CD91F500838B54 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = C2BAEA9C15CD91F500838B54;
+			remoteGlobalIDString = C21CB4BA175118750082CB97;
 			remoteInfo = MTPocket;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		C21CB4C4175118750082CB97 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/${PRODUCT_NAME}";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C2BAEA9B15CD91F500838B54 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/${PRODUCT_NAME}";
@@ -101,23 +78,18 @@
 		C2B94003177D3919001096DC /* MF_Base64Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MF_Base64Additions.m; sourceTree = "<group>"; };
 		C2B94008177D3982001096DC /* MTJSONUtilsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTJSONUtilsTests.h; sourceTree = "<group>"; };
 		C2B94009177D3982001096DC /* MTJSONUtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTJSONUtilsTests.m; sourceTree = "<group>"; };
-		C2B9400B177D398C001096DC /* XMLDictionaryTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLDictionaryTests.h; sourceTree = "<group>"; };
-		C2B9400C177D398C001096DC /* XMLDictionaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLDictionaryTests.m; sourceTree = "<group>"; };
 		C2B9400E177D399D001096DC /* NSObject+MTJSONUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MTJSONUtils.h"; sourceTree = "<group>"; };
 		C2B9400F177D399D001096DC /* NSObject+MTJSONUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MTJSONUtils.m"; sourceTree = "<group>"; };
-		C2BAEA9D15CD91F500838B54 /* libMTPocket.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMTPocket.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2BAEAA015CD91F500838B54 /* Foundation.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C2BAEAA415CD91F500838B54 /* MTPocket-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MTPocket-Prefix.pch"; sourceTree = "<group>"; };
-		C2BAEAAE15CD91F500838B54 /* MTPocketTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MTPocketTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C2BAEAAF15CD91F500838B54 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		C2BAEAAE15CD91F500838B54 /* MTPocketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MTPocketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2BAEAB915CD91F500838B54 /* MTPocketTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MTPocketTests-Info.plist"; sourceTree = "<group>"; };
 		C2BAEABB15CD91F500838B54 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C2BE8626167F6BD300051C97 /* MTPocketRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPocketRequest.h; sourceTree = "<group>"; };
 		C2BE8627167F6BD300051C97 /* MTPocketRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPocketRequest.m; sourceTree = "<group>"; };
 		C2BE862D167F6C0200051C97 /* MTPocketResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPocketResponse.h; sourceTree = "<group>"; };
 		C2BE862E167F6C0200051C97 /* MTPocketResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPocketResponse.m; sourceTree = "<group>"; };
-		C2F5B06117E11AD300A67F98 /* XMLDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLDictionary.h; sourceTree = "<group>"; };
-		C2F5B06217E11AD300A67F98 /* XMLDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLDictionary.m; sourceTree = "<group>"; };
+		C2C9BD3F18F6DC860034290D /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		C2FAD7D6167C671C0046E550 /* test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -130,21 +102,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C2BAEA9A15CD91F500838B54 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C2BAEAA115CD91F500838B54 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C2BAEAAA15CD91F500838B54 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2BAEAB015CD91F500838B54 /* SenTestingKit.framework in Frameworks */,
+				C2C9BD4318F6DCC00034290D /* libMTPocket.a in Frameworks */,
+				C2C9BD4018F6DC860034290D /* XCTest.framework in Frameworks */,
 				C2BAEAB315CD91F500838B54 /* Foundation.framework in Frameworks */,
-				C2BAEAB615CD91F500838B54 /* libMTPocket.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,8 +118,6 @@
 		C2B93FFB177D38B4001096DC /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				C2F5B06117E11AD300A67F98 /* XMLDictionary.h */,
-				C2F5B06217E11AD300A67F98 /* XMLDictionary.m */,
 				C2B94002177D3919001096DC /* MF_Base64Additions.h */,
 				C2B94003177D3919001096DC /* MF_Base64Additions.m */,
 				C2B9400E177D399D001096DC /* NSObject+MTJSONUtils.h */,
@@ -177,8 +139,7 @@
 		C2BAEA9E15CD91F500838B54 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C2BAEA9D15CD91F500838B54 /* libMTPocket.a */,
-				C2BAEAAE15CD91F500838B54 /* MTPocketTests.octest */,
+				C2BAEAAE15CD91F500838B54 /* MTPocketTests.xctest */,
 				C21CB4C8175118750082CB97 /* libMTPocket.a */,
 			);
 			name = Products;
@@ -187,8 +148,8 @@
 		C2BAEA9F15CD91F500838B54 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C2C9BD3F18F6DC860034290D /* XCTest.framework */,
 				C2BAEAA015CD91F500838B54 /* Foundation.framework */,
-				C2BAEAAF15CD91F500838B54 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -236,8 +197,6 @@
 				C299487416D457AE005C87BC /* MTPocketDELETETests.m */,
 				C299487616D457AE005C87BC /* MTPocketCallbacksTests.h */,
 				C299487516D457AE005C87BC /* MTPocketCallbacksTests.m */,
-				C2B9400B177D398C001096DC /* XMLDictionaryTests.h */,
-				C2B9400C177D398C001096DC /* XMLDictionaryTests.m */,
 				C285AC28167C04CF0046B98B /* constants.h */,
 				C29239B2168218AC007BCEEF /* macros.h */,
 				C2BAEAB815CD91F500838B54 /* Supporting Files */,
@@ -258,17 +217,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		C2ECB36D17517A6200A779AC /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C2ECB37017517A6C00A779AC /* MTPocket.h in Headers */,
-				C2B94004177D3919001096DC /* MF_Base64Additions.h in Headers */,
-				C2B94010177D399D001096DC /* NSObject+MTJSONUtils.h in Headers */,
-				C2F5B06317E11AD300A67F98 /* XMLDictionary.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C2ECB36E17517A6700A779AC /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -276,16 +224,15 @@
 				C2ECB36F17517A6B00A779AC /* MTPocket.h in Headers */,
 				C2B94005177D3919001096DC /* MF_Base64Additions.h in Headers */,
 				C2B94011177D399D001096DC /* NSObject+MTJSONUtils.h in Headers */,
-				C2F5B06417E11AD300A67F98 /* XMLDictionary.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		C21CB4BA175118750082CB97 /* MTPocket-OSX */ = {
+		C21CB4BA175118750082CB97 /* MTPocket */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C21CB4C5175118750082CB97 /* Build configuration list for PBXNativeTarget "MTPocket-OSX" */;
+			buildConfigurationList = C21CB4C5175118750082CB97 /* Build configuration list for PBXNativeTarget "MTPocket" */;
 			buildPhases = (
 				C21CB4BB175118750082CB97 /* Sources */,
 				C21CB4BF175118750082CB97 /* Frameworks */,
@@ -296,27 +243,9 @@
 			);
 			dependencies = (
 			);
-			name = "MTPocket-OSX";
+			name = MTPocket;
 			productName = MTPocket;
 			productReference = C21CB4C8175118750082CB97 /* libMTPocket.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		C2BAEA9C15CD91F500838B54 /* MTPocket-iOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C2BAEAC215CD91F500838B54 /* Build configuration list for PBXNativeTarget "MTPocket-iOS" */;
-			buildPhases = (
-				C2BAEA9915CD91F500838B54 /* Sources */,
-				C2BAEA9A15CD91F500838B54 /* Frameworks */,
-				C2BAEA9B15CD91F500838B54 /* CopyFiles */,
-				C2ECB36D17517A6200A779AC /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "MTPocket-iOS";
-			productName = MTPocket;
-			productReference = C2BAEA9D15CD91F500838B54 /* libMTPocket.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		C2BAEAAD15CD91F500838B54 /* MTPocketTests */ = {
@@ -326,17 +255,16 @@
 				C2BAEAA915CD91F500838B54 /* Sources */,
 				C2BAEAAA15CD91F500838B54 /* Frameworks */,
 				C2BAEAAB15CD91F500838B54 /* Resources */,
-				C2BAEAAC15CD91F500838B54 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C2BAEAB515CD91F500838B54 /* PBXTargetDependency */,
+				C2C9BD4218F6DC980034290D /* PBXTargetDependency */,
 			);
 			name = MTPocketTests;
 			productName = MTPocketTests;
-			productReference = C2BAEAAE15CD91F500838B54 /* MTPocketTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productReference = C2BAEAAE15CD91F500838B54 /* MTPocketTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -344,7 +272,8 @@
 		C2BAEA9415CD91F500838B54 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastTestingUpgradeCheck = 0510;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Mysterious Trousers";
 			};
 			buildConfigurationList = C2BAEA9715CD91F500838B54 /* Build configuration list for PBXProject "MTPocket" */;
@@ -359,8 +288,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C2BAEA9C15CD91F500838B54 /* MTPocket-iOS */,
-				C21CB4BA175118750082CB97 /* MTPocket-OSX */,
+				C21CB4BA175118750082CB97 /* MTPocket */,
 				C2BAEAAD15CD91F500838B54 /* MTPocketTests */,
 			);
 		};
@@ -378,22 +306,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		C2BAEAAC15CD91F500838B54 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		C21CB4BB175118750082CB97 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -404,20 +316,6 @@
 				C21CB4BE175118750082CB97 /* MTPocket.m in Sources */,
 				C2B94007177D3919001096DC /* MF_Base64Additions.m in Sources */,
 				C2B94013177D399D001096DC /* NSObject+MTJSONUtils.m in Sources */,
-				C2F5B06617E11AD300A67F98 /* XMLDictionary.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C2BAEA9915CD91F500838B54 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C2BE8628167F6BD300051C97 /* MTPocketRequest.m in Sources */,
-				C2BE862F167F6C0200051C97 /* MTPocketResponse.m in Sources */,
-				C298E45E16D165F6009252AD /* MTPocket.m in Sources */,
-				C2B94006177D3919001096DC /* MF_Base64Additions.m in Sources */,
-				C2B94012177D399D001096DC /* NSObject+MTJSONUtils.m in Sources */,
-				C2F5B06517E11AD300A67F98 /* XMLDictionary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,17 +331,16 @@
 				C299487D16D457AE005C87BC /* MTPocketCallbacksTests.m in Sources */,
 				C299488116D48D78005C87BC /* MTPocketTemplateTests.m in Sources */,
 				C2B9400A177D3982001096DC /* MTJSONUtilsTests.m in Sources */,
-				C2B9400D177D398C001096DC /* XMLDictionaryTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C2BAEAB515CD91F500838B54 /* PBXTargetDependency */ = {
+		C2C9BD4218F6DC980034290D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C2BAEA9C15CD91F500838B54 /* MTPocket-iOS */;
-			targetProxy = C2BAEAB415CD91F500838B54 /* PBXContainerItemProxy */;
+			target = C21CB4BA175118750082CB97 /* MTPocket */;
+			targetProxy = C2C9BD4118F6DC980034290D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -466,18 +363,7 @@
 				DSTROOT = /tmp/MTPocket.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MTPocket/MTPocket-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"${SRCROOT}/Base64/Base64",
-					"${SRCROOT}/XMLDictionary/XMLDictionary",
-					"${SRCROOT}/MTJSONUtils/MTJSONUtils",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SDKROOT)/usr/lib/system\"",
-				);
 				PRODUCT_NAME = MTPocket;
-				SDKROOT = macosx;
-				SUPPORTED_PLATFORMS = macosx;
 			};
 			name = Debug;
 		};
@@ -488,18 +374,7 @@
 				DSTROOT = /tmp/MTPocket.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MTPocket/MTPocket-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"${SRCROOT}/Base64/Base64",
-					"${SRCROOT}/XMLDictionary/XMLDictionary",
-					"${SRCROOT}/MTJSONUtils/MTJSONUtils",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SDKROOT)/usr/lib/system\"",
-				);
 				PRODUCT_NAME = MTPocket;
-				SDKROOT = macosx;
-				SUPPORTED_PLATFORMS = macosx;
 			};
 			name = Release;
 		};
@@ -525,13 +400,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
-				SDKROOT = iphoneos;
+				OTHER_LDFLAGS = "";
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTED_PLATFORMS = macosx;
 			};
 			name = Debug;
 		};
@@ -549,91 +421,52 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
-				SDKROOT = iphoneos;
+				OTHER_LDFLAGS = "";
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTED_PLATFORMS = macosx;
 				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		C2BAEAC315CD91F500838B54 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DSTROOT = /tmp/MTPocket.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MTPocket/MTPocket-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"${SRCROOT}/Base64/Base64",
-					"${SRCROOT}/XMLDictionary/XMLDictionary",
-					"${SRCROOT}/MTJSONUtils/MTJSONUtils",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SDKROOT)/usr/lib/system\"",
-				);
-				PRODUCT_NAME = MTPocket;
-			};
-			name = Debug;
-		};
-		C2BAEAC415CD91F500838B54 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DSTROOT = /tmp/MTPocket.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MTPocket/MTPocket-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"${SRCROOT}/Base64/Base64",
-					"${SRCROOT}/XMLDictionary/XMLDictionary",
-					"${SRCROOT}/MTJSONUtils/MTJSONUtils",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SDKROOT)/usr/lib/system\"",
-				);
-				PRODUCT_NAME = MTPocket;
 			};
 			name = Release;
 		};
 		C2BAEAC615CD91F500838B54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MTPocket/MTPocket-Prefix.pch";
 				INFOPLIST_FILE = "MTPocketTests/MTPocketTests-Info.plist";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
 		C2BAEAC715CD91F500838B54 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MTPocket/MTPocket-Prefix.pch";
 				INFOPLIST_FILE = "MTPocketTests/MTPocketTests-Info.plist";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C21CB4C5175118750082CB97 /* Build configuration list for PBXNativeTarget "MTPocket-OSX" */ = {
+		C21CB4C5175118750082CB97 /* Build configuration list for PBXNativeTarget "MTPocket" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C21CB4C6175118750082CB97 /* Debug */,
@@ -647,15 +480,6 @@
 			buildConfigurations = (
 				C2BAEAC015CD91F500838B54 /* Debug */,
 				C2BAEAC115CD91F500838B54 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C2BAEAC215CD91F500838B54 /* Build configuration list for PBXNativeTarget "MTPocket-iOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C2BAEAC315CD91F500838B54 /* Debug */,
-				C2BAEAC415CD91F500838B54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

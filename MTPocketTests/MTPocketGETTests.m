@@ -22,7 +22,7 @@
 
 - (void)testGetHTML
 {
-    __block BOOL successBlockCalled = NO;
+    __block BOOL blockCalled = NO;
     __block MTPocketResponse *response;
 
     MTPocketRequest *request = [MTPocketRequest requestWithPath:@"stitches" identifiers:nil method:MTPocketMethodGET body:nil params:nil];
@@ -31,23 +31,23 @@
 
     [request sendWithSuccess:^(MTPocketResponse *resp) {
         response = resp;
-        successBlockCalled = YES;
+        blockCalled = YES;
     } failure:^(MTPocketResponse *response) {
-
+        blockCalled = YES;
     }];
 
-    STALL(!successBlockCalled)
+    STALL(!blockCalled)
 
-    STAssertTrue(response.success, nil);
-	STAssertNil(response.error, nil);
-	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
-	STAssertNotNil(response.body, nil);
-	STAssertTrue([response.body length] > 0, nil);
+    XCTAssertTrue(response.success);
+	XCTAssertNil(response.error);
+	XCTAssertTrue(response.status == MTPocketStatusSuccess);
+	XCTAssertNotNil(response.body);
+	XCTAssertTrue([response.body length] > 0);
 }
 
 - (void)testGetHTMLAuthenticated
 {
-    __block BOOL successBlockCalled = NO;
+    __block BOOL blockCalled = NO;
     __block MTPocketResponse *response;
 
     MTPocketRequest *request = [MTPocketRequest requestWithPath:@"needles" identifiers:nil method:MTPocketMethodGET body:nil params:nil];
@@ -56,23 +56,23 @@
 
     [request sendWithSuccess:^(MTPocketResponse *resp) {
         response = resp;
-        successBlockCalled = YES;
+        blockCalled = YES;
     } failure:^(MTPocketResponse *response) {
-
+        blockCalled = YES;
     }];
 
-    STALL(!successBlockCalled)
+    STALL(!blockCalled)
 
-    STAssertTrue(response.success, nil);
-	STAssertNil(response.error, nil);
-	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
-	STAssertNotNil(response.body, nil);
-	STAssertTrue([response.body length] > 0, nil);
+    XCTAssertTrue(response.success);
+	XCTAssertNil(response.error);
+	XCTAssertTrue(response.status == MTPocketStatusSuccess);
+	XCTAssertNotNil(response.body);
+	XCTAssertTrue([response.body length] > 0);
 }
 
 - (void)testGetJSON
 {
-    __block BOOL successBlockCalled = NO;
+    __block BOOL blockCalled = NO;
     __block MTPocketResponse *response;
 
     MTPocketRequest *request = [MTPocketRequest requestWithPath:@"stitches" identifiers:nil method:MTPocketMethodGET body:nil params:nil];
@@ -81,23 +81,23 @@
 
     [request sendWithSuccess:^(MTPocketResponse *resp) {
         response = resp;
-        successBlockCalled = YES;
+        blockCalled = YES;
     } failure:^(MTPocketResponse *response) {
-
+        blockCalled = YES;
     }];
 
-    STALL(!successBlockCalled)
+    STALL(!blockCalled)
 
-    STAssertTrue(response.success, nil);
-	STAssertNil(response.error, nil);
-	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
-	STAssertNotNil(response.body, nil);
-	STAssertTrue([response.body count] > 0, nil);
+    XCTAssertTrue(response.success);
+	XCTAssertNil(response.error);
+	XCTAssertTrue(response.status == MTPocketStatusSuccess);
+	XCTAssertNotNil(response.body);
+	XCTAssertTrue([response.body count] > 0);
 }
 
 - (void)testGetJSONAuthenticated
 {
-    __block BOOL successBlockCalled = NO;
+    __block BOOL blockCalled = NO;
     __block MTPocketResponse *response;
 
     MTPocketRequest *request = [MTPocketRequest requestWithPath:@"needles" identifiers:nil method:MTPocketMethodGET body:nil params:nil];
@@ -106,70 +106,18 @@
 
     [request sendWithSuccess:^(MTPocketResponse *resp) {
         response = resp;
-        successBlockCalled = YES;
+        blockCalled = YES;
     } failure:^(MTPocketResponse *response) {
-
+        blockCalled = YES;
     }];
 
-    STALL(!successBlockCalled)
+    STALL(!blockCalled)
 
-    STAssertTrue(response.success, nil);
-	STAssertNil(response.error, nil);
-	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
-	STAssertNotNil(response.body, nil);
-	STAssertTrue([response.body count] > 0, nil);
+    XCTAssertTrue(response.success);
+	XCTAssertNil(response.error);
+	XCTAssertTrue(response.status == MTPocketStatusSuccess);
+	XCTAssertNotNil(response.body);
+	XCTAssertTrue([response.body count] > 0);
 }
-
-- (void)testGetXML
-{
-    __block BOOL successBlockCalled = NO;
-    __block MTPocketResponse *response;
-
-    MTPocketRequest *request = [MTPocketRequest requestWithPath:@"stitches" identifiers:nil method:MTPocketMethodGET body:nil params:nil];
-    request.format = MTPocketFormatXML;
-
-
-    [request sendWithSuccess:^(MTPocketResponse *resp) {
-        response = resp;
-        successBlockCalled = YES;
-    } failure:^(MTPocketResponse *response) {
-
-    }];
-
-    STALL(!successBlockCalled)
-
-    STAssertTrue(response.success, nil);
-	STAssertNil(response.error, nil);
-	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
-	STAssertNotNil(response.body, nil);
-	STAssertTrue([response.body count] > 0, nil);
-}
-
-- (void)testGetXMLAuthenticated
-{
-    __block BOOL successBlockCalled = NO;
-    __block MTPocketResponse *response;
-
-    MTPocketRequest *request = [MTPocketRequest requestWithPath:@"needles" identifiers:nil method:MTPocketMethodGET body:nil params:nil];
-    request.format = MTPocketFormatXML;
-    [request addHeaders:[MTPocketRequest headerDictionaryForBasicAuthWithUsername:UN password:PW]];
-
-    [request sendWithSuccess:^(MTPocketResponse *resp) {
-        response = resp;
-        successBlockCalled = YES;
-    } failure:^(MTPocketResponse *response) {
-
-    }];
-
-    STALL(!successBlockCalled)
-
-    STAssertTrue(response.success, nil);
-	STAssertNil(response.error, nil);
-	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
-	STAssertNotNil(response.body, nil);
-	STAssertTrue([response.body count] > 0, nil);
-}
-
-
 
 @end

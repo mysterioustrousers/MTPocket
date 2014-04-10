@@ -39,49 +39,49 @@
 - (void)testSimpleRoute
 {
     NSURL *URL = [_request URLForPath:@"agents" identifiers:nil params:nil];
-    STAssertTrue([[URL absoluteString] isEqualToString:MAKE_URL(@"/agents")], nil);
+    XCTAssertTrue([[URL absoluteString] isEqualToString:MAKE_URL(@"/agents")]);
 }
 
 - (void)testRouteWithId
 {
     NSURL *URL = [_request URLForPath:@"agents/:id" identifiers:@[@(2)] params:nil];
-    STAssertTrue([[URL absoluteString] isEqualToString:MAKE_URL(@"/agents/2")], nil);
+    XCTAssertTrue([[URL absoluteString] isEqualToString:MAKE_URL(@"/agents/2")]);
 }
 
 - (void)testRouteWithTwoIds
 {
     NSURL *URL = [_request URLForPath:@"agents/:id/companies/:company_id" identifiers:@[ @(2), @(3) ]  params:nil];
-    STAssertTrue([[URL absoluteString] isEqualToString:MAKE_URL(@"/agents/2/companies/3")], nil);
+    XCTAssertTrue([[URL absoluteString] isEqualToString:MAKE_URL(@"/agents/2/companies/3")]);
 }
 
 - (void)testRouteWithNoId
 {
     NSURL *URL = [_request URLForPath:@"agents/:id" identifiers:nil  params:nil];
-    STAssertTrue([[URL absoluteString] isEqualToString:MAKE_URL(@"/agents")], nil);
+    XCTAssertTrue([[URL absoluteString] isEqualToString:MAKE_URL(@"/agents")]);
 }
 
 - (void)testRouteWithNoSecondId
 {
     NSURL *URL = [_request URLForPath:@"agents/:id/companies/:company_id" identifiers:@[ @(2) ]    params:nil];
-    STAssertTrue([[URL absoluteString] isEqualToString:MAKE_URL(@"/agents/2/companies")], nil);
+    XCTAssertTrue([[URL absoluteString] isEqualToString:MAKE_URL(@"/agents/2/companies")]);
 }
 
 - (void)testParams
 {
     NSURL *URL = [_request URLForPath:@"agents/:id/companies/:company_id" identifiers:@[ @(2) ] params:@{ @"per_page": @(5) }];
-    STAssertTrue([[URL absoluteString] isEqualToString:MAKE_URL(@"/agents/2/companies?per_page=5")], nil);
+    XCTAssertTrue([[URL absoluteString] isEqualToString:MAKE_URL(@"/agents/2/companies?per_page=5")]);
 }
 
 - (void)testParamsEscaped
 {
     NSURL *URL = [_request URLForPath:@"agents/:id/companies/:company_id" identifiers:@[ @(2) ] params:@{ @"search_text": @"adam kirk" }];
-    STAssertTrue([[URL absoluteString] isEqualToString:MAKE_URL(@"/agents/2/companies?search_text=adam%20kirk")], nil);
+    XCTAssertTrue([[URL absoluteString] isEqualToString:MAKE_URL(@"/agents/2/companies?search_text=adam%20kirk")]);
 }
 
 - (void)testMultipleIdsCommaSeperated
 {
     NSURL *URL = [_request URLForPath:@"notifications/:id" identifiers:@[ @[ @(2), @(3), @(4) ] ] params:nil];
-    STAssertTrue([[URL absoluteString] isEqualToString:MAKE_URL(@"/notifications/2,3,4")], nil);
+    XCTAssertTrue([[URL absoluteString] isEqualToString:MAKE_URL(@"/notifications/2,3,4")]);
 }
 
 

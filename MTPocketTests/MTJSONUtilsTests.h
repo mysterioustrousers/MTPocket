@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Mysterious Trousers. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface MTJSONUtilsTests : SenTestCase
+@interface MTJSONUtilsTests : XCTestCase
 @property (strong, nonatomic) NSDictionary *testDictionary;
 @end

@@ -8,7 +8,6 @@
 
 #import "MF_Base64Additions.h"
 #import "NSObject+MTJSONUtils.h"
-#import "XMLDictionary.h"
 #import "mtpocket_private.h"
 
 
@@ -409,9 +408,6 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 	// set format
 	NSString *format = nil;
 	switch (_format) {
-		case MTPocketFormatXML:
-			format = @"application/xml";
-			break;
 		case MTPocketFormatHTML:
 			format = @"text/html";
 			break;
@@ -495,13 +491,6 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 					[[NSException exceptionWithName:@"Invalid JSON" reason:@"The JSON could not be parsed" userInfo:[error userInfo]] raise];
 					return nil;
 				}
-			}
-			else if (_format == MTPocketFormatXML) {
-				if ([_body isKindOfClass:[NSArray class]]) {
-					_body = @{ @"root" : _body };
-				}
-				body = [[_body objectWithJSONSafeObjects] innerXML];
-				body = [[body stringByReplacingOccurrencesOfString:@"<root>" withString:@""] stringByReplacingOccurrencesOfString:@"</root>" withString:@""];
 			}
 		}
 

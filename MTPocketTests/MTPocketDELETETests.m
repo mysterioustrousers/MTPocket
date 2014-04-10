@@ -25,7 +25,7 @@
 
 - (void)testDeleteJSON
 {
-    __block BOOL successBlockCalled = NO;
+    __block BOOL blockCalled = NO;
     __block MTPocketResponse *response;
 
     MTPocketRequest *request = [MTPocketRequest requestWithPath:@"stitches" identifiers:nil method:MTPocketMethodPOST body:@{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } } params:nil];
@@ -37,26 +37,26 @@
         MTPocketRequest *request = [MTPocketRequest requestWithPath:@"stitches/:id" identifiers:@[ @(jsonId) ] method:MTPocketMethodDELETE body:nil params:nil];
         [request sendWithSuccess:^(MTPocketResponse *resp) {
             response = resp;
-            successBlockCalled = YES;
+            blockCalled = YES;
         } failure:^(MTPocketResponse *response) {
-
+            blockCalled = YES;
         }];
     } failure:^(MTPocketResponse *response) {
-
+        blockCalled = YES;
     }];
 
-    STALL(!successBlockCalled)
+    STALL(!blockCalled)
 
-    STAssertTrue(response.success, nil);
-	STAssertNil(response.error, nil);
-	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
-	STAssertNotNil(response.body, nil);
-	STAssertTrue([response.body count] > 0, nil);
+    XCTAssertTrue(response.success);
+	XCTAssertNil(response.error);
+	XCTAssertTrue(response.status == MTPocketStatusNoContent);
+	XCTAssertNotNil(response.body);
+	XCTAssertTrue([response.body length] == 0);
 }
 
 - (void)testDeleteJSONAuthenticated
 {
-    __block BOOL successBlockCalled = NO;
+    __block BOOL blockCalled = NO;
     __block MTPocketResponse *response;
 
     MTPocketRequest *request = [MTPocketRequest requestWithPath:@"needles" identifiers:nil method:MTPocketMethodPOST body:@{ @"needle" : @{ @"sharpness" : @7, @"length" : @3 } } params:nil];
@@ -71,90 +71,21 @@
         [request addHeaders:[MTPocketRequest headerDictionaryForBasicAuthWithUsername:UN password:PW]];
         [request sendWithSuccess:^(MTPocketResponse *resp) {
             response = resp;
-            successBlockCalled = YES;
+            blockCalled = YES;
         } failure:^(MTPocketResponse *response) {
-
+            blockCalled = YES;
         }];
     } failure:^(MTPocketResponse *response) {
-
+        blockCalled = YES;
     }];
 
-    STALL(!successBlockCalled)
+    STALL(!blockCalled)
 
-    STAssertTrue(response.success, nil);
-	STAssertNil(response.error, nil);
-	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
-	STAssertNotNil(response.body, nil);
-	STAssertTrue([response.body count] > 0, nil);
+    XCTAssertTrue(response.success);
+	XCTAssertNil(response.error);
+	XCTAssertTrue(response.status == MTPocketStatusNoContent);
+	XCTAssertNotNil(response.body);
+	XCTAssertTrue([response.body length] == 0);
 }
-
-- (void)testDeleteXML
-{
-    __block BOOL successBlockCalled = NO;
-    __block MTPocketResponse *response;
-
-    MTPocketRequest *request = [MTPocketRequest requestWithPath:@"stitches" identifiers:nil method:MTPocketMethodPOST body:@{ @"stitch" : @{ @"thread_color" : @"blue", @"length" : @3 } } params:nil];
-    request.format = MTPocketFormatXML;
-
-
-    [request sendWithSuccess:^(MTPocketResponse *res) {
-
-        NSInteger jsonId = [[res.body valueForKeyPath:@"id.@innerText"] intValue];
-        MTPocketRequest *request = [MTPocketRequest requestWithPath:@"stitches/:id" identifiers:@[ @(jsonId) ] method:MTPocketMethodDELETE body:@{ @"stitch" : @{ @"thread_color" : @"red", @"length" : @2 } } params:nil];
-        request.format = MTPocketFormatXML;
-        [request sendWithSuccess:^(MTPocketResponse *resp) {
-            response = resp;
-            successBlockCalled = YES;
-        } failure:^(MTPocketResponse *response) {
-
-        }];
-    } failure:^(MTPocketResponse *response) {
-
-    }];
-
-    STALL(!successBlockCalled)
-
-    STAssertTrue(response.success, nil);
-	STAssertNil(response.error, nil);
-	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
-	STAssertNotNil(response.body, nil);
-	STAssertTrue([response.body count] > 0, nil);
-}
-
-- (void)testDeleteXMLAuthenticated
-{
-    __block BOOL successBlockCalled = NO;
-    __block MTPocketResponse *response;
-
-    MTPocketRequest *request = [MTPocketRequest requestWithPath:@"needles" identifiers:nil method:MTPocketMethodPOST body:@{ @"needle" : @{ @"sharpness" : @7, @"length" : @3 } } params:nil];
-    request.format = MTPocketFormatXML;
-    [request addHeaders:[MTPocketRequest headerDictionaryForBasicAuthWithUsername:UN password:PW]];
-
-
-    [request sendWithSuccess:^(MTPocketResponse *res) {
-        NSInteger jsonId = [[res.body valueForKeyPath:@"id.@innerText"] intValue];
-        MTPocketRequest *request = [MTPocketRequest requestWithPath:@"needles/:id" identifiers:@[ @(jsonId) ] method:MTPocketMethodDELETE body:nil params:nil];
-        request.format = MTPocketFormatXML;
-        [request addHeaders:[MTPocketRequest headerDictionaryForBasicAuthWithUsername:UN password:PW]];
-        [request sendWithSuccess:^(MTPocketResponse *resp) {
-            response = resp;
-            successBlockCalled = YES;
-        } failure:^(MTPocketResponse *response) {
-
-        }];
-    } failure:^(MTPocketResponse *response) {
-
-    }];
-
-    STALL(!successBlockCalled)
-
-    STAssertTrue(response.success, nil);
-	STAssertNil(response.error, nil);
-	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
-	STAssertNotNil(response.body, nil);
-	STAssertTrue([response.body count] > 0, nil);
-}
-
-
 
 @end

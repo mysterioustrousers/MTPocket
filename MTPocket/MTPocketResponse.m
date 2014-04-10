@@ -6,7 +6,6 @@
 //  Copyright (c) 2012 Mysterious Trousers. All rights reserved.
 //
 
-#import "XMLDictionary.h"
 #import "mtpocket_private.h"
 
 
@@ -93,12 +92,15 @@
         _body = _text;
 
     else if (_format == MTPocketFormatJSON) {
-        NSError *error = nil;
-        _body = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-        if (error) _error = error;
+        if ([_text length] > 0) {
+            NSError *error = nil;
+            _body = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+            if (error) _error = error;
+        }
+        else {
+            _body = _text;
+        }
     }
-    else if (_format == MTPocketFormatXML)
-        _body = [NSDictionary dictionaryWithXMLData:data];
 }
 
 

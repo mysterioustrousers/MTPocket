@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>92CF0E0C-92F0-4D44-ADF4-E62CC15665A8</string>
+	<key>IDESourceControlProjectName</key>
+	<string>MTPocket</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>66ABC13F-5DB8-45AA-8BF1-79A692C5065E</key>
+		<string>https://github.com/mysterioustrousers/MTPocket.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>MTPocket.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>66ABC13F-5DB8-45AA-8BF1-79A692C5065E</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/mysterioustrousers/MTPocket.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>66ABC13F-5DB8-45AA-8BF1-79A692C5065E</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>66ABC13F-5DB8-45AA-8BF1-79A692C5065E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>MTPocket</string>
+		</dict>
+	</array>
+</dict>
+</plist>

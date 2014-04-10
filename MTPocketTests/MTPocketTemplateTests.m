@@ -28,25 +28,25 @@
 
 - (void)testUseTemplate
 {
-    __block BOOL successBlockCalled = NO;
+    __block BOOL blockCalled = NO;
     __block MTPocketResponse *response;
 
     MTPocketRequest *request = [[MTPocket sharedPocket] requestWithTemplate:@"api" path:@"needles" identifiers:nil method:MTPocketMethodGET body:nil params:nil];
     [request sendWithSuccess:^(MTPocketResponse *resp) {
         response = resp;
-        successBlockCalled = YES;
+        blockCalled = YES;
     } failure:^(MTPocketResponse *response) {
-
+        blockCalled = YES;
     }];
 
-    STALL(!successBlockCalled)
+    STALL(!blockCalled)
 
-    STAssertTrue(response.success, nil);
-	STAssertNil(response.error, nil);
-	STAssertTrue(response.status == MTPocketStatusSuccess, nil);
-	STAssertNotNil(response.body, nil);
-	STAssertTrue([response.body count] > 0, nil);
-    STAssertTrue([[response.request.URL absoluteString] isEqualToString:MAKE_URL(@"/needles?sessionId=fewoijalkfsdjlfsdhlaes")], nil);
+    XCTAssertTrue(response.success);
+	XCTAssertNil(response.error);
+	XCTAssertTrue(response.status == MTPocketStatusSuccess);
+	XCTAssertNotNil(response.body);
+	XCTAssertTrue([response.body count] > 0);
+    XCTAssertTrue([[response.request.URL absoluteString] isEqualToString:MAKE_URL(@"/needles?sessionId=fewoijalkfsdjlfsdhlaes")]);
 }
 
 

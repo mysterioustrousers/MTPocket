@@ -24,7 +24,7 @@
 
 - (void)testSuccessHandler
 {
-    __block BOOL successBlockCalled = NO;
+    __block BOOL blockCalled = NO;
     __block MTPocketResponse *response = nil;
 
     MTPocketRequest *request = [MTPocketRequest requestWithPath:@"stitches" identifiers:nil method:MTPocketMethodGET body:nil params:nil];
@@ -32,29 +32,29 @@
 
     [request sendWithSuccess:^(MTPocketResponse *resp) {
        response             = resp;
-       successBlockCalled   = YES;
+       blockCalled   = YES;
     } failure:^(MTPocketResponse *response) {
-        STFail(@"Request Failed");
-        successBlockCalled = YES;
+        XCTFail(@"Request Failed");
+        blockCalled = YES;
     }];
 
-    STALL(!successBlockCalled)
+    STALL(!blockCalled)
 
-    STAssertTrue(response.success, nil);
-    STAssertTrue(response.status == MTPocketStatusSuccess, nil);
-    STAssertTrue(response.format == MTPocketFormatJSON, nil);
-    STAssertNotNil(response.body, nil);
+    XCTAssertTrue(response.success);
+    XCTAssertTrue(response.status == MTPocketStatusSuccess);
+    XCTAssertTrue(response.format == MTPocketFormatJSON);
+    XCTAssertNotNil(response.body);
 
-    STAssertNil(response.error, nil);
-    STAssertNotNil(response.request, nil);
-    STAssertNotNil(response.data, nil);
-    STAssertNotNil(response.text, nil);
-    STAssertNil(response.requestData, nil);
-    STAssertNil(response.requestText, nil);
-    STAssertTrue(response.statusCode == 200, nil);
-    STAssertNotNil(response.MIMEType, nil);
-    STAssertTrue(response.expectedContentLength > 0, nil);
-    STAssertNotNil(response.responseHeaders, nil);
+    XCTAssertNil(response.error);
+    XCTAssertNotNil(response.request);
+    XCTAssertNotNil(response.data);
+    XCTAssertNotNil(response.text);
+    XCTAssertNil(response.requestData);
+    XCTAssertNil(response.requestText);
+    XCTAssertTrue(response.statusCode == 200);
+    XCTAssertNotNil(response.MIMEType);
+    XCTAssertTrue(response.expectedContentLength > 0);
+    XCTAssertNotNil(response.responseHeaders);
 }
 
 - (void)testFailureHandler
@@ -66,7 +66,7 @@
     request.format = MTPocketFormatJSON;
 
     [request sendWithSuccess:^(MTPocketResponse *resp) {
-        STFail(@"Request succeeded when it should have failed");
+        XCTFail(@"Request succeeded when it should have failed");
         blockCalled = YES;
     } failure:^(MTPocketResponse *resp) {
         blockCalled  = YES;
@@ -75,26 +75,26 @@
 
     STALL(!blockCalled)
 
-    STAssertFalse(response.success, nil);
-    STAssertTrue(response.status == MTPocketStatusNotFound, nil);
-    STAssertTrue(response.format == MTPocketFormatJSON, nil);
-    STAssertNil(response.body, nil);
+    XCTAssertFalse(response.success);
+    XCTAssertTrue(response.status == MTPocketStatusNotFound);
+    XCTAssertTrue(response.format == MTPocketFormatJSON);
+    XCTAssertNotNil(response.body);
 
-    STAssertNotNil(response.error, nil);
-    STAssertNotNil(response.request, nil);
-    STAssertNotNil(response.data, nil);
-    STAssertNotNil(response.text, nil);
-    STAssertNil(response.requestData, nil);
-    STAssertNil(response.requestText, nil);
-    STAssertTrue(response.statusCode == 404, nil);
-    STAssertNotNil(response.MIMEType, nil);
-    STAssertTrue(response.expectedContentLength > 0, nil);
-    STAssertNotNil(response.responseHeaders, nil);
+    XCTAssertNil(response.error);
+    XCTAssertNotNil(response.request);
+    XCTAssertNotNil(response.data);
+    XCTAssertNotNil(response.text);
+    XCTAssertNil(response.requestData);
+    XCTAssertNil(response.requestText);
+    XCTAssertTrue(response.statusCode == 404);
+    XCTAssertNotNil(response.MIMEType);
+    XCTAssertTrue(response.expectedContentLength > 0);
+    XCTAssertNotNil(response.responseHeaders);
 }
 
 - (void)testDownloadProgress
 {
-    __block BOOL successBlockCalled = NO;
+    __block BOOL blockCalled = NO;
     __block BOOL downloadProgressCalled = YES;
     __block MTPocketResponse *response = nil;
 
@@ -104,37 +104,37 @@
 
     [request sendWithSuccess:^(MTPocketResponse *resp) {
         response = resp;
-        successBlockCalled = YES;
+        blockCalled = YES;
     } failure:^(MTPocketResponse *response) {
-        STFail(@"Request Failed");
-        successBlockCalled = YES;
+        XCTFail(@"Request Failed");
+        blockCalled = YES;
     } uploadProgress:^(float percent) {
-        STFail(@"Upload progress was called");
+        XCTFail(@"Upload progress was called");
         downloadProgressCalled = YES;
     } downloadProgress:^(float percent) {
         downloadProgressCalled = YES;
     }];
 
-    STALL(!successBlockCalled);
+    STALL(!blockCalled);
 
-    STAssertTrue(successBlockCalled, nil);
-    STAssertTrue(downloadProgressCalled, nil);
+    XCTAssertTrue(blockCalled);
+    XCTAssertTrue(downloadProgressCalled);
 
-    STAssertTrue(response.success, nil);
-    STAssertTrue(response.status == MTPocketStatusSuccess, nil);
-    STAssertTrue(response.format == MTPocketFormatHTML, nil);
-    STAssertNil(response.body, nil);
+    XCTAssertTrue(response.success);
+    XCTAssertTrue(response.status == MTPocketStatusSuccess);
+    XCTAssertTrue(response.format == MTPocketFormatHTML);
+    XCTAssertNil(response.body);
 
-    STAssertNil(response.error, nil);
-    STAssertNotNil(response.request, nil);
-    STAssertNotNil(response.data, nil);
-    STAssertNil(response.text, nil);
-    STAssertNil(response.requestData, nil);
-    STAssertNil(response.requestText, nil);
-    STAssertTrue(response.statusCode == 200, nil);
-    STAssertNotNil(response.MIMEType, nil);
-    STAssertTrue(response.expectedContentLength > 0, nil);
-    STAssertNotNil(response.responseHeaders, nil);
+    XCTAssertNil(response.error);
+    XCTAssertNotNil(response.request);
+    XCTAssertNotNil(response.data);
+    XCTAssertNil(response.text);
+    XCTAssertNil(response.requestData);
+    XCTAssertNil(response.requestText);
+    XCTAssertTrue(response.statusCode == 200);
+    XCTAssertNotNil(response.MIMEType);
+    XCTAssertTrue(response.expectedContentLength > 0);
+    XCTAssertNotNil(response.responseHeaders);
 }
 
 //- (void)testUploadFile
@@ -205,28 +205,28 @@
     }];
 
     [request sendWithSuccess:^(MTPocketResponse *resp) {
-        STFail(@"Request succeeded when it should have failed");
+        XCTFail(@"Request succeeded when it should have failed");
         blockCalled = YES;
     } failure:^(MTPocketResponse *resp) {
+        blockCalled = YES;
     }];
 
     STALL(!blockCalled)
 
-    STAssertFalse(response.success, nil);
-    STAssertTrue(response.status == MTPocketStatusNotFound, nil);
-    STAssertTrue(response.format == MTPocketFormatJSON, nil);
-    STAssertNil(response.body, nil);
+    XCTAssertFalse(response.success);
+    XCTAssertTrue(response.status == MTPocketStatusNotFound);
+    XCTAssertTrue(response.format == MTPocketFormatJSON);
+    XCTAssertNotNil(response.body);
 
-    STAssertNotNil(response.error, nil);
-    STAssertNotNil(response.request, nil);
-    STAssertNotNil(response.data, nil);
-    STAssertNotNil(response.text, nil);
-    STAssertNil(response.requestData, nil);
-    STAssertNil(response.requestText, nil);
-    STAssertTrue(response.statusCode == 404, nil);
-    STAssertNotNil(response.MIMEType, nil);
-    STAssertTrue(response.expectedContentLength > 0, nil);
-    STAssertNotNil(response.responseHeaders, nil);
+    XCTAssertNotNil(response.request);
+    XCTAssertNotNil(response.data);
+    XCTAssertNotNil(response.text);
+    XCTAssertNil(response.requestData);
+    XCTAssertNil(response.requestText);
+    XCTAssertTrue(response.statusCode == 404);
+    XCTAssertNotNil(response.MIMEType);
+    XCTAssertTrue(response.expectedContentLength > 0);
+    XCTAssertNotNil(response.responseHeaders);
 
 }
 

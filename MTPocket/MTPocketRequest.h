@@ -20,7 +20,6 @@ typedef void (^MTPocketProgressCallback)(float percent);
  */
 typedef enum {
 	MTPocketFormatJSON,     // If the body is a dictionary/array, it is encoded as JSON for the request and the JSON response is parsed into a dictionary/array.
-	MTPocketFormatXML,      // If the body is a dictionary/array, it is encoded as XML for the request and the XML response is parsed into a dictionary/array.
 	MTPocketFormatHTML,
 	MTPocketFormatTEXT
 } MTPocketFormat;
