@@ -86,6 +86,7 @@
     _data = data;
 
     _text = [[NSString alloc] initWithBytes:[data bytes] length:data.length encoding:NSUTF8StringEncoding];
+    _text = [_text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
     // otherwise, build an object from the response data
     if (_format == MTPocketFormatHTML || _format == MTPocketFormatTEXT)

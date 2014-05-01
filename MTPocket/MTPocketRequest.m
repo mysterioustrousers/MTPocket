@@ -189,7 +189,9 @@ NSString *randomStringWithLength(NSInteger length)
     // if the request can be sent
     if ([NSURLConnection canHandleRequest:request]) {
         _mutableData = [NSMutableData data];
-        [NSURLConnection connectionWithRequest:request delegate:self];
+        NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
+        [connection scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+        [connection start];
     }
 
     // if it can't, there's probably not a connection, so we'll just call the failure callback.
@@ -372,9 +374,6 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
     float percent = totalBytesWritten / totalBytesExpectedToWrite;
     if (_uploadProgressHandler) _uploadProgressHandler(percent);
 }
-
-
-
 
 
 
