@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "MTPocket"
-  s.version      = "2.0.1"
+  s.version      = "2.0.2"
   s.summary      = "Your application's favorite web request library."
   s.description	 = "Simple and powerful. Convenient and informative. JSON to collection object conversion. Comprehensive request and response objects."
   s.homepage     = "https://github.com/mysterioustrousers/MTPocket"
