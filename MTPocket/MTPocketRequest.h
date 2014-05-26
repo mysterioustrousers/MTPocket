@@ -45,21 +45,46 @@ typedef enum {
 
 @interface MTPocketRequest : NSObject
 
-@property (strong,  nonatomic)   NSURL              *baseURL;               // (optional) Will override the default base URL set on the shared pocket singleton
+// (optional) Will override the default base URL set on the shared pocket singleton
+@property (nonatomic, strong) NSURL *baseURL;
+
 
 // Basic options
-@property (strong,  nonatomic)  NSString            *path;                  // (required) The resource path after the base url. Can include placeholders like ':id' that will be filled in respectively with 'identifiers'. e.g. @"buttons/:button_id/stitches/:id"
-@property (strong,  nonatomic)	NSArray             *identifiers;           // (required) NSNumber/NSString objects that are swapping it
-@property (         nonatomic)	MTPocketMethod      method;                 // (required) Default: MTPocketMethodGET
-@property (         nonatomic)	MTPocketFormat      format;                 // (required) Defaut: MTPocketFormatJSON
-@property (readonly,nonatomic)	NSMutableDictionary *params;                // (optional) Query string params. @{ @"page" : @(2) } => ?page=2
-@property (strong,  nonatomic)  id                  body;                   // (optional) The body of the request. Can be NSData, NSString, NSDictionary, NSArray.
+
+// (required) The resource path after the base url. Can include placeholders like ':id' that will be filled in respectively with 'identifiers'. e.g. @"buttons/:button_id/stitches/:id"
+@property (nonatomic, strong) NSString *path;
+
+// (required) NSNumber/NSString objects that are swapping it
+@property (nonatomic, strong) NSArray *identifiers;
+
+// (required) Default: MTPocketMethodGET
+@property (nonatomic) MTPocketMethod method;
+
+// (required) Defaut: MTPocketFormatJSON
+@property (nonatomic) MTPocketFormat format;
+
+// (optional) Query string params. @{ @"page" : @(2) } => ?page=2
+@property (readonly,nonatomic)	NSMutableDictionary *params;
+
+// (optional) The body of the request. Can be NSData, NSString, NSDictionary, NSArray.
+@property (nonatomic, strong) id body;
+
 
 // Additional options
-@property (readonly,nonatomic)	NSMutableDictionary *headers;               // (optional) The headers dictionary. You can add or delete from the template.
-@property (         nonatomic)	NSTimeInterval      timeout;                // (optional) Default: 60 seconds.
-@property (strong,  nonatomic)  NSString            *contentLengthHeader;   // (optional) Default: Content-Length. Could also be stream-length, etc. Will be used for progress handlers.
-@property (strong,  nonatomic)  NSString            *userAgent;             // (optional) Default: MTPocket/1.0
+
+// (optional) The headers dictionary. You can add or delete from the template.
+@property (readonly,nonatomic)	NSMutableDictionary *headers;
+// (optional) Default: 60 seconds.
+@property (nonatomic) NSTimeInterval timeout;
+
+// (optional) Default: Content-Length. Could also be stream-length, etc. Will be used for progress handlers.
+@property (nonatomic, strong) NSString *contentLengthHeader;
+
+// (optional) Default: MTPocket/1.0
+@property (nonatomic, strong) NSString *userAgent;
+
+@property (nonatomic, assign) NSURLRequestCachePolicy cachePolicy;
+
 
 
 + (MTPocketRequest *)requestTemplate;

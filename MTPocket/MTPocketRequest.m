@@ -61,6 +61,7 @@ NSString *randomStringWithLength(NSInteger length)
         _params             = [NSMutableDictionary dictionary];
         _userAgent          = nil;
         _URL                = nil;
+        _cachePolicy        = NSURLRequestUseProtocolCachePolicy;
     }
     return self;
 }
@@ -419,7 +420,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 	}
     _response.format = _format;
 
-
+    request.cachePolicy = self.cachePolicy;
 
 	// prepare headers
     NSMutableDictionary *headerDictionary = [@{ @"Accept" : format, @"Content-Type" : format } mutableCopy];
