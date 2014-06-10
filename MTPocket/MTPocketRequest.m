@@ -435,6 +435,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
     // set headers
 	[request setAllHTTPHeaderFields:headerDictionary];
 
+    self.response.requestBody = self.body;
 
 	// set body
     if (_fileData && _fileUploadFormField && _fileUploadFilename && _fileUploadMIMEType) {

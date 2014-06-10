@@ -40,6 +40,7 @@ typedef enum {
 @property (nonatomic, readonly, strong) NSString          *text;                   // The data converted to a string returned form the server (for debugging).
 @property (nonatomic, readonly, strong) NSData            *requestData;            // The data that was sent as the body with the request (for debugging).
 @property (nonatomic, readonly, strong) NSString          *requestText;            // The data sent with the request converted to a string (for debugging).
+@property (nonatomic, readonly, strong) id                requestBody;            // The body sent with the request (for debugging).
 @property (nonatomic, readonly, strong) NSDictionary      *requestHeaders;
 @property (nonatomic, readonly, strong) NSDictionary      *responseHeaders;
 @property (nonatomic, readonly)         NSInteger         statusCode;              // The actual integer status code of the response.

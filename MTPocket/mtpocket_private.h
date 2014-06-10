@@ -12,19 +12,20 @@
 #define MTPocket_mtpocket_private_h
 
 @interface MTPocketResponse ()
-@property (nonatomic, readwrite)            NSInteger       statusCode;
-@property (nonatomic, readwrite)            MTPocketStatus  status;
-@property (nonatomic, readwrite, strong)    NSError         *error;
-@property (nonatomic, readwrite, strong)    NSData          *requestData;
-@property (nonatomic, readwrite, strong)    NSString        *requestText;
-@property (nonatomic, readwrite, strong)    NSURLRequest    *request;
-@property (nonatomic, readwrite, strong)    MTPocketRequest *pocketRequest;
-@property (nonatomic, readwrite)            MTPocketFormat  format;
-@property (nonatomic, readwrite, strong)    NSData          *data;
-@property (nonatomic, readwrite, strong)    NSDictionary    *requestHeaders;
-@property (nonatomic, readwrite, strong)    NSDictionary    *responseHeaders;
-@property (nonatomic, readwrite, strong)    NSString        *MIMEType;
-@property (nonatomic, readwrite)            long long       expectedContentLength;
+@property (nonatomic,         readwrite) NSInteger       statusCode;
+@property (nonatomic,         readwrite) MTPocketStatus  status;
+@property (nonatomic, strong, readwrite) NSError         *error;
+@property (nonatomic, strong, readwrite) NSData          *requestData;
+@property (nonatomic, strong, readwrite) NSString        *requestText;
+@property (nonatomic, strong, readwrite) id              requestBody;              // The body sent with the request (for debugging).
+@property (nonatomic, strong, readwrite) NSURLRequest    *request;
+@property (nonatomic, strong, readwrite) MTPocketRequest *pocketRequest;
+@property (nonatomic,         readwrite) MTPocketFormat  format;
+@property (nonatomic, strong, readwrite) NSData          *data;
+@property (nonatomic, strong, readwrite) NSDictionary    *requestHeaders;
+@property (nonatomic, strong, readwrite) NSDictionary    *responseHeaders;
+@property (nonatomic, strong, readwrite) NSString        *MIMEType;
+@property (nonatomic,         readwrite) long long       expectedContentLength;
 @end
 
 
