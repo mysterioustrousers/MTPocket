@@ -12,8 +12,7 @@
 #define UN                  @"username"
 #define PW                  @"password"
 #define BASE_URL            [NSURL URLWithString:@"http://button.herokuapp.com/"]
-#define DOWNLOAD_FILE_BASE  [NSURL URLWithString:@"http://download.thinkbroadband.com/"]
-#define DOWNLOAD_FILE_PATH  @"/5MB.zip"
+#define DOWNLOAD_URL        [NSURL URLWithString:@"https://raw.githubusercontent.com/mysterioustrousers/MTPocket/master/MTPocketTests/test.jpg"]
 #define UPLOAD_FILE_URL     [NSURL URLWithString:@"http://jquery-file-upload.appspot.com/"]
 
 #endif

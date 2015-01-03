@@ -53,7 +53,6 @@
     XCTAssertNil(response.requestText);
     XCTAssertTrue(response.statusCode == 200);
     XCTAssertNotNil(response.MIMEType);
-    XCTAssertTrue(response.expectedContentLength > 0);
     XCTAssertNotNil(response.responseHeaders);
 }
 
@@ -98,9 +97,8 @@
     __block BOOL downloadProgressCalled = YES;
     __block MTPocketResponse *response = nil;
 
-    MTPocketRequest *request = [MTPocketRequest requestWithPath:DOWNLOAD_FILE_PATH identifiers:nil method:MTPocketMethodGET body:nil params:nil];
+    MTPocketRequest *request = [MTPocketRequest requestWithURL:DOWNLOAD_URL method:MTPocketMethodGET body:nil];
     request.format = MTPocketFormatHTML;
-    request.baseURL = DOWNLOAD_FILE_BASE;
 
     [request sendWithSuccess:^(MTPocketResponse *resp) {
         response = resp;

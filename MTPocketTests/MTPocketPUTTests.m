@@ -49,7 +49,7 @@
     XCTAssertTrue(response.success);
 	XCTAssertNil(response.error);
 	XCTAssertTrue(response.status == MTPocketStatusNoContent);
-	XCTAssertNotNil(response.body);
+	XCTAssertNil(response.body);
 	XCTAssertTrue([response.body length] == 0);
 }
 
@@ -83,7 +83,7 @@
     XCTAssertTrue(response.success);
 	XCTAssertNil(response.error);
 	XCTAssertTrue(response.status == MTPocketStatusNoContent);
-	XCTAssertNotNil(response.body);
+	XCTAssertNil(response.body);
 	XCTAssertTrue([response.body length] == 0);
 }
 
