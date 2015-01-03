@@ -10,29 +10,53 @@
 	<string>MTPocket</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>66ABC13F-5DB8-45AA-8BF1-79A692C5065E</key>
+		<key>0105AA6CC7B2D7E9EE29351F7B59F6241F6B5EAD</key>
+		<string>https://github.com/atomkirk/two-stories.git</string>
+		<key>A2A839F38685D1377A03A7EA8E25B5EE8E1C92D0</key>
 		<string>https://github.com/mysterioustrousers/MTPocket.git</string>
+		<key>AD40732A13E01BED6E42ADD90BFC4D769A94BA28</key>
+		<string>https://github.com/atomkirk/TSTwoStories.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>MTPocket.xcodeproj/project.xcworkspace</string>
+	<string>MTPocket.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>66ABC13F-5DB8-45AA-8BF1-79A692C5065E</key>
+		<key>0105AA6CC7B2D7E9EE29351F7B59F6241F6B5EAD</key>
+		<string>../../../../../..</string>
+		<key>A2A839F38685D1377A03A7EA8E25B5EE8E1C92D0</key>
 		<string>../..</string>
+		<key>AD40732A13E01BED6E42ADD90BFC4D769A94BA28</key>
+		<string>../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/mysterioustrousers/MTPocket.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>66ABC13F-5DB8-45AA-8BF1-79A692C5065E</string>
+	<string>A2A839F38685D1377A03A7EA8E25B5EE8E1C92D0</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>66ABC13F-5DB8-45AA-8BF1-79A692C5065E</string>
+			<string>AD40732A13E01BED6E42ADD90BFC4D769A94BA28</string>
+			<key>IDESourceControlWCCName</key>
+			<string>..</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>0105AA6CC7B2D7E9EE29351F7B59F6241F6B5EAD</string>
+			<key>IDESourceControlWCCName</key>
+			<string>..</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>A2A839F38685D1377A03A7EA8E25B5EE8E1C92D0</string>
 			<key>IDESourceControlWCCName</key>
 			<string>MTPocket</string>
 		</dict>

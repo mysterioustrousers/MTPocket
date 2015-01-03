@@ -40,6 +40,9 @@
 		_success = YES;
 	}
 
+	else if (statusCode == 400)
+        _status = MTPocketStatusBadRequest;
+
 	else if (statusCode == 401)
         _status = MTPocketStatusUnauthorized;
 
