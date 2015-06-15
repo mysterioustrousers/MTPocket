@@ -395,6 +395,9 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 		case MTPocketMethodPUT:
 			method = @"PUT";
 			break;
+		case MTPocketMethodPATCH:
+			method = @"PATCH";
+			break;
 		case MTPocketMethodDELETE:
 			method = @"DELETE";
 			break;

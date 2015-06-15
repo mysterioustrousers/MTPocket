@@ -32,6 +32,7 @@ typedef enum {
 	MTPocketMethodGET,
 	MTPocketMethodPOST,
 	MTPocketMethodPUT,
+	MTPocketMethodPATCH,
 	MTPocketMethodDELETE
 } MTPocketMethod;
 
