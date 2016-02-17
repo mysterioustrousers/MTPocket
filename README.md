@@ -101,11 +101,11 @@ Easily create URL paths with ids (even multiple comma seperated ids):
 
 As you can see, while debugging, MTPocket provides you with a LOT of very useful information about responses from server:
 
-![Alt screenshot of debugger in XCode](https://dl.dropbox.com/u/2771219/github/MTPocket/1.png "XCode Debugger Interface")
+![Alt screenshot of debugger in Xcode](https://dl.dropbox.com/u/2771219/github/MTPocket/1.png "Xcode Debugger Interface")
 
 Printing the body of the response:
 
-![Alt screenshot of console in XCode](https://dl.dropbox.com/u/2771219/github/MTPocket/2.png "Printing body of response")
+![Alt screenshot of console in Xcode](https://dl.dropbox.com/u/2771219/github/MTPocket/2.png "Printing body of response")
 
 ### The Request Object
 
